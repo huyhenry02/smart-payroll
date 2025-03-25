@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Admin DeliTask</title>
+    <title>Quản lý hệ thống</title>
     <meta
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         name="viewport"
@@ -49,12 +49,7 @@
             <!-- Logo Header -->
             <div class="logo-header">
                 <a href="#" class="logo">
-                    <img
-                        src="/assets/img/kaiadmin/logo-v2.png"
-                        alt="navbar brand"
-                        class="navbar-brand"
-                        height="50"
-                    />
+
                 </a>
                 <div class="nav-toggle">
                     <button class="btn btn-toggle toggle-sidebar">
