@@ -12,4 +12,5 @@ class WorkingShift extends Model
         'type',
         'hourly_rate',
     ];
+
 }
