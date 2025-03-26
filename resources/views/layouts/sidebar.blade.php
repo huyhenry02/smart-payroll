@@ -109,7 +109,7 @@
                     <ul class="nav nav-collapse">
                         <li>
                             <a href="#">
-                                <span class="sub-item"></span>
+                                <span class="sub-item">Bảng lương</span>
                             </a>
                         </li>
                     </ul>
@@ -130,7 +130,12 @@
                     <ul class="nav nav-collapse">
                         <li>
                             <a href="#">
-                                <span class="sub-item"></span>
+                                <span class="sub-item">Bảng tổng hợp trích lương</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="sub-item">Trích lương cho nhân viên</span>
                             </a>
                         </li>
                     </ul>
@@ -151,7 +156,12 @@
                     <ul class="nav nav-collapse">
                         <li>
                             <a href="#">
-                                <span class="sub-item"></span>
+                                <span class="sub-item">Quản lý chứng từ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="sub-item">Quản lý sổ sách</span>
                             </a>
                         </li>
                     </ul>

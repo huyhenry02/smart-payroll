@@ -11,7 +11,6 @@ class Deduction extends Model
 
     protected $fillable = [
         'name',
-        'employee_id',
         'rate',
     ];
 
