@@ -41,7 +41,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('general_catalog.showIndexDepartmentPosition') }}">
                                 <span class="sub-item">Phòng ban, chức vụ</span>
                             </a>
                         </li>
