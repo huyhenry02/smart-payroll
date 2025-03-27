@@ -2,31 +2,117 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
+use App\Models\Position;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\DB;
 
 class GeneralCatalogController extends Controller
 {
-    public function showIndexDepartmentPosition(): View|Factory|Application
+    public function showIndexDepartment(): View|Factory|Application
     {
-        return view('page.general_catalog.department_position.index');
+        $departments = Department::all();
+        return view('page.general_catalog.department_position.department.index',
+            ['departments' => $departments]);
     }
-    public function showCreateDepartment(): View|Factory|Application
+
+    public function showIndexPosition(): View|Factory|Application
     {
-        return view('page.general_catalog.department_position.department.create');
+        $positions = Position::all();
+        return view('page.general_catalog.department_position.position.index',
+            ['positions' => $positions]);
     }
-    public function showUpdateDepartment(): View|Factory|Application
+
+    public function postDepartment(Request $request): RedirectResponse
     {
-        return view('page.general_catalog.department_position.department.update');
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $department = new Department();
+            $department->fill($input);
+            $department->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexDepartment')->with('success', 'Tạo phòng ban thành công');
+        }catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexDepartment')->with('error', 'Tạo phòng ban thất bại');
+        }
     }
-    public function showCreatePosition(): View|Factory|Application
+
+    public function postPosition(Request $request): RedirectResponse
     {
-        return view('page.general_catalog.department_position.position.create');
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $position = new Position();
+            $position->fill($input);
+            $position->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexPosition')->with('success', 'Tạo chức vụ thành công');
+        }catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexPosition')->with('error', 'Tạo chức vụ thất bại');
+        }
     }
-    public function showUpdatePosition(): View|Factory|Application
+
+    public function deleteDepartment(Department $department): RedirectResponse
     {
-        return view('page.general_catalog.department_position.position.update');
+        try {
+            DB::beginTransaction();
+            $department->delete();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexDepartment')->with('success', 'Xóa phòng ban thành công');
+        }catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexDepartment')->with('error', 'Xóa phòng ban thất bại');
+        }
+    }
+
+    public function deletePosition(Position $position): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $position->delete();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexPosition')->with('success', 'Xóa chức vụ thành công');
+        }catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexPosition')->with('error', 'Xóa chức vụ thất bại');
+        }
+    }
+
+    public function putDepartment(Department $department, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $department->fill($input);
+            $department->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexDepartment')->with('success', 'Cập nhật phòng ban thành công');
+        }catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexDepartment')->with('error', 'Cập nhật phòng ban thất bại');
+        }
+    }
+
+    public function putPosition(Position $position, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $position->fill($input);
+            $position->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexPosition')->with('success', 'Cập nhật chức vụ thành công');
+        }catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexPosition')->with('error', 'Cập nhật chức vụ thất bại');
+        }
     }
 }

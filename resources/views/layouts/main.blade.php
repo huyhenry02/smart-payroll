@@ -142,5 +142,34 @@
         fillColor: "rgba(255, 165, 52, .14)",
     });
 </script>
+<script>
+    @if (session('success'))
+    swal({
+        title: "Thành công!",
+        text: "{{ session('success') }}",
+        icon: "success",
+        buttons: {
+            confirm: {
+                text: "OK",
+                className: "btn btn-success"
+            }
+        }
+    });
+    @endif
+
+    @if (session('error'))
+    swal({
+        title: "Lỗi!",
+        text: "{{ session('error') }}",
+        icon: "error",
+        buttons: {
+            confirm: {
+                text: "OK",
+                className: "btn btn-danger"
+            }
+        }
+    });
+    @endif
+</script>
 </body>
 </html>

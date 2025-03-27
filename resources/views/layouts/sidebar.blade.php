@@ -41,9 +41,24 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('general_catalog.showIndexDepartmentPosition') }}">
-                                <span class="sub-item">Phòng ban, chức vụ</span>
+                            <a data-bs-toggle="collapse" href="#subnav1">
+                                <span class="sub-item">Phòng ban, Chức vụ</span>
+                                <span class="caret"></span>
                             </a>
+                            <div class="collapse show" id="subnav1">
+                                <ul class="nav nav-collapse subnav">
+                                    <li>
+                                        <a href="{{ route('general_catalog.showIndexDepartment') }}">
+                                            <span class="sub-item">Phòng ban</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('general_catalog.showIndexPosition') }}">
+                                            <span class="sub-item">Chức vụ</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li>
                             <a href="#">
