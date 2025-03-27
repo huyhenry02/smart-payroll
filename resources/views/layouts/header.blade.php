@@ -1,10 +1,11 @@
+@php use App\Models\User; @endphp
 <div class="main-header">
     <div class="main-header-logo">
         <!-- Logo Header -->
         <div class="logo-header">
             <a href="#" class="logo">
                 <img
-                    src="/assets/img/kaiadmin/logo (537 x 80 px) (537 x 80 px).png"
+                    src="/assets/img/logo.svg"
                     alt="navbar brand"
                     class="navbar-brand"
                     height="20"
@@ -27,12 +28,35 @@
     <!-- Navbar Header -->
     <nav
         class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-        data-background-color="blue2"
+        style="background-color: #a01f23"
     >
         <div class="container-fluid">
             <nav
                 class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+                style="color: #fff"
             >
+                <h3 style="color: #fff">
+                    Danh sách người dùng
+                </h3>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="icon-home" style="color: #fff"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item" style="color: #fff">
+                        Quản trị hệ thống
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        Người dùng
+                    </li>
+                </ul>
             </nav>
 
             <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
@@ -77,8 +101,8 @@
                             />
                         </div>
                         <span class="profile-username">
-                      <span class="op-7">Xin chào,</span>
-                      <span class="fw-bold">{{ auth()->user()->name ?? '' }}</span>
+                      <span class="op-7" style="color: #fff">Xin chào,</span>
+                      <span class="fw-bold" style="color: #fff">{{ auth()->user()?->employee->full_name ?? '' }}</span>
                     </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -93,14 +117,14 @@
                                         />
                                     </div>
                                     <div class="u-text">
-                                        <h4></h4>
-                                        <p class="text-muted"></p>
+                                        <h4>{{ auth()->user()?->employee->full_name ?? '' }}</h4>
+                                        <p class="text-muted">{{ auth()->user()?->role ? User::ROLES[auth()->user()?->role] : '' }}</p>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="">Đăng xuất</a>
+                                <a class="dropdown-item" href="{{ route('auth.logout') }}">Đăng xuất</a>
                             </li>
                         </div>
                     </ul>

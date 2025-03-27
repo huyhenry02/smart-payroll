@@ -13,9 +13,4 @@ class Deduction extends Model
         'name',
         'rate',
     ];
-
-    public function employee(): BelongsTo
-    {
-        return $this->belongsTo(Employee::class);
-    }
 }

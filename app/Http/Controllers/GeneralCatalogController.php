@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Position;
+use App\Models\User;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 
 class GeneralCatalogController extends Controller
@@ -38,7 +39,7 @@ class GeneralCatalogController extends Controller
             $department->save();
             DB::commit();
             return redirect()->route('general_catalog.showIndexDepartment')->with('success', 'Tạo phòng ban thành công');
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexDepartment')->with('error', 'Tạo phòng ban thất bại');
         }
@@ -54,7 +55,7 @@ class GeneralCatalogController extends Controller
             $position->save();
             DB::commit();
             return redirect()->route('general_catalog.showIndexPosition')->with('success', 'Tạo chức vụ thành công');
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexPosition')->with('error', 'Tạo chức vụ thất bại');
         }
@@ -67,7 +68,7 @@ class GeneralCatalogController extends Controller
             $department->delete();
             DB::commit();
             return redirect()->route('general_catalog.showIndexDepartment')->with('success', 'Xóa phòng ban thành công');
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexDepartment')->with('error', 'Xóa phòng ban thất bại');
         }
@@ -80,7 +81,7 @@ class GeneralCatalogController extends Controller
             $position->delete();
             DB::commit();
             return redirect()->route('general_catalog.showIndexPosition')->with('success', 'Xóa chức vụ thành công');
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexPosition')->with('error', 'Xóa chức vụ thất bại');
         }
@@ -95,7 +96,7 @@ class GeneralCatalogController extends Controller
             $department->save();
             DB::commit();
             return redirect()->route('general_catalog.showIndexDepartment')->with('success', 'Cập nhật phòng ban thành công');
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexDepartment')->with('error', 'Cập nhật phòng ban thất bại');
         }
@@ -110,9 +111,22 @@ class GeneralCatalogController extends Controller
             $position->save();
             DB::commit();
             return redirect()->route('general_catalog.showIndexPosition')->with('success', 'Cập nhật chức vụ thành công');
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexPosition')->with('error', 'Cập nhật chức vụ thất bại');
         }
+    }
+
+    public function showIndexEmployee(): View|Factory|Application
+    {
+        $users = User::paginate(10);
+        $departments = Department::all();
+        $positions = Position::all();
+        return view('page.general_catalog.employee.index',
+            [
+                'users' => $users,
+                'departments' => $departments,
+                'positions' => $positions,
+            ]);
     }
 }
