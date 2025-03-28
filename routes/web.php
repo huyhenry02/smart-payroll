@@ -21,6 +21,7 @@ Route::prefix('general_catalog')
         Route::get('/department', [GeneralCatalogController::class, 'showIndexDepartment'])->name('showIndexDepartment');
         Route::get('/position', [GeneralCatalogController::class, 'showIndexPosition'])->name('showIndexPosition');
         Route::get('/employee', [GeneralCatalogController::class, 'showIndexEmployee'])->name('showIndexEmployee');
+        Route::get('/update-employee/{user}', [GeneralCatalogController::class, 'showUpdateEmployee'])->name('showUpdateEmployee');
 
         Route::post('/department', [GeneralCatalogController::class, 'postDepartment'])->name('postDepartment');
         Route::post('/position', [GeneralCatalogController::class, 'postPosition'])->name('postPosition');
@@ -28,9 +29,12 @@ Route::prefix('general_catalog')
         Route::get('/position/delete/{position}', [GeneralCatalogController::class, 'deletePosition'])->name('deletePosition');
         Route::post('/department/update/{department}', [GeneralCatalogController::class, 'putDepartment'])->name('putDepartment');
         Route::post('/position/update/{position}', [GeneralCatalogController::class, 'putPosition'])->name('putPosition');
+        Route::post('/employee/update/{employee}', [GeneralCatalogController::class, 'putEmployee'])->name('putEmployee');
     });
 Route::prefix('system')
     ->name('system.')
     ->group(function () {
         Route::get('/user', [SystemController::class, 'showIndexUser'])->name('showIndexUser');
+
+        Route::post('/user', [SystemController::class, 'postUser'])->name('postUser');
     });

@@ -23,13 +23,14 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <h6>Danh sách người dùng</h6>
-                            <a
+                            <button
                                 class="btn btn-primary btn-round ms-auto"
-                                href=""
+                                data-bs-toggle="modal"
+                                data-bs-target="#createUserModal"
                             >
                                 <i class="fa fa-plus"></i>
                                 Thêm người dùng
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -78,4 +79,5 @@
             </div>
         </div>
     </div>
+    @include('page.system.user.create')
 @endsection

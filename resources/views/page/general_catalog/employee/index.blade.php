@@ -61,13 +61,6 @@
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <h6>Danh sách nhân viên</h6>
-                            <a
-                                class="btn btn-primary btn-round ms-auto"
-                                href=""
-                            >
-                                <i class="fa fa-plus"></i>
-                                Thêm nhân viên
-                            </a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -103,7 +96,7 @@
                                         <td>{{ $employee->department->name ?? 'N/A'  }}</td>
                                         <td>{{ $employee->position->name ?? 'N/A'  }}</td>
                                         <td class="text-center">
-                                            <a href=""
+                                            <a href="{{ route('general_catalog.showUpdateEmployee', $user->id) }}"
                                                class="btn btn-sm btn-secondary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -113,8 +106,8 @@
                                                 data-bs-target="#employeeDetailModal"
                                                 data-avatar="{{ $employee->avatar ?? '/assets/img/no_avatar.jpg' }}"
                                                 data-name="{{ $employee->full_name ?? '' }}"
-                                                data-email="{{ $user->email }}"
-                                                data-phone="{{ $employee->phone }}"
+                                                data-email="{{ $user->email ?? '' }}"
+                                                data-phone="{{ $employee->phone ?? ''}}"
                                                 data-position="{{ $employee->position->name ?? 'N/A' }}"
                                                 data-department="{{ $employee->department->name ?? 'N/A' }}"
                                                 data-code="{{ $employee->employee_code?? '' }}"

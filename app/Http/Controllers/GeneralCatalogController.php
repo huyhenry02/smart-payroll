@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
 use Exception;
@@ -128,5 +129,37 @@ class GeneralCatalogController extends Controller
                 'departments' => $departments,
                 'positions' => $positions,
             ]);
+    }
+
+    public function showUpdateEmployee(User $user): View|Factory|Application
+    {
+        return view('page.general_catalog.employee.update',
+            [
+                'user' => $user,
+                'departments' => Department::all(),
+                'positions' => Position::all(),
+            ]);
+    }
+
+    public function putEmployee(Employee $employee, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $employee->fill($input);
+            if ($request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $fileName = 'avatar_' . $employee->id . '.' . $file->getClientOriginalExtension();
+                $filePath = $file->storePubliclyAs('avatar/', $fileName);
+                $avatar = asset('storage/' . $filePath);
+            }
+            $employee->avatar = $avatar ?? $employee->avatar;
+            $employee->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexEmployee')->with('success', 'Cập nhật nhân viên thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Cập nhật nhân viên thất bại');
+        }
     }
 }
