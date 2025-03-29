@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_deductions', function (Blueprint $table) {
+        Schema::create('employee_allowances', function (Blueprint $table) {
             $table->id()->comment('Khóa chính');
             $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
-            $table->unsignedBigInteger('deduction_id')->comment('ID khoản trích');
-            $table->integer('amount')->comment('Số tiền trích áp dụng');
+            $table->unsignedBigInteger('allowance_id')->comment('ID phụ cấp / trợ cấp');
+            $table->integer('amount')->comment('Số tiền phụ cấp áp dụng');
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->foreign('deduction_id')->references('id')->on('deductions')->onDelete('cascade');
+            $table->foreign('allowance_id')->references('id')->on('allowances')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_deductions');
+        Schema::dropIfExists('employee_allowances');
     }
 };

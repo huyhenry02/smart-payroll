@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('allowances', function (Blueprint $table) {
             $table->id()->comment('Khóa chính');
-            $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
             $table->string('name', 100)->comment('Tên khoản phụ cấp / trợ cấp');
             $table->integer('amount')->comment('Số tiền phụ cấp');
             $table->timestamps();
-
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

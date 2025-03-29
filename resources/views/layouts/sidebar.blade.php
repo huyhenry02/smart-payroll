@@ -88,23 +88,23 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="#">
-                                    <span class="sub-item">Ca làm việc</span>
+                                <a href="{{ route('general_catalog.showIndexWorkingShift') }}">
+                                    <span class="sub-item">Ca làm thêm</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="{{ route('general_catalog.showIndexAllowance') }}">
                                     <span class="sub-item">Phụ cấp và trợ cấp</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
-                                    <span class="sub-item">Các khoản trích theo lương</span>
+                                <a href="{{ route('general_catalog.showIndexDeduction') }}">
+                                    <span class="sub-item">Trích nộp theo lương</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">Hệ thống tài khoản kế toán</span>
+                                    <span class="sub-item">Tài khoản kế toán</span>
                                 </a>
                             </li>
                             <li>

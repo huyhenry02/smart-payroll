@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Allowance;
+use App\Models\Deduction;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
+use App\Models\WorkingShift;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -160,6 +163,150 @@ class GeneralCatalogController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Cập nhật nhân viên thất bại');
+        }
+    }
+
+    public function showIndexWorkingShift(): View|Factory|Application
+    {
+        $workingShifts = WorkingShift::all();
+        return view('page.general_catalog.working_shift.index', [
+            'workingShifts' => $workingShifts,
+        ]);
+    }
+
+    public function deleteWorkingShift(WorkingShift $workingShift): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $workingShift->delete();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexWorkingShift')->with('success', 'Xóa ca làm việc thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexWorkingShift')->with('error', 'Xóa ca làm việc thất bại');
+        }
+    }
+
+    public function putWorkingShift(WorkingShift $workingShift, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $workingShift->fill($input);
+            $workingShift->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexWorkingShift')->with('success', 'Cập nhật ca làm việc thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexWorkingShift')->with('error', 'Cập nhật ca làm việc thất bại');
+        }
+    }
+
+    public function showIndexDeduction(): View|Factory|Application
+    {
+        $deductions = Deduction::all();
+        return view('page.general_catalog.deduction.index', [
+            'deductions' => $deductions,
+        ]);
+    }
+
+    public function deleteDeduction(Deduction $deduction): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $deduction->delete();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexDeduction')->with('success', 'Xóa khoản trích nộp theo lương thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexDeduction')->with('error', 'Xóa khoản trích nộp theo lương thất bại');
+        }
+    }
+
+    public function putDeduction(Deduction $deduction, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            if (!empty($input['rate'])) {
+                $input['rate'] /= 100;
+            }
+            $deduction->fill($input);
+            $deduction->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexDeduction')->with('success', 'Cập nhật trích nộp theo lương thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexDeduction')->with('error', 'Cập nhật trích nộp theo lương thất bại');
+        }
+    }
+
+    public function postDeduction(Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $input['rate'] /= 100;
+            $deduction = new Deduction();
+            $deduction->fill($input);
+            $deduction->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexDeduction')->with('success', 'Tạo trích nộp theo lương thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexDeduction')->with('error', 'Tạo trích nộp theo lương thất bại');
+        }
+    }
+
+    public function showIndexAllowance(): View|Factory|Application
+    {
+        $allowances = Allowance::all();
+        return view('page.general_catalog.allowance.index', [
+            'allowances' => $allowances,
+        ]);
+    }
+
+    public function deleteAllowance(Allowance $allowance): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $allowance->delete();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexAllowance')->with('success', 'Xóa khoản phụ cấp, trợ cấp thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexAllowance')->with('error', 'Xóa khoản phụ cấp, trợ cấp thất bại');
+        }
+    }
+
+    public function putAllowance(Allowance $allowance, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $allowance->fill($input);
+            $allowance->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexAllowance')->with('success', 'Cập nhật phụ cấp, trợ cấp thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexAllowance')->with('error', 'Cập nhật phụ cấp, trợ cấp thất bại');
+        }
+    }
+
+    public function postAllowance(Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $allowance = new Allowance();
+            $allowance->fill($input);
+            $allowance->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexAllowance')->with('success', 'Tạo phụ cấp, trợ cấp thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexAllowance')->with('error', 'Tạo phụ cấp, trợ cấp thất bại');
         }
     }
 }

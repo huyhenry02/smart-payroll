@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class EmployeeDeduction extends Model
+class EmployeeAllowance extends Model
 {
-    protected $table = 'employee_deductions';
+    protected $table = 'employee_allowances';
 
     protected $fillable = [
         'employee_id',
-        'deduction_id',
+        'allowance_id',
         'amount',
     ];
 
@@ -20,8 +20,8 @@ class EmployeeDeduction extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function deduction(): BelongsTo
+    public function allowance(): BelongsTo
     {
-        return $this->belongsTo(Deduction::class);
+        return $this->belongsTo(Allowance::class);
     }
 }

@@ -18,18 +18,39 @@ Route::prefix('auth')
 Route::prefix('general_catalog')
     ->name('general_catalog.')
     ->group(function () {
+        // Department
         Route::get('/department', [GeneralCatalogController::class, 'showIndexDepartment'])->name('showIndexDepartment');
+        Route::post('/department', [GeneralCatalogController::class, 'postDepartment'])->name('postDepartment');
+        Route::get('/department/delete/{department}', [GeneralCatalogController::class, 'deleteDepartment'])->name('deleteDepartment');
+        Route::post('/department/update/{department}', [GeneralCatalogController::class, 'putDepartment'])->name('putDepartment');
+
+        // Position
         Route::get('/position', [GeneralCatalogController::class, 'showIndexPosition'])->name('showIndexPosition');
+        Route::post('/position', [GeneralCatalogController::class, 'postPosition'])->name('postPosition');
+        Route::get('/position/delete/{position}', [GeneralCatalogController::class, 'deletePosition'])->name('deletePosition');
+        Route::post('/position/update/{position}', [GeneralCatalogController::class, 'putPosition'])->name('putPosition');
+
+        // Employee
         Route::get('/employee', [GeneralCatalogController::class, 'showIndexEmployee'])->name('showIndexEmployee');
         Route::get('/update-employee/{user}', [GeneralCatalogController::class, 'showUpdateEmployee'])->name('showUpdateEmployee');
-
-        Route::post('/department', [GeneralCatalogController::class, 'postDepartment'])->name('postDepartment');
-        Route::post('/position', [GeneralCatalogController::class, 'postPosition'])->name('postPosition');
-        Route::get('/department/delete/{department}', [GeneralCatalogController::class, 'deleteDepartment'])->name('deleteDepartment');
-        Route::get('/position/delete/{position}', [GeneralCatalogController::class, 'deletePosition'])->name('deletePosition');
-        Route::post('/department/update/{department}', [GeneralCatalogController::class, 'putDepartment'])->name('putDepartment');
-        Route::post('/position/update/{position}', [GeneralCatalogController::class, 'putPosition'])->name('putPosition');
         Route::post('/employee/update/{employee}', [GeneralCatalogController::class, 'putEmployee'])->name('putEmployee');
+
+        // Working shift
+        Route::get('/working-shift', [GeneralCatalogController::class, 'showIndexWorkingShift'])->name('showIndexWorkingShift');
+        Route::post('/working-shift/update/{workingShift}', [GeneralCatalogController::class, 'putWorkingShift'])->name('putWorkingShift');
+        Route::get('/deleteWorkingShift/{workingShift}', [GeneralCatalogController::class, 'deleteWorkingShift'])->name('deleteWorkingShift');
+
+        // Deduction
+        Route::get('/deduction', [GeneralCatalogController::class, 'showIndexDeduction'])->name('showIndexDeduction');
+        Route::post('/deduction/update/{deduction}', [GeneralCatalogController::class, 'putDeduction'])->name('putDeduction');
+        Route::get('/deleteDeduction/{deduction}', [GeneralCatalogController::class, 'deleteDeduction'])->name('deleteDeduction');
+        Route::post('/deduction', [GeneralCatalogController::class, 'postDeduction'])->name('postDeduction');
+
+        // Allowance
+        Route::get('/allowance', [GeneralCatalogController::class, 'showIndexAllowance'])->name('showIndexAllowance');
+        Route::post('/allowance/update/{allowance}', [GeneralCatalogController::class, 'putAllowance'])->name('putAllowance');
+        Route::get('/deleteAllowance/{allowance}', [GeneralCatalogController::class, 'deleteAllowance'])->name('deleteAllowance');
+        Route::post('/allowance', [GeneralCatalogController::class, 'postAllowance'])->name('postAllowance');
     });
 Route::prefix('system')
     ->name('system.')
