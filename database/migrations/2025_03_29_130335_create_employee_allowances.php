@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id()->comment('Khóa chính');
             $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
             $table->unsignedBigInteger('allowance_id')->comment('ID phụ cấp / trợ cấp');
-            $table->integer('amount')->comment('Số tiền phụ cấp áp dụng');
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

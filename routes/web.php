@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllowanceDeductionController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -58,4 +59,10 @@ Route::prefix('system')
         Route::get('/user', [SystemController::class, 'showIndexUser'])->name('showIndexUser');
 
         Route::post('/user', [SystemController::class, 'postUser'])->name('postUser');
+    });
+Route::prefix('allowance_deduction')
+    ->name('allowance_deduction.')
+    ->group(function () {
+        Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexDeduction'])->name('showIndexDeduction');
+        Route::get('/deduction', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
     });

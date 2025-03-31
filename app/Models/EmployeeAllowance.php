@@ -12,7 +12,6 @@ class EmployeeAllowance extends Model
     protected $fillable = [
         'employee_id',
         'allowance_id',
-        'amount',
     ];
 
     public function employee(): BelongsTo

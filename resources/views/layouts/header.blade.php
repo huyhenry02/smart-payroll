@@ -65,6 +65,12 @@
                         @case('system.showIndexUser')
                             Danh sách người dùng
                             @break
+                        @case('allowance_deduction.showIndexDeduction')
+                            Bảng tổng hợp trích nộp
+                            @break
+                        @case('allowance_deduction.showIndexAllowance')
+                            Bảng tổng hợp phụ cấp
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -81,6 +87,8 @@
                             <a href="{{ route('general_catalog.showIndexEmployee') }}" style="color: #fff">Danh mục chung</a>
                         @elseif ( Str::startsWith($routeName, 'system'))
                             <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Quản trị hệ thống</a>
+                        @elseif ( Str::startsWith($routeName, 'allowance_deduction'))
+                            <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp và phụ cấp</a>
                         @endif
                     </li>
                     <li class="separator">
@@ -109,6 +117,12 @@
                                 @break
                             @case('system.showIndexUser')
                                 <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Người dùng</a>
+                                @break
+                            @case('allowance_deduction.showIndexDeduction')
+                                <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp</a>
+                                @break
+                            @case('allowance_deduction.showIndexAllowance')
+                                <a href="{{ route('allowance_deduction.showIndexAllowance') }}" style="color: #fff">Phụ cấp</a>
                                 @break
                         @endswitch
                     </li>

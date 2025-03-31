@@ -19,6 +19,12 @@ $routesDepartmentPosition = [
     'general_catalog.showIndexPosition',
 ];
 $isActiveDepartmentPosition = collect($routesDepartmentPosition)->contains(fn($route) => request()->routeIs($route));
+
+$routesAllowanceDeduction = [
+    'allowance_deduction.showIndexDeduction',
+    'allowance_deduction.showIndexAllowance',
+];
+$isActiveAllowanceDeduction = collect($routesAllowanceDeduction)->contains(fn($route) => request()->routeIs($route));
 ?>
 <div class="sidebar">
     <div class="sidebar-logo">
@@ -204,7 +210,7 @@ $isActiveDepartmentPosition = collect($routesDepartmentPosition)->contains(fn($r
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ $isActiveAllowanceDeduction ? 'active' : '' }}">
                     <a
                         data-bs-toggle="collapse"
                         href="#deduction_allowance"
@@ -215,15 +221,19 @@ $isActiveDepartmentPosition = collect($routesDepartmentPosition)->contains(fn($r
                         <p>Trích nộp và phụ cấp</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse show" id="deduction_allowance">
+                    <div class="collapse {{ $isActiveAllowanceDeduction ? 'show' : '' }}" id="deduction_allowance">
                         <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
+                            <li class="{{ request()->routeIs([
+                                        'allowance_deduction.showIndexDeduction',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('allowance_deduction.showIndexDeduction') }}">
                                     <span class="sub-item">Bảng tổng hợp trích nộp</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
+                            <li class="{{ request()->routeIs([
+                                        'allowance_deduction.showIndexAllowance',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('allowance_deduction.showIndexAllowance') }}">
                                     <span class="sub-item">Bảng tổng hợp phụ cấp</span>
                                 </a>
                             </li>

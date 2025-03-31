@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id()->comment('Khóa chính');
             $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
             $table->unsignedBigInteger('deduction_id')->comment('ID khoản trích');
-            $table->integer('amount')->comment('Số tiền trích áp dụng');
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

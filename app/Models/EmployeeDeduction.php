@@ -12,7 +12,6 @@ class EmployeeDeduction extends Model
     protected $fillable = [
         'employee_id',
         'deduction_id',
-        'amount',
     ];
 
     public function employee(): BelongsTo
