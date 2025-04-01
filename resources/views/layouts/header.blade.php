@@ -71,6 +71,9 @@
                         @case('allowance_deduction.showIndexAllowance')
                             Bảng tổng hợp phụ cấp
                             @break
+                        @case('attendance.showDetailAttendance')
+                            Bảng công chi tiết
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -89,6 +92,8 @@
                             <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Quản trị hệ thống</a>
                         @elseif ( Str::startsWith($routeName, 'allowance_deduction'))
                             <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp và phụ cấp</a>
+                        @elseif ( Str::startsWith($routeName, 'attendance'))
+                            <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff"> Quản lý chấm công </a>
                         @endif
                     </li>
                     <li class="separator">
@@ -124,11 +129,13 @@
                             @case('allowance_deduction.showIndexAllowance')
                                 <a href="{{ route('allowance_deduction.showIndexAllowance') }}" style="color: #fff">Phụ cấp</a>
                                 @break
+                            @case('attendance.showDetailAttendance')
+                                <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff">chi tiết</a>
+                                @break
                         @endswitch
                     </li>
                 </ul>
             </nav>
-
             <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                 <li
                     class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
@@ -144,15 +151,6 @@
                         <i class="fa fa-search"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-search animated fadeIn">
-                        <form class="navbar-left navbar-form nav-search">
-                            <div class="input-group">
-                                <input
-                                    type="text"
-                                    placeholder="Search ..."
-                                    class="form-control"
-                                />
-                            </div>
-                        </form>
                     </ul>
                 </li>
 

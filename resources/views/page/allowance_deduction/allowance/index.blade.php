@@ -56,7 +56,7 @@
                                             <td class="text-center">
                                                 <span
                                                     class="text-display {{ $isChecked ? 'text-success' : 'text-danger' }}">
-                                                    {{ $isChecked ? '✓' : '✗' }}
+                                                    {{ $isChecked ? '✔' : '✖' }}
                                                 </span>
                                                 <input
                                                     type="checkbox"
@@ -134,5 +134,4 @@
                 });
         });
     </script>
-
 @endsection

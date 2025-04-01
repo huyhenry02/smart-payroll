@@ -182,8 +182,23 @@ $isActiveAllowanceDeduction = collect($routesAllowanceDeduction)->contains(fn($r
                     <div class="collapse show" id="attendance">
                         <ul class="nav nav-collapse">
                             <li>
+                                <a href="">
+                                    <span class="sub-item">Tổng hợp bảng công</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="sub-item">Làm thêm giờ</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('attendance.showDetailAttendance') }}">
+                                    <span class="sub-item">Bảng công chi tiết</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="#">
-                                    <span class="sub-item">Bảng công</span>
+                                    <span class="sub-item">Bảng công cá nhân</span>
                                 </a>
                             </li>
                         </ul>

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id()->comment('Khóa chính');
             $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
             $table->date('work_date')->comment('Ngày làm việc');
-            $table->enum('status', ['work', 'off', 'leave'])->comment('Trạng thái: đi làm / nghỉ / nghỉ phép');
             $table->boolean('is_overtime')->default(false)->comment('Có làm thêm giờ không');
             $table->unsignedBigInteger('working_shift_id')->nullable()->comment('ID ca làm thêm (nếu có)');
             $table->unsignedBigInteger('attendance_id')->nullable()->comment('ID bảng công đã chốt');

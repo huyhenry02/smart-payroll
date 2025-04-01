@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AllowanceDeductionController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -70,5 +71,12 @@ Route::prefix('allowance_deduction')
         Route::get('/deduction', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
         Route::post('/deduction/update', [AllowanceDeductionController::class, 'putDeduction'])->name('putDeduction');
         Route::get('/deduction/preview', [AllowanceDeductionController::class, 'previewDeductionPdf'])->name('previewDeductionPdf');
+    });
+Route::prefix('attendance')
+    ->name('attendance.')
+    ->group(function () {
+        Route::get('/detail', [AttendanceController::class, 'showDetailAttendance'])->name('showDetailAttendance');
+        Route::get('/detail-attendance/load', [AttendanceController::class, 'loadDetailTable'])->name('detail-attendance.load');
 
+        Route::post('/detail-attendance/update', [AttendanceController::class, 'updateDetail'])->name('detail-attendance.update');
     });
