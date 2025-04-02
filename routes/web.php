@@ -18,6 +18,7 @@ Route::prefix('auth')
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 Route::prefix('general_catalog')
+    ->middleware('auth')
     ->name('general_catalog.')
     ->group(function () {
         // Department
@@ -55,6 +56,7 @@ Route::prefix('general_catalog')
         Route::post('/allowance', [GeneralCatalogController::class, 'postAllowance'])->name('postAllowance');
     });
 Route::prefix('system')
+    ->middleware('auth')
     ->name('system.')
     ->group(function () {
         Route::get('/user', [SystemController::class, 'showIndexUser'])->name('showIndexUser');
@@ -62,6 +64,7 @@ Route::prefix('system')
         Route::post('/user', [SystemController::class, 'postUser'])->name('postUser');
     });
 Route::prefix('allowance_deduction')
+    ->middleware('auth')
     ->name('allowance_deduction.')
     ->group(function () {
         Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexDeduction'])->name('showIndexDeduction');
@@ -73,10 +76,19 @@ Route::prefix('allowance_deduction')
         Route::get('/deduction/preview', [AllowanceDeductionController::class, 'previewDeductionPdf'])->name('previewDeductionPdf');
     });
 Route::prefix('attendance')
+    ->middleware('auth')
     ->name('attendance.')
     ->group(function () {
         Route::get('/detail', [AttendanceController::class, 'showDetailAttendance'])->name('showDetailAttendance');
         Route::get('/detail-attendance/load', [AttendanceController::class, 'loadDetailTable'])->name('detail-attendance.load');
+        Route::get('/summary/{month}', [AttendanceController::class, 'showSummary'])->name('showSummary');
+        Route::get('/overtime/{month}', [AttendanceController::class, 'showOvertime'])->name('showOvertime');
+        Route::get('/personal/{month}', [AttendanceController::class, 'showPersonal'])->name('showPersonal');
 
-        Route::post('/detail-attendance/update', [AttendanceController::class, 'updateDetail'])->name('detail-attendance.update');
+        Route::post('/detail-attendance/aupdate', [AttendanceController::class, 'updateDetail'])->name('detail-attendance.update');
+        Route::post('/post-close', [AttendanceController::class, 'postCloseAttendance'])->name('postCloseAttendance');
+        Route::post('/overtime/post', [AttendanceController::class, 'postOvertime'])->name('postOvertime');
+        Route::post('/overtime/update/{attendanceDetail}', [AttendanceController::class, 'putOvertime'])->name('putOvertime');
+        Route::get('/overtime/delete/{attendanceDetail}', [AttendanceController::class, 'deleteOvertime'])->name('deleteOvertime');
+
     });

@@ -74,6 +74,15 @@
                         @case('attendance.showDetailAttendance')
                             Bảng công chi tiết
                             @break
+                        @case('attendance.showSummary')
+                            Tổng hợp bảng công
+                            @break
+                        @case('attendance.showOvertime')
+                            Danh sách ca làm thêm
+                            @break
+                        @case('attendance.showPersonal')
+                            Bảng công cá nhân
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -130,7 +139,16 @@
                                 <a href="{{ route('allowance_deduction.showIndexAllowance') }}" style="color: #fff">Phụ cấp</a>
                                 @break
                             @case('attendance.showDetailAttendance')
-                                <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff">chi tiết</a>
+                                <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff">Chi tiết</a>
+                                @break
+                            @case('attendance.showSummary')
+                                <a href="#" style="color: #fff">Tổng hợp</a>
+                                @break
+                            @case('attendance.showOvertime')
+                                <a href="#" style="color: #fff">Làm thêm giờ</a>
+                                @break
+                            @case('attendance.showPersonal')
+                                <a href="#" style="color: #fff">Cá nhân</a>
                                 @break
                         @endswitch
                     </li>

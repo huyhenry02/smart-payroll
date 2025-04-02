@@ -24,9 +24,13 @@
                                 <button class="btn btn-outline-primary d-none" id="btnSave">
                                     <i class="fas fa-save"></i> Lưu
                                 </button>
-                                <button class="btn btn-outline-primary">
-                                    <i class="fas fa-save"></i> Chốt công
-                                </button>
+                                <form action="{{ route('attendance.postCloseAttendance') }}" method="POST" id="closeAttendanceForm" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="month" id="inputMonthForClose">
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        <i class="fas fa-save"></i> Chốt công
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -97,6 +101,11 @@
             btnPick.addEventListener('click', () => {
                 fp.open();
             });
+        });
+    </script>
+    <script>
+        document.getElementById('closeAttendanceForm').addEventListener('submit', function (e) {
+            document.getElementById('inputMonthForClose').value = document.getElementById('monthPicker').value;
         });
     </script>
 @endsection

@@ -25,6 +25,15 @@ $routesAllowanceDeduction = [
     'allowance_deduction.showIndexAllowance',
 ];
 $isActiveAllowanceDeduction = collect($routesAllowanceDeduction)->contains(fn($route) => request()->routeIs($route));
+
+$routesAttendance = [
+    'attendance.showDetailAttendance',
+    'attendance.showSummary',
+    'attendance.showOvertime',
+    'attendance.showPersonal',
+    'attendance.detail-attendance.load',
+];
+$isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request()->routeIs($route));
 ?>
 <div class="sidebar">
     <div class="sidebar-logo">
@@ -168,7 +177,7 @@ $isActiveAllowanceDeduction = collect($routesAllowanceDeduction)->contains(fn($r
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ $isActiveAttendance ? 'active' : '' }}">
                     <a
                         data-bs-toggle="collapse"
                         href="#attendance"
@@ -179,25 +188,36 @@ $isActiveAllowanceDeduction = collect($routesAllowanceDeduction)->contains(fn($r
                         <p>Quản lý chấm công</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse show" id="attendance">
+                    <div class="collapse {{ $isActiveAttendance ? 'show' : '' }}" id="attendance">
                         <ul class="nav nav-collapse">
-                            <li>
-                                <a href="">
+                            <li class="{{ request()->routeIs([
+                                        'attendance.showSummary',
+                                        ]) ? 'active' : '' }}">
+                                @php
+                                    $month = date('Y-m');
+                                 @endphp
+                                <a href="{{ route('attendance.showSummary', ['month' => $month]) }}">
                                     <span class="sub-item">Tổng hợp bảng công</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="">
+                            <li class="{{ request()->routeIs([
+                                        'attendance.showOvertime',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('attendance.showOvertime', ['month' => $month]) }}">
                                     <span class="sub-item">Làm thêm giờ</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs([
+                                        'attendance.showDetailAttendance',
+                                        ]) ? 'active' : '' }}">
                                 <a href="{{ route('attendance.showDetailAttendance') }}">
                                     <span class="sub-item">Bảng công chi tiết</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
+                            <li class="{{ request()->routeIs([
+                                        'attendance.showPersonal',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('attendance.showPersonal', ['month' => $month]) }}">
                                     <span class="sub-item">Bảng công cá nhân</span>
                                 </a>
                             </li>
