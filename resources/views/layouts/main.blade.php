@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Admin DeliTask</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Quản lý hệ thống</title>
     <meta
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         name="viewport"
@@ -17,7 +17,7 @@
     <script src="/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
-            google: { families: ["Public Sans:300,400,500,600,700"] },
+            google: {families: ["Public Sans:300,400,500,600,700"]},
             custom: {
                 families: [
                     "Font Awesome 5 Solid",
@@ -34,51 +34,21 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="/assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/assets/css/plugins.min.css"/>
+    <link rel="stylesheet" href="/assets/css/kaiadmin.min.css"/>
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="/assets/css/demo.css" />
+    <link rel="stylesheet" href="/assets/css/demo.css"/>
 </head>
 <body>
 <div class="wrapper">
-    <!-- Sidebar -->
-    <div class="sidebar" data-background-color="blue">
-        <div class="sidebar-logo">
-            <!-- Logo Header -->
-            <div class="logo-header">
-                <a href="#" class="logo">
-                    <img
-                        src="/assets/img/kaiadmin/logo-v2.png"
-                        alt="navbar brand"
-                        class="navbar-brand"
-                        height="50"
-                    />
-                </a>
-                <div class="nav-toggle">
-                    <button class="btn btn-toggle toggle-sidebar">
-                        <i class="gg-menu-right"></i>
-                    </button>
-                    <button class="btn btn-toggle sidenav-toggler">
-                        <i class="gg-menu-left"></i>
-                    </button>
-                </div>
-                <button class="topbar-toggler more">
-                    <i class="gg-more-vertical-alt"></i>
-                </button>
-            </div>
-            <!-- End Logo Header -->
-        </div>
-        @include('layouts.sidebar')
-    </div>
-    <!-- End Sidebar -->
-
+    @include('layouts.sidebar')
     <div class="main-panel">
         @include('layouts.header')
         <div class="container">
             <div class="page-inner">
-               @yield('content')
+                @yield('content')
             </div>
         </div>
     </div>
@@ -146,6 +116,35 @@
         lineColor: "#ffa534",
         fillColor: "rgba(255, 165, 52, .14)",
     });
+</script>
+<script>
+    @if (session('success'))
+    swal({
+        title: "Thành công!",
+        text: "{{ session('success') }}",
+        icon: "success",
+        buttons: {
+            confirm: {
+                text: "OK",
+                className: "btn btn-success"
+            }
+        }
+    });
+    @endif
+
+    @if (session('error'))
+    swal({
+        title: "Lỗi!",
+        text: "{{ session('error') }}",
+        icon: "error",
+        buttons: {
+            confirm: {
+                text: "OK",
+                className: "btn btn-danger"
+            }
+        }
+    });
+    @endif
 </script>
 </body>
 </html>
