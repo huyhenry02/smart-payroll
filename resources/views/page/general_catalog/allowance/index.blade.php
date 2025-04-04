@@ -1,3 +1,4 @@
+@php use App\Models\Allowance; @endphp
 @extends('layouts.main')
 @section('content')
     <div class="page-inner">
@@ -24,7 +25,8 @@
                                 <tr>
                                     <th width="10%">STT</th>
                                     <th>Tên khoản phụ cấp, trợ cấp</th>
-                                    <th>Số tiền (VNĐ)</th>
+                                    <th>Loại phụ cấp</th>
+                                    <th class="text-center">Tỷ lệ</th>
                                     <th width="15%" class="text-center">Thao tác</th>
                                 </tr>
                                 </thead>
@@ -33,12 +35,14 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $val->name ?? '' }}</td>
-                                        <td>{{ $val->amount ? number_format($val->amount) : '' }}</td>
+                                        <td>{{ $val->type ? Allowance::TYPES[$val->type] : '' }}</td>
+                                        <td class="text-center">{{ $val->rate ?? '' }}</td>
                                         <td class="text-center">
                                             <button class="btn btn-sm btn-secondary btn-edit"
                                                     data-id="{{ $val->id }}"
                                                     data-name="{{ $val->name ?? '' }}"
-                                                    data-amount="{{ $val->amount ?? 0 }}"
+                                                    data-type="{{ $val->type ?? '' }}"
+                                                    data-rate="{{ $val->rate ?? 0 }}"
                                             >
                                                 <i class="fas fa-edit"></i>
                                             </button>
@@ -76,10 +80,12 @@
                 button.addEventListener('click', function () {
                     const id = this.getAttribute('data-id');
                     const name = this.getAttribute('data-name');
-                    const amount = this.getAttribute('data-amount');
+                    const type = this.getAttribute('data-type');
+                    const rate = this.getAttribute('data-rate');
                     form.setAttribute('action', `/general_catalog/allowance/update/${id}`);
                     document.getElementById('edit-name').value = name;
-                    document.getElementById('edit-amount').value = amount;
+                    document.getElementById('edit-rate').value = rate;
+                    document.getElementById('edit-type').value = type;
                     editModal.show();
                 });
             });

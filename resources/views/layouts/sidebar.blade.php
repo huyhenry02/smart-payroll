@@ -238,7 +238,7 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                     <div class="collapse show" id="accounting">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('accounting.showIndex') }}">
                                     <span class="sub-item">Bảng lương</span>
                                 </a>
                             </li>

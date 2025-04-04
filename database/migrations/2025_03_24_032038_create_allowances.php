@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('allowances', function (Blueprint $table) {
             $table->id()->comment('Khóa chính');
             $table->string('name', 100)->comment('Tên khoản phụ cấp / trợ cấp');
-            $table->integer('amount')->comment('Số tiền phụ cấp');
+            $table->enum('type', ['position', 'region', 'hazard', 'responsibility'])->comment('Loại phụ cấp');
+            $table->float('rate')->comment('Tỷ lệ phụ cấp (%)');
             $table->timestamps();
         });
     }

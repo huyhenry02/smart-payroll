@@ -11,6 +11,29 @@ class Allowance extends Model
 
     protected $fillable = [
         'name',
-        'amount',
+        'rate',
+        'type',
+    ];
+    public const TYPE_POSITION = 'position';
+    public const TYPE_REGION = 'region';
+    public const TYPE_HAZARD = 'hazard';
+    public const TYPE_RESPONSIBILITY = 'responsibility';
+    public const TYPES = [
+        self::TYPE_POSITION => 'Phụ cấp chức vụ',
+        self::TYPE_REGION => 'Phụ cấp vùng',
+        self::TYPE_HAZARD => 'Phụ cấp độc hại',
+        self::TYPE_RESPONSIBILITY => 'Phụ cấp trách nhiệm',
+    ];
+
+    public const TYPES_REALITY_CODE = [
+        self::TYPE_POSITION => 'PCCV',
+        self::TYPE_HAZARD => 'PCĐH',
+        self::TYPE_RESPONSIBILITY => 'PCTN',
+    ];
+
+    public const TYPES_REALITY_TEXT = [
+        self::TYPE_POSITION => 'Phụ cấp CV',
+        self::TYPE_HAZARD => 'Phụ cấp ĐH',
+        self::TYPE_RESPONSIBILITY => 'Phụ cấp TN',
     ];
 }

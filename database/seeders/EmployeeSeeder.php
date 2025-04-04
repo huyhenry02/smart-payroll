@@ -34,7 +34,6 @@ class EmployeeSeeder extends Seeder
                 'start_date' => $row[13],
                 'employment_status' => $row[14],
                 'contract_type' => $row[15],
-                'base_salary' => $row[16],
                 'salary_factor' => $row[17],
                 'seniority' => $row[18],
                 'tax_code' => $row[19],

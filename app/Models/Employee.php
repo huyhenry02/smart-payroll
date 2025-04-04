@@ -27,7 +27,6 @@ class Employee extends Model
         'start_date',
         'employment_status',
         'contract_type',
-        'base_salary',
         'salary_factor',
         'seniority',
         'tax_code',

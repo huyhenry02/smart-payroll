@@ -19,7 +19,8 @@ class AllowanceSeeder extends Seeder
         foreach ($csvData as $row) {
             $allowances[] = [
                 'name' => $row[0],
-                'amount' => $row[1],
+                'type' => $row[1],
+                'rate' => $row[2],
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

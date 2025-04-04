@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AllowanceDeductionController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\SystemController;
@@ -91,4 +92,11 @@ Route::prefix('attendance')
         Route::post('/overtime/update/{attendanceDetail}', [AttendanceController::class, 'putOvertime'])->name('putOvertime');
         Route::get('/overtime/delete/{attendanceDetail}', [AttendanceController::class, 'deleteOvertime'])->name('deleteOvertime');
 
+    });
+
+Route::prefix('accounting')
+    ->middleware('auth')
+    ->name('accounting.')
+    ->group(function () {
+        Route::get('/', [AccountingController::class, 'showIndex'])->name('showIndex');
     });

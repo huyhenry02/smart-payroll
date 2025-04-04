@@ -17,6 +17,9 @@
                                     <button id="btnPickMonth" class="btn btn-outline-secondary">
                                         <i class="fas fa-calendar-alt"></i> Chọn
                                     </button>
+                                    <button class="btn btn-secondary">
+                                        <i class="fas fa-save"></i> Chốt bảng lương
+                                    </button>
                                 </div>
                             </div>
                         </div>
