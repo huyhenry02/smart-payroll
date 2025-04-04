@@ -11,6 +11,7 @@ $routesGeneralCatalog = [
     'general_catalog.showIndexWorkingShift',
     'general_catalog.showIndexDeduction',
     'general_catalog.showIndexAllowance',
+    'general_catalog.showIndexBonus',
 ];
 $isActiveGeneralCatalog = collect($routesGeneralCatalog)->contains(fn($route) => request()->routeIs($route));
 
@@ -164,14 +165,17 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                                     <span class="sub-item">Trích nộp theo lương</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Tài khoản kế toán</span>
+                            <li class="{{ request()->routeIs([
+                                        'general_catalog.showIndexBonus',
+                                        ]) ? 'active' : '' }}"
+                            >
+                                <a href="{{ route('general_catalog.showIndexBonus') }}">
+                                    <span class="sub-item">Khoản thưởng nhân viên</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">Đơn vị tiền tệ và tỷ giá</span>
+                                    <span class="sub-item">Tài khoản kế toán</span>
                                 </a>
                             </li>
                         </ul>
@@ -240,6 +244,16 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                             <li>
                                 <a href="{{ route('accounting.showIndex') }}">
                                     <span class="sub-item">Bảng lương</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('accounting.showEmployeeBonus') }}">
+                                    <span class="sub-item">Thưởng nhân viên</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="sub-item">Bảng thuế thu nhập</span>
                                 </a>
                             </li>
                         </ul>

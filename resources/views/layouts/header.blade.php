@@ -62,6 +62,9 @@
                         @case('general_catalog.showIndexAllowance')
                             Danh sách phụ cấp
                             @break
+                        @case('general_catalog.showIndexBonus')
+                            Danh sách khoản thưởng
+                            @break
                         @case('system.showIndexUser')
                             Danh sách người dùng
                             @break
@@ -128,6 +131,9 @@
                                 @break
                             @case('general_catalog.showIndexAllowance')
                                 <a href="{{ route('general_catalog.showIndexAllowance') }}" style="color: #fff">Phụ cấp và trợ cấp</a>
+                                @break
+                            @case('general_catalog.showIndexBonus')
+                                <a href="{{ route('general_catalog.showIndexBonus') }}" style="color: #fff">Thưởng</a>
                                 @break
                             @case('system.showIndexUser')
                                 <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Người dùng</a>

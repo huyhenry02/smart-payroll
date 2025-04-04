@@ -55,6 +55,12 @@ Route::prefix('general_catalog')
         Route::post('/allowance/update/{allowance}', [GeneralCatalogController::class, 'putAllowance'])->name('putAllowance');
         Route::get('/deleteAllowance/{allowance}', [GeneralCatalogController::class, 'deleteAllowance'])->name('deleteAllowance');
         Route::post('/allowance', [GeneralCatalogController::class, 'postAllowance'])->name('postAllowance');
+
+        // Bonus
+        Route::get('/bonus', [GeneralCatalogController::class, 'showIndexBonus'])->name('showIndexBonus');
+        Route::post('/bonus/update/{bonus}', [GeneralCatalogController::class, 'putBonus'])->name('putBonus');
+        Route::get('/deleteBonus/{bonus}', [GeneralCatalogController::class, 'deleteBonus'])->name('deleteBonus');
+        Route::post('/bonus', [GeneralCatalogController::class, 'postBonus'])->name('postBonus');
     });
 Route::prefix('system')
     ->middleware('auth')
@@ -99,4 +105,5 @@ Route::prefix('accounting')
     ->name('accounting.')
     ->group(function () {
         Route::get('/', [AccountingController::class, 'showIndex'])->name('showIndex');
+        Route::get('/bonus', [AccountingController::class, 'showEmployeeBonus'])->name('showEmployeeBonus');
     });

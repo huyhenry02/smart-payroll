@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Allowance;
+use App\Models\Bonus;
 use App\Models\Deduction;
 use App\Models\Department;
 use App\Models\Employee;
@@ -307,6 +308,58 @@ class GeneralCatalogController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('general_catalog.showIndexAllowance')->with('error', 'Tạo phụ cấp, trợ cấp thất bại');
+        }
+    }
+
+    public function showIndexBonus(): View|Factory|Application
+    {
+        $bonuses = Bonus::all();
+        return view('page.general_catalog.bonus.index', [
+            'bonuses' => $bonuses,
+        ]);
+    }
+
+    public function deleteBonus(Bonus $bonus): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $bonus->delete();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexBonus')->with('success', 'Xóa khoản thưởng nhân viên thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexBonus')->with('error', 'Xóa khoản thưởng nhân viên thất bại');
+        }
+    }
+
+    public function putBonus(Bonus $bonus, Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $bonus->fill($input);
+            $bonus->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexBonus')->with('success', 'Cập nhật thưởng nhân viên thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexBonus')->with('error', 'Cập nhật thưởng nhân viên thất bại');
+        }
+    }
+
+    public function postBonus(Request $request): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+            $input = $request->input();
+            $bonus = new Bonus();
+            $bonus->fill($input);
+            $bonus->save();
+            DB::commit();
+            return redirect()->route('general_catalog.showIndexBonus')->with('success', 'Tạo thưởng nhân viên thành công');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('general_catalog.showIndexBonus')->with('error', 'Tạo thưởng nhân viên thất bại');
         }
     }
 }
