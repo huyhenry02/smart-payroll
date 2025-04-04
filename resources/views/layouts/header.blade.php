@@ -86,6 +86,12 @@
                         @case('attendance.showPersonal')
                             Bảng công cá nhân
                             @break
+                        @case('accounting.showEmployeeBonus')
+                            Thương nhân viên
+                            @break
+                        @case('accounting.showIndex')
+                            Bảng lương
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -106,6 +112,8 @@
                             <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp và phụ cấp</a>
                         @elseif ( Str::startsWith($routeName, 'attendance'))
                             <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff"> Quản lý chấm công </a>
+                        @elseif ( Str::startsWith($routeName, 'accounting'))
+                            <a href="{{ route('accounting.showIndex') }}" style="color: #fff"> Tính lương và thanh toán </a>
                         @endif
                     </li>
                     <li class="separator">
@@ -155,6 +163,12 @@
                                 @break
                             @case('attendance.showPersonal')
                                 <a href="#" style="color: #fff">Cá nhân</a>
+                                @break
+                            @case('accounting.showIndex')
+                                <a href="#" style="color: #fff">Lương </a>
+                                @break
+                            @case('accounting.showEmployeeBonus')
+                                <a href="#" style="color: #fff">Thưởng </a>
                                 @break
                         @endswitch
                     </li>
@@ -224,5 +238,4 @@
             </ul>
         </div>
     </nav>
-    <!-- End Navbar -->
 </div>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id()->comment('Khóa chính');
             $table->string('name', 100)->comment('Tên khoản phụ cấp / trợ cấp');
             $table->enum('type', ['position', 'region', 'hazard', 'responsibility'])->comment('Loại phụ cấp');
-            $table->float('rate')->comment('Tỷ lệ phụ cấp (%)');
+            $table->float('rate')->comment('Tỷ lệ phụ cấp');
             $table->timestamps();
         });
     }

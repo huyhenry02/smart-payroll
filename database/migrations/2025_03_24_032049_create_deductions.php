@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('deductions', function (Blueprint $table) {
             $table->id()->comment('Khóa chính');
             $table->string('name', 100)->comment('Tên khoản trích theo lương');
-            $table->float('rate')->comment('Tỷ lệ trích (%)');
+            $table->float('rate')->comment('Tỷ lệ trích');
             $table->timestamps();
         });
     }

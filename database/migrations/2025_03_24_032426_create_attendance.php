@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('year')->comment('Năm chấm công');
             $table->integer('working_days')->default(0)->comment('Tổng số ngày đi làm');
             $table->integer('leave_days')->default(0)->comment('Tổng số ngày nghỉ phép');
-            $table->integer('overtime_hours')->default(0)->comment('Tổng số giờ làm thêm');
+            $table->integer('overtime_hours')->default(0)->comment('Tổng số ca làm thêm');
             $table->boolean('is_finalized')->default(true)->comment('Đã chốt công hay chưa');
             $table->timestamps();
 

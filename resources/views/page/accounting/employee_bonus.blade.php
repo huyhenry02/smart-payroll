@@ -9,10 +9,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h6 id="headerMonth">Danh sách thưởng nhân viên theo tháng</h6>
+                            <h6 id="headerMonth">Danh sách thưởng nhân viên theo tháng {{ Carbon::createFromFormat('Y-m', $month)->format('m/Y') }}</h6>
                             <div class="ms-auto">
                                 <div class="position-relative d-inline-block">
-                                    <input type="hidden" id="monthPicker" value="">
+                                    <input type="hidden" id="monthPicker" value="{{ $month }}">
                                     <button id="btnPickMonth" class="btn btn-outline-secondary">
                                         <i class="fas fa-calendar-alt"></i> Chọn
                                     </button>
@@ -27,37 +27,20 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="display table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th width="5%" class="text-center" rowspan="2">STT</th>
-                                    <th width="10%" class="text-center" rowspan="2">Mã NV</th>
-                                    <th width="20%" rowspan="2">Họ tên</th>
-                                    <th width="20%" rowspan="2" class="text-center">Chức vụ</th>
-                                    <th colspan="{{ $bonuses->count() }}" class="text-center">Loại tiền thưởng</th>
-                                    <th width="15%" rowspan="2" class="text-center">Số tiền</th>
-                                </tr>
-                                <tr>
-                                    @foreach($bonuses as $key => $val)
-                                        <th>{{ $val->name }}</th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div class="table-responsive" id="employeeBonusTable">
+                            @include('page.accounting.employee_bonus_table', ['bonuses' => $bonuses, 'employees' => $employees, 'employeeBonuses' => $employeeBonuses])
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <style>
         .flatpickr-calendar {
             top: calc(100% + 5px) !important;
-            left: 0 !important;
-            right: auto !important;
+            left: auto !important;
+            right: 0 !important;
             z-index: 9999 !important;
         }
         .flatpickr-input[readonly] {
@@ -66,4 +49,51 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const monthInput = document.getElementById('monthPicker');
+            const btnPick = document.getElementById('btnPickMonth');
+            const headerText = document.getElementById('headerMonth');
+
+            const today = new Date();
+            const defaultMonth = today.getMonth() + 1;
+            const defaultYear = today.getFullYear();
+            const defaultDateStr = `${defaultYear}-${defaultMonth.toString().padStart(2, '0')}`;
+
+            monthInput.value = defaultDateStr;
+            headerText.textContent = `Danh sách thưởng nhân viên theo tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
+
+            const fp = flatpickr(monthInput, {
+                dateFormat: "Y-m",
+                defaultDate: defaultDateStr,
+                appendTo: btnPick.parentElement,
+                allowInput: false,
+                plugins: [new monthSelectPlugin({
+                    shorthand: true,
+                    dateFormat: "Y-m",
+                    altFormat: "F Y"
+                })],
+                onChange: function (selectedDates, dateStr, instance) {
+                    const date = selectedDates[0];
+                    if (date) {
+                        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                        const year = date.getFullYear();
+                        headerText.textContent = `Danh sách thưởng nhân viên theo tháng ${month}/${year}`;
+                        monthInput.value = `${year}-${month}`;
+
+                        fetch(`/accounting/bonus/load?month=${monthInput.value}`)
+                            .then(res => res.text())
+                            .then(html => {
+                                document.getElementById('employeeBonusTable').innerHTML = html;
+                            });
+                    }
+                    instance.close();
+                }
+            });
+
+            btnPick.addEventListener('click', () => {
+                fp.open();
+            });
+        });
+    </script>
 @endsection

@@ -59,4 +59,24 @@ class Employee extends Model
     {
         return $this->belongsTo(Position::class);
     }
+
+    public function allowances(): HasMany
+    {
+        return $this->hasMany(EmployeeAllowance::class);
+    }
+
+    public function deductions(): HasMany
+    {
+        return $this->hasMany(EmployeeDeduction::class);
+    }
+
+    public function payrolls(): HasMany
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function attendance(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

@@ -17,9 +17,13 @@
                                     <button id="btnPickMonth" class="btn btn-outline-secondary">
                                         <i class="fas fa-calendar-alt"></i> Chọn
                                     </button>
-                                    <button class="btn btn-secondary">
-                                        <i class="fas fa-save"></i> Chốt bảng lương
-                                    </button>
+                                    <form action="{{ route('accounting.postPayrollTable') }}" method="POST" id="closeAttendanceForm" class="d-inline">
+                                        @csrf
+                                        <input type="hidden" name="month" id="inputMonthForClose" value="{{ $month }}">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <i class="fas fa-save"></i> Chốt bảng lương
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -35,6 +35,12 @@ $routesAttendance = [
     'attendance.detail-attendance.load',
 ];
 $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request()->routeIs($route));
+
+$routesAccounting = [
+    'accounting.showIndex',
+    'accounting.showEmployeeBonus',
+];
+$isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request()->routeIs($route));
 ?>
 <div class="sidebar">
     <div class="sidebar-logo">
@@ -228,7 +234,7 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ $isActiveAccounting ? 'active' : '' }}">
                     <a
                         data-bs-toggle="collapse"
                         href="#accounting"
@@ -239,14 +245,18 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                         <p>Tính lương và thanh toán</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse show" id="accounting">
+                    <div class="collapse {{ $isActiveAccounting ? 'show' : '' }}" id="accounting">
                         <ul class="nav nav-collapse">
-                            <li>
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showIndex',
+                                        ]) ? 'active' : '' }}">
                                 <a href="{{ route('accounting.showIndex') }}">
                                     <span class="sub-item">Bảng lương</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showEmployeeBonus',
+                                        ]) ? 'active' : '' }}">
                                 <a href="{{ route('accounting.showEmployeeBonus') }}">
                                     <span class="sub-item">Thưởng nhân viên</span>
                                 </a>

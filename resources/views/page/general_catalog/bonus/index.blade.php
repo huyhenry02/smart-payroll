@@ -70,5 +70,25 @@
             }
         }
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-edit').click(function () {
+                let id = $(this).data('id');
+                let name = $(this).data('name');
+                let description = $(this).data('description');
+                let amount = $(this).data('amount');
+
+                $('#edit-bonus-id').val(id);
+                $('#edit-name').val(name);
+                $('#edit-description').val(description);
+                $('#edit-amount').val(amount);
+
+                let formAction = '{{ route('general_catalog.putBonus', ':id') }}'.replace(':id', id);
+                $('#editBonusForm').attr('action', formAction);
+
+                $('#editBonusModal').modal('show');
+            });
+        });
+    </script>
 
 @endsection
