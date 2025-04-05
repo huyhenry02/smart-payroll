@@ -38,8 +38,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-warning">Cập nhật</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                <button class="btn btn-warning">Cập nhật</button>
             </div>
         </form>
     </div>

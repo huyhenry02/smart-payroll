@@ -9,8 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h6 id="headerMonth">Bảng công chi tiết
-                                tháng {{ Carbon::createFromFormat('Y-m', $month)->format('m/Y') }}</h6>
+                            <h6 id="headerMonth">Danh sách thưởng nhân viên theo tháng {{ Carbon::createFromFormat('Y-m', $month)->format('m/Y') }}</h6>
                             <div class="ms-auto">
                                 <div class="position-relative d-inline-block">
                                     <input type="hidden" id="monthPicker" value="{{ $month }}">
@@ -24,30 +23,24 @@
                                 <button class="btn btn-outline-primary d-none" id="btnSave">
                                     <i class="fas fa-save"></i> Lưu
                                 </button>
-                                <form action="{{ route('attendance.postCloseAttendance') }}" method="POST" id="closeAttendanceForm" class="d-inline">
-                                    @csrf
-                                    <input type="hidden" name="month" id="inputMonthForClose">
-                                    <button type="submit" class="btn btn-outline-primary" id="btnClose">
-                                        <i class="fas fa-save"></i> Chốt công
-                                    </button>
-                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive" id="attendanceTable">
-                            @include('page.attendance.detail-table', ['days' => $days, 'employees' => $employees, 'attendanceData' => $attendanceData])
+                        <div class="table-responsive" id="employeeBonusTable">
+                            @include('page.accounting.employee_bonus_table', ['bonuses' => $bonuses, 'employees' => $employees, 'employeeBonuses' => $employeeBonuses])
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <style>
         .flatpickr-calendar {
             top: calc(100% + 5px) !important;
-            left: 0 !important;
-            right: auto !important;
+            left: auto !important;
+            right: 0 !important;
             z-index: 9999 !important;
         }
         .flatpickr-input[readonly] {
@@ -68,7 +61,7 @@
             const defaultDateStr = `${defaultYear}-${defaultMonth.toString().padStart(2, '0')}`;
 
             monthInput.value = defaultDateStr;
-            headerText.textContent = `Bảng công chi tiết tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
+            headerText.textContent = `Danh sách thưởng nhân viên theo tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
 
             const fp = flatpickr(monthInput, {
                 dateFormat: "Y-m",
@@ -85,13 +78,13 @@
                     if (date) {
                         const month = (date.getMonth() + 1).toString().padStart(2, '0');
                         const year = date.getFullYear();
-                        headerText.textContent = `Bảng công chi tiết tháng ${month}/${year}`;
+                        headerText.textContent = `Danh sách thưởng nhân viên theo tháng ${month}/${year}`;
                         monthInput.value = `${year}-${month}`;
 
-                        fetch(`/attendance/detail-attendance/load?month=${monthInput.value}`)
+                        fetch(`/accounting/bonus/load?month=${monthInput.value}`)
                             .then(res => res.text())
                             .then(html => {
-                                document.getElementById('attendanceTable').innerHTML = html;
+                                document.getElementById('employeeBonusTable').innerHTML = html;
                             });
                     }
                     instance.close();
@@ -101,11 +94,6 @@
             btnPick.addEventListener('click', () => {
                 fp.open();
             });
-        });
-    </script>
-    <script>
-        document.getElementById('closeAttendanceForm').addEventListener('submit', function (e) {
-            document.getElementById('inputMonthForClose').value = document.getElementById('monthPicker').value;
         });
     </script>
 @endsection

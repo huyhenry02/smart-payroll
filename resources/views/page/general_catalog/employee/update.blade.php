@@ -118,10 +118,6 @@
                                 <label class="form-label">Loại hợp đồng</label>
                                 <input type="text" name="contract_type" class="form-control" value="{{ $e->contract_type }}">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Lương cơ bản</label>
-                                <input type="number" name="base_salary" class="form-control" value="{{ $e->base_salary }}">
-                            </div>
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Hệ số lương</label>

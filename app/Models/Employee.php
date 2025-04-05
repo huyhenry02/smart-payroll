@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
@@ -27,7 +28,6 @@ class Employee extends Model
         'start_date',
         'employment_status',
         'contract_type',
-        'base_salary',
         'salary_factor',
         'seniority',
         'tax_code',
@@ -59,5 +59,25 @@ class Employee extends Model
     public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class);
+    }
+
+    public function allowances(): BelongsToMany
+    {
+        return $this->belongsToMany(Allowance::class, 'employee_allowances');
+    }
+
+    public function deductions(): BelongsToMany
+    {
+        return $this->belongsToMany(Deduction::class, 'employee_deductions');
+    }
+
+    public function payrolls(): HasMany
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function attendance(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
     }
 }

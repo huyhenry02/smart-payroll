@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deductions', function (Blueprint $table) {
-            $table->id()->comment('Khóa chính');
-            $table->string('name', 100)->comment('Tên khoản trích theo lương');
-            $table->float('rate')->comment('Tỷ lệ trích');
+        Schema::create('employee_bonuses', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
+            $table->unsignedBigInteger('bonus_id')->comment('ID khoản thưởng');
+            $table->date('month')->comment('Tháng thưởng');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deductions');
+        Schema::dropIfExists('employee_bonuses');
     }
 };

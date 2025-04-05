@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             EmployeeDeductionSeeder::class,
             EmployeeAllowanceSeeder::class,
             AttendanceDetailSeeder::class,
+            BonusSeeder::class,
         ]);
     }
 }

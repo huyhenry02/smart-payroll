@@ -11,6 +11,7 @@ $routesGeneralCatalog = [
     'general_catalog.showIndexWorkingShift',
     'general_catalog.showIndexDeduction',
     'general_catalog.showIndexAllowance',
+    'general_catalog.showIndexBonus',
 ];
 $isActiveGeneralCatalog = collect($routesGeneralCatalog)->contains(fn($route) => request()->routeIs($route));
 
@@ -34,6 +35,12 @@ $routesAttendance = [
     'attendance.detail-attendance.load',
 ];
 $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request()->routeIs($route));
+
+$routesAccounting = [
+    'accounting.showIndex',
+    'accounting.showEmployeeBonus',
+];
+$isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request()->routeIs($route));
 ?>
 <div class="sidebar">
     <div class="sidebar-logo">
@@ -164,14 +171,17 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                                     <span class="sub-item">Trích nộp theo lương</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Tài khoản kế toán</span>
+                            <li class="{{ request()->routeIs([
+                                        'general_catalog.showIndexBonus',
+                                        ]) ? 'active' : '' }}"
+                            >
+                                <a href="{{ route('general_catalog.showIndexBonus') }}">
+                                    <span class="sub-item">Khoản thưởng nhân viên</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">Đơn vị tiền tệ và tỷ giá</span>
+                                    <span class="sub-item">Tài khoản kế toán</span>
                                 </a>
                             </li>
                         </ul>
@@ -224,7 +234,7 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ $isActiveAccounting ? 'active' : '' }}">
                     <a
                         data-bs-toggle="collapse"
                         href="#accounting"
@@ -235,11 +245,25 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
                         <p>Tính lương và thanh toán</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse show" id="accounting">
+                    <div class="collapse {{ $isActiveAccounting ? 'show' : '' }}" id="accounting">
                         <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showIndex',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('accounting.showIndex') }}">
                                     <span class="sub-item">Bảng lương</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showEmployeeBonus',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('accounting.showEmployeeBonus') }}">
+                                    <span class="sub-item">Thưởng nhân viên</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="sub-item">Bảng thuế thu nhập</span>
                                 </a>
                             </li>
                         </ul>

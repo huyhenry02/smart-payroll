@@ -62,6 +62,9 @@
                         @case('general_catalog.showIndexAllowance')
                             Danh sách phụ cấp
                             @break
+                        @case('general_catalog.showIndexBonus')
+                            Danh sách khoản thưởng
+                            @break
                         @case('system.showIndexUser')
                             Danh sách người dùng
                             @break
@@ -83,6 +86,12 @@
                         @case('attendance.showPersonal')
                             Bảng công cá nhân
                             @break
+                        @case('accounting.showEmployeeBonus')
+                            Thương nhân viên
+                            @break
+                        @case('accounting.showIndex')
+                            Bảng lương
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -103,6 +112,8 @@
                             <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp và phụ cấp</a>
                         @elseif ( Str::startsWith($routeName, 'attendance'))
                             <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff"> Quản lý chấm công </a>
+                        @elseif ( Str::startsWith($routeName, 'accounting'))
+                            <a href="{{ route('accounting.showIndex') }}" style="color: #fff"> Tính lương và thanh toán </a>
                         @endif
                     </li>
                     <li class="separator">
@@ -129,6 +140,9 @@
                             @case('general_catalog.showIndexAllowance')
                                 <a href="{{ route('general_catalog.showIndexAllowance') }}" style="color: #fff">Phụ cấp và trợ cấp</a>
                                 @break
+                            @case('general_catalog.showIndexBonus')
+                                <a href="{{ route('general_catalog.showIndexBonus') }}" style="color: #fff">Thưởng</a>
+                                @break
                             @case('system.showIndexUser')
                                 <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Người dùng</a>
                                 @break
@@ -149,6 +163,12 @@
                                 @break
                             @case('attendance.showPersonal')
                                 <a href="#" style="color: #fff">Cá nhân</a>
+                                @break
+                            @case('accounting.showIndex')
+                                <a href="#" style="color: #fff">Lương </a>
+                                @break
+                            @case('accounting.showEmployeeBonus')
+                                <a href="#" style="color: #fff">Thưởng </a>
                                 @break
                         @endswitch
                     </li>
@@ -218,5 +238,4 @@
             </ul>
         </div>
     </nav>
-    <!-- End Navbar -->
 </div>

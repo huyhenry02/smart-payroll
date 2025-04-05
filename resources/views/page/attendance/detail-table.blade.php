@@ -120,11 +120,13 @@
 <script>
     const btnEdit = document.getElementById('btnEdit');
     const btnSave = document.getElementById('btnSave');
+    const btnClose = document.getElementById('btnClose');
 
     btnEdit.addEventListener('click', () => {
         document.querySelectorAll('.text-display').forEach(el => el.classList.add('d-none'));
         document.querySelectorAll('.attendance-checkbox').forEach(el => el.classList.remove('d-none'));
         btnEdit.classList.add('d-none');
+        btnClose.classList.add('d-none');
         btnSave.classList.remove('d-none');
     });
 

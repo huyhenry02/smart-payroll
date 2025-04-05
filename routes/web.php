@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AllowanceDeductionController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\SystemController;
@@ -54,6 +55,12 @@ Route::prefix('general_catalog')
         Route::post('/allowance/update/{allowance}', [GeneralCatalogController::class, 'putAllowance'])->name('putAllowance');
         Route::get('/deleteAllowance/{allowance}', [GeneralCatalogController::class, 'deleteAllowance'])->name('deleteAllowance');
         Route::post('/allowance', [GeneralCatalogController::class, 'postAllowance'])->name('postAllowance');
+
+        // Bonus
+        Route::get('/bonus', [GeneralCatalogController::class, 'showIndexBonus'])->name('showIndexBonus');
+        Route::post('/bonus/update/{bonus}', [GeneralCatalogController::class, 'putBonus'])->name('putBonus');
+        Route::get('/deleteBonus/{bonus}', [GeneralCatalogController::class, 'deleteBonus'])->name('deleteBonus');
+        Route::post('/bonus', [GeneralCatalogController::class, 'postBonus'])->name('postBonus');
     });
 Route::prefix('system')
     ->middleware('auth')
@@ -67,11 +74,11 @@ Route::prefix('allowance_deduction')
     ->middleware('auth')
     ->name('allowance_deduction.')
     ->group(function () {
-        Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexDeduction'])->name('showIndexDeduction');
+        Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
         Route::post('/allowance/update', [AllowanceDeductionController::class, 'putAllowance'])->name('putAllowance');
         Route::get('/allowance/preview', [AllowanceDeductionController::class, 'previewAllowancePdf'])->name('previewAllowancePdf');
 
-        Route::get('/deduction', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
+        Route::get('/deduction', [AllowanceDeductionController::class, 'showIndexDeduction'])->name('showIndexDeduction');
         Route::post('/deduction/update', [AllowanceDeductionController::class, 'putDeduction'])->name('putDeduction');
         Route::get('/deduction/preview', [AllowanceDeductionController::class, 'previewDeductionPdf'])->name('previewDeductionPdf');
     });
@@ -90,5 +97,19 @@ Route::prefix('attendance')
         Route::post('/overtime/post', [AttendanceController::class, 'postOvertime'])->name('postOvertime');
         Route::post('/overtime/update/{attendanceDetail}', [AttendanceController::class, 'putOvertime'])->name('putOvertime');
         Route::get('/overtime/delete/{attendanceDetail}', [AttendanceController::class, 'deleteOvertime'])->name('deleteOvertime');
+
+    });
+
+Route::prefix('accounting')
+    ->middleware('auth')
+    ->name('accounting.')
+    ->group(function () {
+        Route::get('/', [AccountingController::class, 'showIndex'])->name('showIndex');
+        Route::get('/load', [AccountingController::class, 'loadIndex'])->name('loadIndex');
+        Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
+
+        Route::get('/bonus', [AccountingController::class, 'showEmployeeBonus'])->name('showEmployeeBonus');
+        Route::get('/bonus/load', [AccountingController::class, 'loadEmployeeBonusTable'])->name('loadEmployeeBonusTable');
+        Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
 
     });
