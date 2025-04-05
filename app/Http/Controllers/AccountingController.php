@@ -173,7 +173,7 @@ class AccountingController extends Controller
                     ->pluck('bonus_id');
                 $totalBonus = Bonus::whereIn('id', $bonusIds)->sum('amount');
 
-                $netBeforeTax = $salaryV1 + $totalAllowance + $workingShiftAmount + $totalBonus - $totalDeduction;
+                $netBeforeTax = $salaryV1 + (int)$totalAllowance + (int)$workingShiftAmount + (int)$totalBonus - (int)$totalDeduction;
                 Payroll::updateOrCreate(
                     [
                         'employee_id' => $employee->id,
@@ -182,10 +182,10 @@ class AccountingController extends Controller
                     ],
                     [
                         'salary_v1' => $salaryV1,
-                        'total_allowance' => $totalAllowance,
-                        'total_deduction' => $totalDeduction,
-                        'working_shift_amount' => $workingShiftAmount,
-                        'total_bonus' => $totalBonus,
+                        'total_allowance' => (int)$totalAllowance,
+                        'total_deduction' => (int)$totalDeduction,
+                        'working_shift_amount' => (int)$workingShiftAmount,
+                        'total_bonus' => (int)$totalBonus,
                         'net_salary_before_tax' => $netBeforeTax,
                     ]
                 );
