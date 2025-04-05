@@ -46,7 +46,7 @@ class AccountingController extends Controller
         $monthInt = $date->month;
         $year = $date->year;
 
-        $allowanceTypes = ['position', 'region', 'responsibility'];
+        $allowanceTypes = ['position', 'hazard', 'responsibility'];
         $allowances = Allowance::whereIn('type', $allowanceTypes)->get();
         $deductions = Deduction::all();
         $daysInMonth = $date->daysInMonth;
@@ -152,11 +152,11 @@ class AccountingController extends Controller
                 $salaryV1 = (int)($employee->salary_factor * Payroll::BASE_SALARY / $workingDaysRequired * $actualWorkingDays);
 
                 $totalAllowance = $employee->allowances->sum(function ($allowance) {
-                    return $allowance->allowance->rate * Payroll::BASE_SALARY;
+                    return $allowance->rate * Payroll::BASE_SALARY;
                 });
 
                 $totalDeduction = $employee->deductions->sum(function ($deduction) use ($salaryV1) {
-                    return $deduction->deduction->rate * $salaryV1;
+                    return $deduction->rate * $salaryV1;
                 });
 
                 $overtimeDetails = AttendanceDetail::where('employee_id', $employee->id)

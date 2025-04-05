@@ -27,7 +27,7 @@
                                 <form action="{{ route('attendance.postCloseAttendance') }}" method="POST" id="closeAttendanceForm" class="d-inline">
                                     @csrf
                                     <input type="hidden" name="month" id="inputMonthForClose">
-                                    <button type="submit" class="btn btn-outline-primary">
+                                    <button type="submit" class="btn btn-outline-primary" id="btnClose">
                                         <i class="fas fa-save"></i> Chốt công
                                     </button>
                                 </form>

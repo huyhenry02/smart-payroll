@@ -20,9 +20,9 @@ class Allowance extends Model
     public const TYPE_RESPONSIBILITY = 'responsibility';
     public const TYPES = [
         self::TYPE_POSITION => 'Phụ cấp chức vụ',
-        self::TYPE_REGION => 'Phụ cấp vùng',
         self::TYPE_HAZARD => 'Phụ cấp độc hại',
         self::TYPE_RESPONSIBILITY => 'Phụ cấp trách nhiệm',
+        self::TYPE_REGION => 'Phụ cấp vùng',
     ];
 
     public const TYPES_REALITY_CODE = [

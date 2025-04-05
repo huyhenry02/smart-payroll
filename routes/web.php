@@ -74,11 +74,11 @@ Route::prefix('allowance_deduction')
     ->middleware('auth')
     ->name('allowance_deduction.')
     ->group(function () {
-        Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexDeduction'])->name('showIndexDeduction');
+        Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
         Route::post('/allowance/update', [AllowanceDeductionController::class, 'putAllowance'])->name('putAllowance');
         Route::get('/allowance/preview', [AllowanceDeductionController::class, 'previewAllowancePdf'])->name('previewAllowancePdf');
 
-        Route::get('/deduction', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
+        Route::get('/deduction', [AllowanceDeductionController::class, 'showIndexDeduction'])->name('showIndexDeduction');
         Route::post('/deduction/update', [AllowanceDeductionController::class, 'putDeduction'])->name('putDeduction');
         Route::get('/deduction/preview', [AllowanceDeductionController::class, 'previewDeductionPdf'])->name('previewDeductionPdf');
     });

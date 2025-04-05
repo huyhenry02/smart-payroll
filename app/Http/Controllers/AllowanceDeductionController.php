@@ -54,7 +54,6 @@ class AllowanceDeductionController extends Controller
     {
         $input = $request->all();
         $existing = EmployeeDeduction::all()->groupBy('employee_id');
-
         foreach ($input['deductions'] ?? [] as $employee_id => $deduction_ids) {
             $existingDeductions = $existing[$employee_id] ?? collect();
 

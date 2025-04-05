@@ -1,3 +1,4 @@
+@php use App\Models\Allowance; @endphp
 @extends('layouts.main')
 @section('content')
     <div class="page-inner">
@@ -29,11 +30,25 @@
                             <table class="display table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="text-center sticky-col left-0" rowspan="2">STT</th>
-                                    <th class="text-center sticky-col left-1" rowspan="2">MÃ NV</th>
-                                    <th class="sticky-col left-2" rowspan="2">HỌ TÊN</th>
-                                    <th class="text-center sticky-col left-3" rowspan="2">CHỨC VỤ</th>
-                                    <th class="text-center" colspan="{{ $allowances->count() }}">CÁC KHOẢN PHỤ CẤP, TRỢ CẤP</th>
+                                    <th class="text-center sticky-col left-0" rowspan="3">STT</th>
+                                    <th class="text-center sticky-col left-1" rowspan="3">MÃ NV</th>
+                                    <th class="sticky-col left-2" rowspan="3">HỌ TÊN</th>
+                                    <th class="text-center sticky-col left-3" rowspan="3">CHỨC VỤ</th>
+                                    <th class="text-center" colspan="{{ $allowances->count() }}">CÁC KHOẢN PHỤ CẤP, TRỢ
+                                        CẤP
+                                    </th>
+                                </tr>
+                                <tr>
+                                    @foreach( Allowance::TYPES as $key => $val)
+                                        @php
+                                            $grouped = $allowances->groupBy('type');
+                                            $colspan = isset($grouped[$key]) ? $grouped[$key]->count() : 0;
+                                        @endphp
+                                        @if( $colspan > 0)
+                                            <th class="text-center" colspan="{{ $colspan }}">{{ $val }}</th>
+                                        @endif
+                                    @endforeach
+
                                 </tr>
                                 <tr>
                                     @foreach( $allowances as $key => $val)
@@ -84,10 +99,26 @@
             border-right: 1px solid #dee2e6;
         }
 
-        .left-0 { left: 0; z-index: 3; min-width: 50px; }
-        .left-1 { left: 60px; min-width: 80px; }
-        .left-2 { left: 140px; min-width: 150px; }
-        .left-3 { left: 290px; min-width: 120px; }
+        .left-0 {
+            left: 0;
+            z-index: 3;
+            min-width: 50px;
+        }
+
+        .left-1 {
+            left: 60px;
+            min-width: 80px;
+        }
+
+        .left-2 {
+            left: 140px;
+            min-width: 150px;
+        }
+
+        .left-3 {
+            left: 290px;
+            min-width: 120px;
+        }
 
         th, td {
             min-width: 100px;
