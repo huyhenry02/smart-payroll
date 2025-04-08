@@ -128,6 +128,7 @@
                                                 data-bank-name="{{ $employee->bank_name ?? '' }}"
                                                 data-education="{{ $employee->education_level ?? '' }}"
                                                 data-specialization="{{ $employee->specialization ?? '' }}"
+                                                data-number_of_dependent="{{ $employee->number_of_dependent ?? '' }}"
                                             >
                                                 <i class="fas fa-eye"></i>
                                             </button>
@@ -179,6 +180,7 @@
             $('#modal-bank-name').text(btn.data('bank-name'));
             $('#modal-education').text(btn.data('education'));
             $('#modal-specialization').text(btn.data('specialization'));
+            $('#modal-number_of_dependent').text(btn.data('number_of_dependent'));
         });
     </script>
 @endsection

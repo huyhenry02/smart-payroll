@@ -80,8 +80,8 @@
                     </div>
 
                     <div class="employee-info-col">
-                        <span class="employee-info-label">Lương cơ bản:</span>
-                        <span class="employee-info-value" id="modal-base-salary"></span>
+                        <span class="employee-info-label">Sô người phụ thuộc:</span>
+                        <span class="employee-info-value" id="modal-number_of_dependent"></span>
                     </div>
                     <div class="employee-info-col">
                         <span class="employee-info-label">Hệ số lương:</span>

@@ -145,6 +145,10 @@
                                 <label class="form-label">Trình độ học vấn</label>
                                 <input type="text" name="education_level" class="form-control" value="{{ $e->education_level }}">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Số người phụ thuộc</label>
+                                <input type="number" name="number_of_dependent" class="form-control" value="{{ $e->number_of_dependent }}">
+                            </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Chuyên ngành</label>
                                 <input type="text" name="specialization" class="form-control" value="{{ $e->specialization }}">

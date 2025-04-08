@@ -39,6 +39,7 @@ $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request
 $routesAccounting = [
     'accounting.showIndex',
     'accounting.showEmployeeBonus',
+    'accounting.showIndexTax',
 ];
 $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request()->routeIs($route));
 ?>
@@ -261,8 +262,10 @@ $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request
                                     <span class="sub-item">Thưởng nhân viên</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="">
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showIndexTax',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('accounting.showIndexTax') }}">
                                     <span class="sub-item">Bảng thuế thu nhập</span>
                                 </a>
                             </li>
