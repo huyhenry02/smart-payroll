@@ -30,7 +30,7 @@
                     <div class="mb-3">
                         <label for="rate" class="form-label">Tỷ lệ phụ cấp (%) <span
                                 class="text-danger">*</span></label>
-                        <input type="number" step="0.01" class="form-control" name="rate" id="rate"
+                        <input type="text" step="0.01" class="form-control" name="rate" id="rate"
                                placeholder="Nhập tỷ lệ phụ cấp" required>
                     </div>
                 </div>

@@ -16,6 +16,14 @@
                                     <button id="btnPickMonth" class="btn btn-outline-secondary">
                                         <i class="fas fa-calendar-alt"></i> Chọn
                                     </button>
+                                    <a
+                                        id="btnPdfPreview"
+                                        href="{{ route('accounting.previewTaxPdf', $month) }}"
+                                        target="_blank"
+                                        class="btn btn-danger"
+                                    >
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -71,6 +79,8 @@
                     if (date) {
                         const month = (date.getMonth() + 1).toString().padStart(2, '0');
                         const year = date.getFullYear();
+                        const newMonth = `${year}-${month}`;
+
                         headerText.textContent = `Bảng tính thuế thu nhập cá nhân tháng ${month}/${year}`;
                         monthInput.value = `${year}-${month}`;
 
@@ -79,6 +89,8 @@
                             .then(html => {
                                 document.getElementById('taxTable').innerHTML = html;
                             });
+
+                        document.getElementById('btnPdfPreview').href = `/accounting/preview-tax-pdf/${newMonth}`;
                     }
                     instance.close();
                 }
