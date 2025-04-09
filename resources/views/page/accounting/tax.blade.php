@@ -1,4 +1,4 @@
-
+@php use Carbon\Carbon; @endphp
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @extends('layouts.main')
@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h6 id="headerMonth">Bảng lương tháng</h6>
+                            <h6 id="headerMonth"> Bảng tính thuế thu nhập cá nhân tháng {{ Carbon::createFromFormat('Y-m', $month)->format('m/Y') }}</h6>
                             <div class="ms-auto">
                                 <div class="position-relative d-inline-block">
                                     <input type="hidden" id="monthPicker" value="">
@@ -21,8 +21,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive" id="accountingTable">
-                            @include('page.accounting.index-table')
+                        <div class="table-responsive" id="taxTable">
+                            @include('page.accounting.tax-table', ['employees' => $employees, 'month' => $month])
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
             const defaultDateStr = `${defaultYear}-${defaultMonth.toString().padStart(2, '0')}`;
 
             monthInput.value = defaultDateStr;
-            headerText.textContent = `Bảng lương tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
+            headerText.textContent = `Bảng tính thuế thu nhập cá nhân tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
 
             const fp = flatpickr(monthInput, {
                 dateFormat: "Y-m",
@@ -71,13 +71,13 @@
                     if (date) {
                         const month = (date.getMonth() + 1).toString().padStart(2, '0');
                         const year = date.getFullYear();
-                        headerText.textContent = `Bảng lương tháng ${month}/${year}`;
+                        headerText.textContent = `Bảng tính thuế thu nhập cá nhân tháng ${month}/${year}`;
                         monthInput.value = `${year}-${month}`;
 
-                        fetch(`/accounting/load?month=${monthInput.value}`)
+                        fetch(`/accounting/load-tax?month=${monthInput.value}`)
                             .then(res => res.text())
                             .then(html => {
-                                document.getElementById('accountingTable').innerHTML = html;
+                                document.getElementById('taxTable').innerHTML = html;
                             });
                     }
                     instance.close();

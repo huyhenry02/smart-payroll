@@ -35,6 +35,7 @@ return new class extends Migration {
             $table->string('bank_name')->nullable()->comment('Tên ngân hàng');
             $table->string('education_level')->nullable()->comment('Trình độ học vấn');
             $table->string('specialization')->nullable()->comment('Chuyên môn');
+            $table->integer('number_of_dependent')->nullable()->comment('Số người phụ thuộc');
             $table->timestamps();
 
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');

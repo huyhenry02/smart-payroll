@@ -13,6 +13,7 @@ use App\Models\Payroll;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
+use Carbon\Month;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -31,6 +32,7 @@ class AccountingController extends Controller
         $data = $this->getDataAccountingTable($month);
         return view('page.accounting.index', $data);
     }
+
     public function loadIndex(Request $request): Response
     {
         $month = $request->input('month', now()->format('Y-m'));
@@ -40,39 +42,20 @@ class AccountingController extends Controller
         return response($html);
     }
 
-    private function getDataAccountingTable(string $month): array
+    public function showIndexTax(Request $request): View|Application|Factory
     {
-        $date = Carbon::createFromFormat('Y-m', $month);
-        $monthInt = $date->month;
-        $year = $date->year;
+        $month = $request->input('month', now()->format('Y-m'));
+        $data = $this->getDataTaxTable($month);
+        return view('page.accounting.tax', $data);
+    }
 
-        $allowanceTypes = ['position', 'hazard', 'responsibility'];
-        $allowances = Allowance::whereIn('type', $allowanceTypes)->get();
-        $deductions = Deduction::all();
-        $daysInMonth = $date->daysInMonth;
-        $workingDaysRequired = collect(range(1, $daysInMonth))->filter(function ($day) use ($date) {
-            $d = $date->copy()->day($day);
-            return !in_array($d->dayOfWeek, [CarbonInterface::SATURDAY, CarbonInterface::SUNDAY], true);
-        })->count();
-        $employees = Employee::with([
-            'position',
-            'allowances',
-            'deductions',
-            'payrolls' => function ($q) use ($monthInt, $year) {
-                $q->where('month', $monthInt)->where('year', $year);
-            },
-            'attendance' => function ($q) use ($monthInt, $year) {
-                $q->where('month', $monthInt)->where('year', $year);
-            },
-        ])->get();
+    public function loadIndexTax(Request $request): Response
+    {
+        $month = $request->input('month', now()->format('Y-m'));
+        $data = $this->getDataTaxTable($month);
 
-        return [
-            'employees' => $employees,
-            'allowances' => $allowances,
-            'deductions' => $deductions,
-            'workingDaysRequired' => $workingDaysRequired,
-            'month' => $month,
-        ];
+        $html = view('page.accounting.tax-table', $data)->render();
+        return response($html);
     }
 
     public function showEmployeeBonus(Request $request): View|Factory|Application
@@ -90,18 +73,6 @@ class AccountingController extends Controller
 
         $html = view('page.accounting.employee_bonus_table', $data)->render();
         return response($html);
-    }
-
-    private function getEmployeeBonusData(string $month): array
-    {
-        $date = Carbon::createFromFormat('Y-m', $month);
-        $employees = Employee::with('position')->get();
-        $bonuses = Bonus::all()->keyBy('id');
-        $employeeBonuses = EmployeeBonus::whereYear('month', $date->year)
-            ->whereMonth('month', $date->month)
-            ->get()
-            ->groupBy('employee_id');
-        return compact('employees', 'bonuses', 'employeeBonuses', 'month');
     }
 
     public function updateEmployeeBonus(Request $request): JsonResponse
@@ -174,6 +145,9 @@ class AccountingController extends Controller
                 $totalBonus = Bonus::whereIn('id', $bonusIds)->sum('amount');
 
                 $netBeforeTax = $salaryV1 + (int)$totalAllowance + (int)$workingShiftAmount + (int)$totalBonus - (int)$totalDeduction;
+
+                $arrayTax = $this->calculateTax($employee, $netBeforeTax);
+
                 Payroll::updateOrCreate(
                     [
                         'employee_id' => $employee->id,
@@ -187,6 +161,8 @@ class AccountingController extends Controller
                         'working_shift_amount' => (int)$workingShiftAmount,
                         'total_bonus' => (int)$totalBonus,
                         'net_salary_before_tax' => $netBeforeTax,
+                        'net_salary_after_tax' => (int)$arrayTax['netAfterTax'],
+                        'tax_amount' => (int)$arrayTax['taxCalculation'],
                     ]
                 );
             }
@@ -196,5 +172,111 @@ class AccountingController extends Controller
             DB::rollBack();
             return redirect()->route('accounting.showIndex')->with('error', 'Tạo bảng lương thất bại');
         }
+    }
+
+    private function getDataTaxTable(string $month): array
+    {
+        $date = Carbon::createFromFormat('Y-m', $month);
+        $monthInt = $date->month;
+        $year = $date->year;
+        $employees = Employee::with([
+            'position',
+            'allowances',
+            'deductions',
+            'payrolls' => function ($q) use ($monthInt, $year) {
+                $q->where('month', $monthInt)->where('year', $year);
+            },
+        ])->get();
+
+        return [
+            'employees' => $employees,
+            'month' => $month,
+        ];
+    }
+
+    private function getDataAccountingTable(string $month): array
+    {
+        $date = Carbon::createFromFormat('Y-m', $month);
+        $monthInt = $date->month;
+        $year = $date->year;
+
+        $allowanceTypes = ['position', 'hazard', 'responsibility'];
+        $allowances = Allowance::whereIn('type', $allowanceTypes)->get();
+        $deductions = Deduction::all();
+        $daysInMonth = $date->daysInMonth;
+        $workingDaysRequired = collect(range(1, $daysInMonth))->filter(function ($day) use ($date) {
+            $d = $date->copy()->day($day);
+            return !in_array($d->dayOfWeek, [CarbonInterface::SATURDAY, CarbonInterface::SUNDAY], true);
+        })->count();
+        $employees = Employee::with([
+            'position',
+            'allowances',
+            'deductions',
+            'payrolls' => function ($q) use ($monthInt, $year) {
+                $q->where('month', $monthInt)->where('year', $year);
+            },
+            'attendance' => function ($q) use ($monthInt, $year) {
+                $q->where('month', $monthInt)->where('year', $year);
+            },
+        ])->get();
+
+        return [
+            'employees' => $employees,
+            'allowances' => $allowances,
+            'deductions' => $deductions,
+            'workingDaysRequired' => $workingDaysRequired,
+            'month' => $month,
+        ];
+    }
+
+    private function getEmployeeBonusData(string $month): array
+    {
+        $date = Carbon::createFromFormat('Y-m', $month);
+        $employees = Employee::with('position')->get();
+        $bonuses = Bonus::all()->keyBy('id');
+        $employeeBonuses = EmployeeBonus::whereYear('month', $date->year)
+            ->whereMonth('month', $date->month)
+            ->get()
+            ->groupBy('employee_id');
+        return compact('employees', 'bonuses', 'employeeBonuses', 'month');
+    }
+
+    private function calculateTax($employee, $netBeforeTax): array
+    {
+        if ($netBeforeTax - Payroll::TAX_SELF * $employee->number_of_dependent - Payroll::TAX_DEPENDENT > 0) {
+            if ($employee->number_of_dependent > 0 ){
+                $income = $netBeforeTax - Payroll::TAX_SELF * $employee->number_of_dependent - Payroll::TAX_DEPENDENT;
+            } else {
+                $income = $netBeforeTax - Payroll::TAX_DEPENDENT;
+            }
+            $taxBrackets = Payroll::getTaxBrackets();
+            $taxCalculation = 0;
+            $previousLimit = 0;
+            foreach ($taxBrackets as $bracket) {
+                if ($income > $bracket['limit']) {
+                    $taxable = $bracket['limit'] - $previousLimit;
+                } else {
+                    $taxable = $income - $previousLimit;
+                }
+
+                if ($taxable > 0) {
+                    $taxCalculation += $taxable * $bracket['rate'];
+                }
+
+                if ($income <= $bracket['limit']) {
+                    break;
+                }
+
+                $previousLimit = $bracket['limit'];
+            }
+            $netAfterTax = $netBeforeTax - (int)$taxCalculation;
+        } else {
+            $taxCalculation = 0;
+            $netAfterTax = $netBeforeTax;
+        }
+        return [
+            'taxCalculation' => $taxCalculation,
+            'netAfterTax' => $netAfterTax,
+        ];
     }
 }

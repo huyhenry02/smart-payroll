@@ -5,11 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Random\RandomException;
 
 class EmployeeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * @throws RandomException
      */
     public function run(): void
     {
@@ -41,6 +43,7 @@ class EmployeeSeeder extends Seeder
                 'bank_name' => $row[21],
                 'education_level' => $row[22],
                 'specialization' => $row[23],
+                'number_of_dependent' => random_int(1,2),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

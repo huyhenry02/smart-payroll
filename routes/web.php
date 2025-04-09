@@ -106,6 +106,8 @@ Route::prefix('accounting')
     ->group(function () {
         Route::get('/', [AccountingController::class, 'showIndex'])->name('showIndex');
         Route::get('/load', [AccountingController::class, 'loadIndex'])->name('loadIndex');
+        Route::get('/tax', [AccountingController::class, 'showIndexTax'])->name('showIndexTax');
+        Route::get('/load-tax', [AccountingController::class, 'loadIndexTax'])->name('loadIndexTax');
         Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
 
         Route::get('/bonus', [AccountingController::class, 'showEmployeeBonus'])->name('showEmployeeBonus');

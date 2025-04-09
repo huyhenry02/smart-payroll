@@ -9,6 +9,8 @@ class Payroll extends Model
 {
     protected $table = 'payrolls';
     public const BASE_SALARY = 3860000;
+    public const TAX_SELF = 11000000;
+    public const TAX_DEPENDENT = 4400000;
     protected $fillable = [
         'employee_id',
         'month',
@@ -27,4 +29,18 @@ class Payroll extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public static function getTaxBrackets(): array
+    {
+        return [
+            ['limit' => 5000000,  'rate' => 0.05],
+            ['limit' => 10000000, 'rate' => 0.10],
+            ['limit' => 18000000, 'rate' => 0.15],
+            ['limit' => 32000000, 'rate' => 0.20],
+            ['limit' => 52000000, 'rate' => 0.25],
+            ['limit' => 80000000, 'rate' => 0.30],
+            ['limit' => PHP_INT_MAX, 'rate' => 0.35],
+        ];
+    }
+
 }
