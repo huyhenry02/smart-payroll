@@ -146,38 +146,7 @@ class AccountingController extends Controller
 
                 $netBeforeTax = $salaryV1 + (int)$totalAllowance + (int)$workingShiftAmount + (int)$totalBonus - (int)$totalDeduction;
 
-                if ($netBeforeTax - Payroll::TAX_SELF - Payroll::TAX_DEPENDENT > 0) {
-                    if ($employee->number_of_dependent > 0 ){
-                        $income = $netBeforeTax - Payroll::TAX_SELF - Payroll::TAX_DEPENDENT;
-                    } else {
-                        $income = $netBeforeTax - Payroll::TAX_SELF;
-
-                    }
-                    $taxBrackets = Payroll::getTaxBrackets();
-                    $taxCalculation = 0;
-                    $previousLimit = 0;
-                    foreach ($taxBrackets as $bracket) {
-                        if ($income > $bracket['limit']) {
-                            $taxable = $bracket['limit'] - $previousLimit;
-                        } else {
-                            $taxable = $income - $previousLimit;
-                        }
-
-                        if ($taxable > 0) {
-                            $taxCalculation += $taxable * $bracket['rate'];
-                        }
-
-                        if ($income <= $bracket['limit']) {
-                            break;
-                        }
-
-                        $previousLimit = $bracket['limit'];
-                    }
-                    $netAfterTax = $netBeforeTax - (int)$taxCalculation;
-                } else {
-                    $taxCalculation = 0;
-                    $netAfterTax = $netBeforeTax;
-                }
+                $arrayTax = $this->calculateTax($employee, $netBeforeTax);
 
                 Payroll::updateOrCreate(
                     [
@@ -192,8 +161,8 @@ class AccountingController extends Controller
                         'working_shift_amount' => (int)$workingShiftAmount,
                         'total_bonus' => (int)$totalBonus,
                         'net_salary_before_tax' => $netBeforeTax,
-                        'net_salary_after_tax' => $netAfterTax,
-                        'tax_amount' => $taxCalculation,
+                        'net_salary_after_tax' => (int)$arrayTax['netAfterTax'],
+                        'tax_amount' => (int)$arrayTax['taxCalculation'],
                     ]
                 );
             }
@@ -270,5 +239,44 @@ class AccountingController extends Controller
             ->get()
             ->groupBy('employee_id');
         return compact('employees', 'bonuses', 'employeeBonuses', 'month');
+    }
+
+    private function calculateTax($employee, $netBeforeTax): array
+    {
+        if ($netBeforeTax - Payroll::TAX_SELF * $employee->number_of_dependent - Payroll::TAX_DEPENDENT > 0) {
+            if ($employee->number_of_dependent > 0 ){
+                $income = $netBeforeTax - Payroll::TAX_SELF * $employee->number_of_dependent - Payroll::TAX_DEPENDENT;
+            } else {
+                $income = $netBeforeTax - Payroll::TAX_DEPENDENT;
+            }
+            $taxBrackets = Payroll::getTaxBrackets();
+            $taxCalculation = 0;
+            $previousLimit = 0;
+            foreach ($taxBrackets as $bracket) {
+                if ($income > $bracket['limit']) {
+                    $taxable = $bracket['limit'] - $previousLimit;
+                } else {
+                    $taxable = $income - $previousLimit;
+                }
+
+                if ($taxable > 0) {
+                    $taxCalculation += $taxable * $bracket['rate'];
+                }
+
+                if ($income <= $bracket['limit']) {
+                    break;
+                }
+
+                $previousLimit = $bracket['limit'];
+            }
+            $netAfterTax = $netBeforeTax - (int)$taxCalculation;
+        } else {
+            $taxCalculation = 0;
+            $netAfterTax = $netBeforeTax;
+        }
+        return [
+            'taxCalculation' => $taxCalculation,
+            'netAfterTax' => $netAfterTax,
+        ];
     }
 }
