@@ -62,7 +62,6 @@
         Ngày xuất file: {{ Carbon::now()->format('d/m/Y') }}
     </div>
 </div>
-
 <table>
     <thead>
     <tr>

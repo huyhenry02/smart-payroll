@@ -21,14 +21,14 @@
                         <label for="edit-type" class="form-label">Loại phụ cấp</label>
                         <select name="type" id="edit-type" class="form-select" required>
                             <option value="">-- Chọn loại phụ cấp --</option>
-                            @foreach(\App\Models\Allowance::TYPES as $key => $label)
+                            @foreach(Allowance::TYPES as $key => $label)
                                 <option value="{{ $key }}">{{ $label }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="edit-rate" class="form-label">Tỷ lệ phụ cấp (%)</label>
-                        <input type="number" step="0.01" class="form-control" name="rate" id="edit-rate"
+                        <input type="text" step="0.01" class="form-control" name="rate" id="edit-rate"
                                placeholder="Nhập tỷ lệ phụ cấp">
                     </div>
                 </div>

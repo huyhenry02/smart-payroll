@@ -38,6 +38,7 @@ Route::prefix('general_catalog')
         Route::get('/employee', [GeneralCatalogController::class, 'showIndexEmployee'])->name('showIndexEmployee');
         Route::get('/update-employee/{user}', [GeneralCatalogController::class, 'showUpdateEmployee'])->name('showUpdateEmployee');
         Route::post('/employee/update/{employee}', [GeneralCatalogController::class, 'putEmployee'])->name('putEmployee');
+        Route::get('/search-employee', [GeneralCatalogController::class, 'searchEmployee'])->name('searchEmployee');
 
         // Working shift
         Route::get('/working-shift', [GeneralCatalogController::class, 'showIndexWorkingShift'])->name('showIndexWorkingShift');
@@ -108,10 +109,11 @@ Route::prefix('accounting')
         Route::get('/load', [AccountingController::class, 'loadIndex'])->name('loadIndex');
         Route::get('/tax', [AccountingController::class, 'showIndexTax'])->name('showIndexTax');
         Route::get('/load-tax', [AccountingController::class, 'loadIndexTax'])->name('loadIndexTax');
-        Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
-
         Route::get('/bonus', [AccountingController::class, 'showEmployeeBonus'])->name('showEmployeeBonus');
         Route::get('/bonus/load', [AccountingController::class, 'loadEmployeeBonusTable'])->name('loadEmployeeBonusTable');
+        Route::get('/preview-tax-pdf/{month}', [AccountingController::class, 'previewTaxPdf'])->name('previewTaxPdf');
+
+        Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
 
     });

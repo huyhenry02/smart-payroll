@@ -10,6 +10,7 @@ use App\Models\Deduction;
 use App\Models\Employee;
 use App\Models\EmployeeBonus;
 use App\Models\Payroll;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
@@ -172,6 +173,14 @@ class AccountingController extends Controller
             DB::rollBack();
             return redirect()->route('accounting.showIndex')->with('error', 'Tạo bảng lương thất bại');
         }
+    }
+
+    public function previewTaxPdf($month): Response
+    {
+        $data = $this->getDataTaxTable($month);
+        return PDF::loadView('page.template-download-file.tax', [
+            'data' => $data,
+        ])->setPaper('A4', 'landscape')->stream("BAO_CAO_THU_NHAP_THUE_CA_NHAN.pdf");
     }
 
     private function getDataTaxTable(string $month): array

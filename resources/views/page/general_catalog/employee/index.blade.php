@@ -1,4 +1,5 @@
-@php use App\Models\Employee;use App\Models\User; @endphp
+@php use App\Models\Employee;
+ use App\Models\User; @endphp
 @extends('layouts.main')
 @section('content')
     <div class="page-inner">
@@ -66,7 +67,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table
-                                class="display table table-bordered table-hover"
+                                class="display table table-bordered table-hover" id="employee-table"
                             >
                                 <thead>
                                 <tr>
@@ -181,6 +182,34 @@
             $('#modal-education').text(btn.data('education'));
             $('#modal-specialization').text(btn.data('specialization'));
             $('#modal-number_of_dependent').text(btn.data('number_of_dependent'));
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#search-input, #status, #position, #department, #role').on('input', function () {
+                var keySearch = $('#search-input').val();
+                var status = $('#status').val();
+                var position = $('#position').val();
+                var department = $('#department').val();
+                var role = $('#role').val();
+                $.ajax({
+                    url: '{{ route('general_catalog.searchEmployee') }}',
+                    method: 'GET',
+                    data: {
+                        keySearch: keySearch,
+                        status: status,
+                        position: position,
+                        department: department,
+                        role: role,
+                    },
+                    success: function (response) {
+                        $('#employee-table tbody').html(response);
+                    },
+                    error: function (error) {
+                        console.error('AJAX Error:', error);
+                    }
+                });
+            });
         });
     </script>
 @endsection

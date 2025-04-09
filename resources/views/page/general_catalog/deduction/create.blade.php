@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="rate" class="form-label">Tỉ lệ theo lương cơ bản(%)<span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" name="rate" id="rate" placeholder="Nhập tỉ lệ" required>
+                        <input type="text" class="form-control" name="rate" id="rate" placeholder="Nhập tỉ lệ" required>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-end">

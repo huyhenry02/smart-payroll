@@ -167,6 +167,43 @@ class GeneralCatalogController extends Controller
         }
     }
 
+    public function searchEmployee(Request $request): View|Factory|Application
+    {
+        $keySearch = $request->input('key-search');
+        $status = $request->input('status');
+        $role = $request->input('role');
+        $department = $request->input('department');
+        $position = $request->input('position');
+
+        $users = User::with('employee')
+            ->when($keySearch, function ($query) use ($keySearch) {
+                $query->where('email', 'like', "%$keySearch%")
+                    ->orWhereHas('employee', function ($q) use ($keySearch) {
+                        $q->where('full_name', 'like', "%$keySearch%")
+                            ->orWhere('phone_number', 'like', '%' . $keySearch . '%');
+                    });
+            })
+            ->when($status, function ($query, $status) {
+                return $query->whereHas('employee', function ($query) use ($status) {
+                    $query->where('status', $status);
+                });
+            })
+            ->when($role, function ($query, $role) {
+                $query->where('role', $role);
+            })
+            ->when($department, function ($query, $department) {
+                return $query->whereHas('employee', function ($query) use ($department) {
+                    $query->where('department_id', $department);
+                });
+            })
+            ->when($position, function ($query, $position) {
+                return $query->whereHas('employee', function ($query) use ($position) {
+                    $query->where('position_id', $position);
+                });
+            })->paginate(10);
+        return view('page.general_catalog.employee.index-table', compact('users'));
+    }
+
     public function showIndexWorkingShift(): View|Factory|Application
     {
         $workingShifts = WorkingShift::all();

@@ -79,7 +79,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($data as $index => $employee)
+    @foreach ( $data as $index => $employee)
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td width="10%">{{ $employee['employee_code'] }}</td>
