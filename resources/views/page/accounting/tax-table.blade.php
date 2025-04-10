@@ -39,7 +39,7 @@
                 <td>{{ $employee->full_name }}</td>
                 <td>{{ $employee->tax_code }}</td>
                 <td class="text-end">{{ $payroll->net_salary_before_tax ? number_format($payroll->net_salary_before_tax) : 0 }}</td>
-                @if( empty($payroll->net_salary_before_tax) && ($payroll->net_salary_before_tax - Payroll::TAX_SELF - Payroll::TAX_DEPENDENT * $employee->number_of_dependent) < 0 )
+                @if(($payroll->net_salary_before_tax - Payroll::TAX_SELF - Payroll::TAX_DEPENDENT * $employee->number_of_dependent) < 0 )
                     <td class="text-end">0</td>
                     <td class="text-end">0</td>
                     <td class="text-end">0</td>
@@ -49,8 +49,8 @@
                     <td class="text-end">{{ Payroll::TAX_SELF ? number_format(Payroll::TAX_SELF) : 0 }}</td>
                     <td class="text-end">{{ $employee->number_of_dependent ?? 0 }}</td>
                     <td class="text-end">{{ $employee->number_of_dependent ? $employee->number_of_dependent * Payroll::TAX_DEPENDENT : 0 }}</td>
-                    <td class="text-end">{{ Payroll::TAX_DEPENDENT + $employee->number_of_dependent * Payroll::TAX_DEPENDENT }}</td>
-                    <td class="text-end">{{ $payroll->net_salary_before_tax - (Payroll::TAX_DEPENDENT + $employee->number_of_dependent * Payroll::TAX_DEPENDENT) }}</td>
+                    <td class="text-end">{{ Payroll::TAX_SELF + $employee->number_of_dependent * Payroll::TAX_DEPENDENT }}</td>
+                    <td class="text-end">{{ $payroll->net_salary_before_tax - (Payroll::TAX_SELF + $employee->number_of_dependent * Payroll::TAX_DEPENDENT) }}</td>
                 @endif
                 <td class="text-end">{{ $payroll->tax_amount ? number_format($payroll->tax_amount) : 0}}</td>
                 <td class="text-center">{{ $employee->bank_account }}</td>
