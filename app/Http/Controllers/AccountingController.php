@@ -43,6 +43,21 @@ class AccountingController extends Controller
         return response($html);
     }
 
+    public function getUnitPrice(Request $request): JsonResponse
+    {
+        $month = $request->input('month');
+        $date = Carbon::createFromFormat('Y-m', $month);
+        $unitPriceV1 = Payroll::where('month', $date->month)
+            ->where('year', $date->year)
+            ->whereNotNull('unit_price_v1')
+            ->value('unit_price_v1') ?? 0;
+
+        return response()->json([
+            'unit_price_v1' => number_format($unitPriceV1)
+        ]);
+    }
+
+
     public function showIndexTax(Request $request): View|Application|Factory
     {
         $month = $request->input('month', now()->format('Y-m'));
@@ -108,6 +123,7 @@ class AccountingController extends Controller
             $month = $monthDate->month;
             $year = $monthDate->year;
             $employees = Employee::with(['allowances', 'deductions'])->get();
+            $unitPriceV1 = $request->input('unit_price_v1');
             foreach ($employees as $employee) {
                 $period = CarbonPeriod::create("{$year}-{$month}-01", "{$year}-{$month}-" . $monthDate->daysInMonth);
                 $workingDaysRequired = collect($period)->filter(function ($item) {
@@ -121,10 +137,10 @@ class AccountingController extends Controller
 
                 $actualWorkingDays = $attendance ? $attendance->working_days : 0;
 
-                $salaryV1 = (int)($employee->salary_factor * Payroll::BASE_SALARY / $workingDaysRequired * $actualWorkingDays);
+                $salaryV1 = (int)($employee->salary_factor * $unitPriceV1 / $workingDaysRequired * $actualWorkingDays);
 
-                $totalAllowance = $employee->allowances->sum(function ($allowance) {
-                    return $allowance->rate * Payroll::BASE_SALARY;
+                $totalAllowance = $employee->allowances->sum(function ($allowance) use ($unitPriceV1) {
+                    return $allowance->rate * $unitPriceV1;
                 });
 
                 $totalDeduction = $employee->deductions->sum(function ($deduction) use ($salaryV1) {
@@ -164,6 +180,7 @@ class AccountingController extends Controller
                         'net_salary_before_tax' => $netBeforeTax,
                         'net_salary_after_tax' => (int)$arrayTax['netAfterTax'],
                         'tax_amount' => (int)$arrayTax['taxCalculation'],
+                        'unit_price_v1' => $unitPriceV1
                     ]
                 );
             }
@@ -229,12 +246,18 @@ class AccountingController extends Controller
             },
         ])->get();
 
+        $unitPriceV1 = Payroll::where('month', $monthInt)
+            ->where('year', $year)
+            ->whereNotNull('unit_price_v1')
+            ->value('unit_price_v1') ?? 0;
+
         return [
             'employees' => $employees,
             'allowances' => $allowances,
             'deductions' => $deductions,
             'workingDaysRequired' => $workingDaysRequired,
             'month' => $month,
+            'unitPriceV1' => $unitPriceV1
         ];
     }
 

@@ -112,6 +112,7 @@ Route::prefix('accounting')
         Route::get('/bonus', [AccountingController::class, 'showEmployeeBonus'])->name('showEmployeeBonus');
         Route::get('/bonus/load', [AccountingController::class, 'loadEmployeeBonusTable'])->name('loadEmployeeBonusTable');
         Route::get('/preview-tax-pdf/{month}', [AccountingController::class, 'previewTaxPdf'])->name('previewTaxPdf');
+        Route::get('/unit-price', [AccountingController::class, 'getUnitPrice'])->name('getUnitPrice');
 
         Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
