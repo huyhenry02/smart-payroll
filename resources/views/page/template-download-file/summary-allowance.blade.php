@@ -5,31 +5,45 @@
     <meta charset="UTF-8">
     <title>Báo cáo phụ cấp, trợ cấp</title>
     <style>
+        @page {
+            size: A4 landscape;
+        }
         body {
             font-family: DejaVu Sans, sans-serif;
             font-size: 12px;
             margin: 20px;
         }
 
-        .header {
+        h2, h3 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 13px;
         }
 
-        .header h2 {
-            margin: 0;
-            font-size: 18px;
-            text-transform: uppercase;
-        }
-
-        .header h3 {
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        .header .date {
-            margin-top: 10px;
+        .header-table td {
+            border: none;
+            text-align: center;
+            vertical-align: middle;
             font-size: 12px;
+            line-height: 1.6;
+            height: 60px;
+        }
+        .header-table .center {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .header-table .left {
+            text-align: left;
+        }
+
+        .header-table .right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
         }
 
         table {
@@ -39,29 +53,42 @@
         }
 
         th, td {
-            border: 1px solid #000;
+            border: 0.5px solid #000;
             padding: 5px 6px;
             text-align: center;
             vertical-align: middle;
         }
 
-        th {
-            background-color: #eee;
-        }
-
         .text-left {
             text-align: left;
+        }
+
+        .signature {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .signature td {
+            border: none;
+            text-align: center;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-<div class="header">
-    <h2>NGÂN HÀNG AGRIBANK</h2>
-    <h3>Tổng hợp các khoản phụ cấp, trợ cấp theo nhân viên</h3>
-    <div class="date">
-        Ngày xuất file: {{ Carbon::now()->format('d/m/Y') }}
-    </div>
-</div>
+<table class="header-table">
+    <tr>
+        <td class="center">
+            <div class="bold">NGÂN HÀNG AGRIBANK VIỆT NAM</div>
+            <div class="bold"> Chi nhánh:</div>
+        </td>
+        <td>
+            <div class="bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+            <div class="bold" style="margin-right: 30px" >Độc lập - Tự do - Hạnh phúc</div>
+        </td>
+    </tr>
+</table>
+<h2>TỔNG HỢP CÁC KHOẢN PHỤ CẤP, TRỢ CẤP THEO NHÂN VIÊN</h2>
 <table>
     <thead>
     <tr>
@@ -92,6 +119,28 @@
         </tr>
     @endforeach
     </tbody>
+</table>
+
+<table class="signature">
+    <tr>
+        <td></td>
+        <td></td>
+        <td style="text-align: center;">
+            Nam Định, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;">
+            <strong>Người lập bảng</strong> <br>
+            ( Ký, ghi rõ họ tên )
+        </td>
+        <td style="text-align: center;">
+        </td>
+        <td style="text-align: center;">
+            <strong>Giám đốc</strong> <br>
+            ( Ký, ghi rõ họ tên )
+        </td>
+    </tr>
 </table>
 </body>
 </html>

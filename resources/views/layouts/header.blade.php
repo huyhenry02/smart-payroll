@@ -95,6 +95,12 @@
                         @case('accounting.showIndexTax')
                             Bảng thuế
                             @break
+                        @case('accounting.showPayment')
+                            Bảng thanh toán lương
+                            @break
+                        @case('accounting.showJournal')
+                            Hạch toán
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -168,6 +174,8 @@
                                 <a href="#" style="color: #fff">Cá nhân</a>
                                 @break
                             @case('accounting.showIndex')
+                            @case('accounting.showPayment')
+                            @case('accounting.showJournal')
                                 <a href="#" style="color: #fff">Lương </a>
                                 @break
                             @case('accounting.showEmployeeBonus')

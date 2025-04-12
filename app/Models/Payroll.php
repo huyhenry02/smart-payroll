@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payroll extends Model
 {
     protected $table = 'payrolls';
-    public const BASE_SALARY = 3860000;
     public const TAX_SELF = 11000000;
     public const TAX_DEPENDENT = 4400000;
     protected $fillable = [
@@ -16,6 +16,7 @@ class Payroll extends Model
         'month',
         'year',
         'salary_v1',
+        'unit_price_v1',
         'total_allowance',
         'total_deduction',
         'total_bonus',
@@ -42,5 +43,4 @@ class Payroll extends Model
             ['limit' => PHP_INT_MAX, 'rate' => 0.35],
         ];
     }
-
 }

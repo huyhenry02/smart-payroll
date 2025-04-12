@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('currencies', function (Blueprint $table) {
-            $table->id();
-            $table->string('currency_code', 10)->comment('Mã tiền tệ');
-            $table->string('currency_name', 50)->comment('Tên tiền tệ');
-            $table->timestamps();
+        Schema::table('payrolls', function (Blueprint $table) {
+            $table->integer('unit_price_v1')->nullable()->comment('Đơn vị tính lương cơ bản');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currencies');
+        Schema::table('payrolls', function (Blueprint $table) {
+            $table->dropColumn('unit_price_v1');
+        });
     }
 };

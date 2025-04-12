@@ -7,6 +7,7 @@
         <th class="text-center sticky-col sticky-col-2" rowspan="2">Họ và tên</th>
         <th class="text-center sticky-col sticky-col-3" rowspan="2">Ngân hàng</th>
         <th class="text-center sticky-col sticky-col-4" rowspan="2">Số tài khoản</th>
+        <th class="text-center sticky-col sticky-col-5" rowspan="2">Đơn giá lương V1</th>
         <th colspan="5" class="text-center">Hệ số lương cơ bản</th>
         <th rowspan="2" class="text-center">Lương V1</th>
         <th colspan="3" class="text-center">Các khoản phụ cấp thành tiền</th>
@@ -53,6 +54,7 @@
                 <td class="sticky-col sticky-col-2">{{ $employee->full_name ?? '' }}</td>
                 <td class="sticky-col sticky-col-3">{{ $employee->bank_name ?? '' }}</td>
                 <td class="text-center sticky-col sticky-col-4">{{ $employee->bank_account ?? '' }}</td>
+                <td class="text-center sticky-col sticky-col-5">{{ $payroll->unit_price_v1 ? number_format($payroll->unit_price_v1) : 0 }}</td>
 
                 <td class="text-center">{{ number_format($v1, 2) }}</td>
                 @foreach(['position', 'hazard', 'responsibility'] as $type)
@@ -68,7 +70,7 @@
                     @php
                         $rate = $employee->allowances->where('type', $type)->sum('rate');
                     @endphp
-                    <td class="text-end">{{ number_format($rate * Payroll::BASE_SALARY) }}</td>
+                    <td class="text-end">{{ number_format($rate * $payroll->unit_price_v1) }}</td>
                 @endforeach
 
                 @foreach($deductions as $deduction)
@@ -86,7 +88,7 @@
         @endforeach
     @else
         <tr>
-            <td colspan="{{ 5 + 3 + 3 + $deductions->count() + 3 }}" class="text-left text-muted py-3">
+            <td colspan="{{ 5 + 3 + 3 + $deductions->count() + 6 }}" class="text-left text-muted py-3">
                 <i class="fas fa-info-circle me-1"></i> Bảng lương tháng {{ Carbon::createFromFormat('Y-m', $month)->format('m/Y') }} chưa được chốt.
             </td>
         </tr>
@@ -138,6 +140,12 @@
         z-index: 3;
     }
 
+    .accounting-table th.sticky-col-5, .accounting-table td.sticky-col-5 {
+        left: 620px;
+        width: 50px;
+        z-index: 3;
+    }
+
     .card-body {
         padding-top: 0.5rem !important;
     }
@@ -145,5 +153,4 @@
     .table-responsive {
         margin-top: -1px;
     }
-
 </style>
