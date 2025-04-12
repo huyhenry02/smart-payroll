@@ -70,7 +70,7 @@
                     @php
                         $rate = $employee->allowances->where('type', $type)->sum('rate');
                     @endphp
-                    <td class="text-end">{{ number_format($rate * Payroll::BASE_SALARY) }}</td>
+                    <td class="text-end">{{ number_format($rate * $payroll->unit_price_v1) }}</td>
                 @endforeach
 
                 @foreach($deductions as $deduction)
@@ -88,7 +88,7 @@
         @endforeach
     @else
         <tr>
-            <td colspan="{{ 5 + 3 + 3 + $deductions->count() + 3 }}" class="text-left text-muted py-3">
+            <td colspan="{{ 5 + 3 + 3 + $deductions->count() + 6 }}" class="text-left text-muted py-3">
                 <i class="fas fa-info-circle me-1"></i> Bảng lương tháng {{ Carbon::createFromFormat('Y-m', $month)->format('m/Y') }} chưa được chốt.
             </td>
         </tr>

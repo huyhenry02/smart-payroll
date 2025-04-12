@@ -9,6 +9,7 @@ use App\Models\Bonus;
 use App\Models\Deduction;
 use App\Models\Employee;
 use App\Models\EmployeeBonus;
+use App\Models\Journal;
 use App\Models\Payroll;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -57,6 +58,21 @@ class AccountingController extends Controller
         ]);
     }
 
+    public function showPayment(Request $request): View|Factory|Application
+    {
+        $month = $request->input('month', now()->format('Y-m'));
+        $data = $this->getDataAccountingTable($month);
+        return view('page.accounting.payment', $data);
+    }
+
+    public function loadPayment(Request $request): Response
+    {
+        $month = $request->input('month', now()->format('Y-m'));
+        $data = $this->getDataAccountingTable($month);
+
+        $html = view('page.accounting.payment-table', $data)->render();
+        return response($html);
+    }
 
     public function showIndexTax(Request $request): View|Application|Factory
     {
@@ -192,12 +208,73 @@ class AccountingController extends Controller
         }
     }
 
+    public function showJournal(Request $request): View|Factory|Application
+    {
+        $month = $request->input('month', now()->format('Y-m'));
+        $data = $this->getDataJournal($month);
+
+        return view('page.accounting.journal', $data);
+    }
+    public function loadJournal(Request $request): JsonResponse
+    {
+        $month = $request->input('month', now()->format('Y-m'));
+        $data = $this->getDataJournal($month);
+
+        $html = view('page.accounting.journal-table', $data)->render();
+
+        return response()->json([
+            'html' => $html,
+            'date_journaling' => $data['journals']->first()->date_journaling ?? now()->toDateString(),
+            'description' => $data['journals']->first()->description ?? '',
+        ]);
+    }
+
+
+    public function saveJournal(Request $request): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $data = $request->input('journals');
+            $month = $request->input('month');
+            [$year, $monthNum] = explode('-', $month);
+
+            Journal::where('month', $monthNum)->where('year', $year)->delete();
+
+            foreach ($data as $item) {
+                Journal::create([
+                    'month' => $monthNum,
+                    'year' => $year,
+                    'description' => $request->input('description', ''),
+                    'date_journaling' => $item['date_journaling'] ?? now(),
+                    'content' => $item['content'],
+                    'debt_account' => $item['debt_account'],
+                    'has_account' => $item['has_account'],
+                    'amount' => $item['amount'],
+                ]);
+            }
+            DB::commit();
+            return response()->json(['status' => 'success']);
+        }catch (Exception $exception) {
+            DB::rollBack();
+            return response()->json(['status' => 'error']);
+        }
+    }
+
+
     public function previewTaxPdf($month): Response
     {
         $data = $this->getDataTaxTable($month);
         return PDF::loadView('page.template-download-file.tax', [
             'data' => $data,
         ])->setPaper('A4', 'landscape')->stream("BAO_CAO_THU_NHAP_THUE_CA_NHAN.pdf");
+    }
+
+    public function previewPaymentPdf($month): Response
+    {
+        $data = $this->getDataAccountingTable($month);
+        return PDF::loadView('page.template-download-file.payment', [
+            'data' => $data,
+        ])->setPaper('A4', 'landscape')->stream("BANG_THANH_TOAN_LUONG_" . $month . ".pdf");
     }
 
     private function getDataTaxTable(string $month): array
@@ -311,4 +388,19 @@ class AccountingController extends Controller
             'netAfterTax' => $netAfterTax,
         ];
     }
+
+    private function getDataJournal(string $month): array
+    {
+        [$year, $monthNum] = explode('-', $month);
+        $journals = Journal::where('month', $monthNum)
+            ->where('year', $year)
+            ->orderBy('id')
+            ->get();
+
+        return [
+            'month' => $month,
+            'journals' => $journals,
+        ];
+    }
+
 }

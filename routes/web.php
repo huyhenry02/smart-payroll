@@ -112,9 +112,16 @@ Route::prefix('accounting')
         Route::get('/bonus', [AccountingController::class, 'showEmployeeBonus'])->name('showEmployeeBonus');
         Route::get('/bonus/load', [AccountingController::class, 'loadEmployeeBonusTable'])->name('loadEmployeeBonusTable');
         Route::get('/preview-tax-pdf/{month}', [AccountingController::class, 'previewTaxPdf'])->name('previewTaxPdf');
+        Route::get('/preview-payment-pdf/{month}', [AccountingController::class, 'previewPaymentPdf'])->name('previewPaymentPdf');
         Route::get('/unit-price', [AccountingController::class, 'getUnitPrice'])->name('getUnitPrice');
+        Route::get('/payment', [AccountingController::class, 'showPayment'])->name('showPayment');
+        Route::get('/payment/load', [AccountingController::class, 'loadPayment'])->name('loadPayment');
+        Route::get('/journal', [AccountingController::class, 'showJournal'])->name('showJournal');
+        Route::get('/journal/load', [AccountingController::class, 'loadJournal'])->name('loadJournal');
 
         Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
+        Route::post('/accounting/journal/save', [AccountingController::class, 'saveJournal'])->name('saveJournal');
+
 
     });

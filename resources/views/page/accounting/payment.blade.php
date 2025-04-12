@@ -8,28 +8,28 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                            <h6 id="headerMonth" class="mb-0">Bảng lương tháng</h6>
+                            <h6 id="headerMonth" class="mb-0">Bảng thanh toán lương</h6>
                             <div class="d-flex align-items-center gap-2 flex-wrap">
-                                <form action="{{ route('accounting.postPayrollTable') }}" method="POST" id="wageForm" class="d-flex align-items-center gap-2 mb-0">
-                                    @csrf
-                                    <h6 id="wageText" class="mb-0">Đơn giá lương V1: <strong id="wageAmount">{{ number_format($unitPriceV1)  }}VNĐ</strong></h6>
-                                    <input type="number" class="form-control" name="unit_price_v1" id="wageInput"
-                                           style="width: 150px; display: none;" value="{{ $unitPriceV1 }}">
-                                    <input type="hidden" id="monthPicker" value="" name="month">
-                                    <button type="button" class="btn btn-outline-secondary" id="btnEditWage">Sửa đơn giá</button>
-                                    <button type="submit" class="btn btn-outline-success" id="btnSaveWage" style="display: none;">Lưu</button>
-                                </form>
                                 <div class="position-relative d-inline-block">
+                                    <input type="hidden" id="monthPicker" value="">
                                     <button id="btnPickMonth" class="btn btn-outline-secondary">
                                         <i class="fas fa-calendar-alt"></i> Chọn
                                     </button>
                                 </div>
+                                <a
+                                    id="btnPdfPreview"
+                                    href="{{ route('accounting.previewPaymentPdf', $month) }}"
+                                    target="_blank"
+                                    class="btn btn-danger"
+                                >
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive" id="accountingTable">
-                            @include('page.accounting.index-table')
+                            @include('page.accounting.payment-table')
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
             const defaultDateStr = `${defaultYear}-${defaultMonth.toString().padStart(2, '0')}`;
 
             monthInput.value = defaultDateStr;
-            headerText.textContent = `Bảng lương tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
+            headerText.textContent = `Bảng thanh toán lương tháng ${defaultMonth.toString().padStart(2, '0')}/${defaultYear}`;
 
             const fp = flatpickr(monthInput, {
                 dateFormat: "Y-m",
@@ -78,21 +78,18 @@
                     if (date) {
                         const month = (date.getMonth() + 1).toString().padStart(2, '0');
                         const year = date.getFullYear();
-                        headerText.textContent = `Bảng lương tháng ${month}/${year}`;
+                        const newMonth = `${year}-${month}`;
+
+                        headerText.textContent = `Bảng thanh toán lương tháng ${month}/${year}`;
                         monthInput.value = `${year}-${month}`;
 
-                        fetch(`/accounting/load?month=${monthInput.value}`)
+                        fetch(`/accounting/payment/load?month=${monthInput.value}`)
                             .then(res => res.text())
                             .then(html => {
                                 document.getElementById('accountingTable').innerHTML = html;
                             });
-                        fetch(`/accounting/unit-price?month=${monthInput.value}`)
-                            .then(res => res.json())
-                            .then(data => {
-                                document.getElementById('wageAmount').textContent = data.unit_price_v1 + 'VNĐ';
-                                document.getElementById('wageInput').value = data.unit_price_v1.replaceAll(',', '');
-                            });
 
+                        document.getElementById('btnPdfPreview').href = `/accounting/preview-payment-pdf/${newMonth}`;
                     }
                     instance.close();
                 }
@@ -102,14 +99,5 @@
                 fp.open();
             });
         });
-    </script>
-    <script>
-        document.getElementById('btnEditWage').addEventListener('click', function () {
-            document.getElementById('wageText').style.display = 'none';
-            document.getElementById('wageInput').style.display = 'inline-block';
-            this.style.display = 'none';
-            document.getElementById('btnSaveWage').style.display = 'inline-block';
-        });
-
     </script>
 @endsection

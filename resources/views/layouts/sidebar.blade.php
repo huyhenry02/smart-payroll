@@ -40,6 +40,8 @@ $routesAccounting = [
     'accounting.showIndex',
     'accounting.showEmployeeBonus',
     'accounting.showIndexTax',
+    'accounting.showJournal',
+    'accounting.showPayment',
 ];
 $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request()->routeIs($route));
 ?>
@@ -180,11 +182,6 @@ $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request
                                     <span class="sub-item">Khoản thưởng nhân viên</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Tài khoản kế toán</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
@@ -269,6 +266,20 @@ $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request
                                     <span class="sub-item">Bảng thuế thu nhập</span>
                                 </a>
                             </li>
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showPayment',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('accounting.showPayment') }}">
+                                    <span class="sub-item">Bảng thanh toán lương</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs([
+                                        'accounting.showJournal',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('accounting.showJournal') }}">
+                                    <span class="sub-item">Hạch toán</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -297,32 +308,6 @@ $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request
                                         ]) ? 'active' : '' }}">
                                 <a href="{{ route('allowance_deduction.showIndexAllowance') }}">
                                     <span class="sub-item">Bảng tổng hợp phụ cấp</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a
-                        data-bs-toggle="collapse"
-                        href="#report"
-                        class="collapsed"
-                        aria-expanded="false"
-                    >
-                        <i class="fas fa-chart-line"></i>
-                        <p>Hạch toán và báo cáo</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse show" id="report">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Quản lý chứng từ</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Quản lý sổ sách</span>
                                 </a>
                             </li>
                         </ul>
