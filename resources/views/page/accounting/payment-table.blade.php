@@ -4,19 +4,18 @@
     <thead>
     <tr>
         <th class="text-center" rowspan="2">STT</th>
-        <th class="text-center" rowspan="2">Họ và tên</th>
-        <th class="text-center" rowspan="2">Ngày công <br> thực tế</th>
+        <th class="text-center" rowspan="2" width="12%">Họ và tên</th>
+        <th class="text-center" rowspan="2">Ngày công thực tế</th>
         <th class="text-center" rowspan="2">Lương V1</th>
-        <th class="text-center" rowspan="2">Lương làm <br>
+        <th class="text-center" rowspan="2">Lương làm
             thêm giờ
         </th>
         <th colspan="4" class="text-center">Phụ cấp thưởng</th>
         <th class="text-center" rowspan="2">Bảo hiểm <br>
-            (BHXH,BHYT, BHTN)
+            (BHXH, BHYT, BHTN)
         </th>
         <th rowspan="2" class="text-center">Thuế TNCN</th>
-        <th rowspan="2" class="text-center">Lương thực lĩnh<br>
-            (sau thuế)
+        <th rowspan="2" class="text-center">Lương thực lĩnh (sau thuế)
         </th>
     </tr>
     <tr>
