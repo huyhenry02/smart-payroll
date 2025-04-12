@@ -3,11 +3,11 @@
     <thead>
     <tr>
         <th class="text-center" width="6%">STT</th>
-        <th class="text-center" width="12%">Ngày hạch toán</th>
-        <th class="text-center" width="38%">Nội dung</th>
+        <th class="text-center" width="15%">Ngày hạch toán</th>
+        <th class="text-center" width="30%">Nội dung</th>
         <th class="text-center" width="17%">Tài khoản nợ</th>
         <th class="text-center" width="17%">Tài khoản có</th>
-        <th class="text-center" width="10%">Số tiền</th>
+        <th class="text-center" width="15%">Số tiền</th>
         <th class="text-center edit-mode d-none"></th>
 
     </tr>
