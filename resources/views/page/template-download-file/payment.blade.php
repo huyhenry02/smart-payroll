@@ -76,32 +76,28 @@
             text-align: center;
             font-size: 12px;
         }
-        .footer-note {
-            text-align: right;
-            margin-top: 20px;
-            font-size: 11px;
-        }
         th[colspan="4"] {
             text-align: center;
         }
-        .table-data th:nth-child(1), td:nth-child(1) { width: 6%; }
-        .table-data th:nth-child(2), td:nth-child(2) { width: 15%; }
-        .table-data th:nth-child(3), td:nth-child(3) { width: 7%; }
-        .table-data th:nth-child(4), td:nth-child(4) { width: 9%; }
-        .table-data th:nth-child(5), td:nth-child(5) { width: 7%; }
+        .table-data th:nth-child(1), td:nth-child(1) { width: 6%; }      /* STT */
+        .table-data th:nth-child(2), td:nth-child(2) { width: 15%; }     /* Họ tên */
+        .table-data th:nth-child(3), td:nth-child(3) { width: 7%; }      /* Ngày công */
+        .table-data th:nth-child(4), td:nth-child(4) { width: 9%; }      /* Lương V1 */
+        .table-data th:nth-child(5), td:nth-child(5) { width: 11%; }      /* Làm thêm */
         .table-data th:nth-child(6), td:nth-child(6),
         .table-data th:nth-child(7), td:nth-child(7),
         .table-data th:nth-child(8), td:nth-child(8),
-        .table-data th:nth-child(9), td:nth-child(9) { width: 10%; }
-        .table-data th:nth-child(10), td:nth-child(10) { width: 7%; }
-        .table-data th:nth-child(11), td:nth-child(11) { width: 5%; }
-        .table-data th:nth-child(12), td:nth-child(12) { width: 12%; }
-        .table-data th:nth-child(13), td:nth-child(13) { width: 4.5%; }
+        .table-data th:nth-child(9), td:nth-child(9) { width: 11%; }      /* Các phụ cấp + thưởng */
+        .table-data th:nth-child(10), td:nth-child(10) { width: 7%; }    /* Bảo hiểm */
+        .table-data th:nth-child(11), td:nth-child(11) { width: 5%; }    /* Thuế */
+        .table-data th:nth-child(12), td:nth-child(12) { width: 12%; }   /* Lương thực lĩnh */
+        .table-data th:nth-child(13), td:nth-child(13) { width: 3.5%; }  /* Ký nhận */
 
         .table-data td.full_name {
             white-space: nowrap !important;
             text-align: left;
         }
+
 
 
     </style>
@@ -121,7 +117,7 @@
     </tr>
 </table>
 
-<h2>BẢNG THANH TOÁN TIỀN LƯƠNG THÁNG</h2>
+<h2>BẢNG THANH TOÁN TIỀN LƯƠNG</h2>
 <h3>Tháng {{ Carbon::createFromFormat('Y-m', $data['month'])->format('m') }} Năm {{ Carbon::createFromFormat('Y-m', $data['month'])->format('Y') }}</h3>
 
 <table class="table-data">

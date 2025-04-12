@@ -23,14 +23,10 @@
         }
 
         th, td {
-            border: 1px solid #000;
+            border: 0.5px solid #000;
             padding: 5px 6px;
             text-align: center;
             vertical-align: middle;
-        }
-
-        th {
-            background-color: #eee;
         }
 
         .header-table td {
@@ -62,7 +58,7 @@
         }
 
         .signature {
-            margin-top: 80px;
+            margin-top: 20px;
             width: 100%;
         }
 
@@ -94,11 +90,11 @@
     <tr>
         <td class="center">
             <div class="bold">AGRIBANK VIỆT NAM</div>
-            Chi nhánh:
+            <div class="bold">Chi nhánh:</div>
         </td>
         <td class="center">
             <div class="bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
-            Độc lập - Tự do - Hạnh phúc
+            <div class="bold">Độc lập - Tự do - Hạnh phúc</div>
         </td>
     </tr>
 </table>
@@ -163,14 +159,19 @@
         <td></td>
         <td></td>
         <td style="text-align: center;">
-            Nam Trực, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
+            Nam Định, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
         </td>
     </tr>
     <tr>
-        <td style="text-align: center;"><strong>Lập bảng</strong></td>
-        <td></td>
         <td style="text-align: center;">
-            <strong>Giám đốc</strong>
+            <strong>Người lập bảng</strong> <br>
+            ( Ký, ghi rõ họ tên )
+        </td>
+        <td style="text-align: center;">
+        </td>
+        <td style="text-align: center;">
+            <strong>Giám đốc</strong> <br>
+            ( Ký, ghi rõ họ tên )
         </td>
     </tr>
 </table>
