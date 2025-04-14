@@ -169,7 +169,7 @@ class GeneralCatalogController extends Controller
 
     public function searchEmployee(Request $request): View|Factory|Application
     {
-        $keySearch = $request->input('key-search');
+        $keySearch = $request->input('keySearch');
         $status = $request->input('status');
         $role = $request->input('role');
         $department = $request->input('department');
@@ -180,7 +180,7 @@ class GeneralCatalogController extends Controller
                 $query->where('email', 'like', "%$keySearch%")
                     ->orWhereHas('employee', function ($q) use ($keySearch) {
                         $q->where('full_name', 'like', "%$keySearch%")
-                            ->orWhere('phone_number', 'like', '%' . $keySearch . '%');
+                            ->orWhere('phone', 'like', '%' . $keySearch . '%');
                     });
             })
             ->when($status, function ($query, $status) {
