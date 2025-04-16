@@ -11,7 +11,9 @@
         <th colspan="5" class="text-center">Hệ số lương cơ bản</th>
         <th rowspan="2" class="text-center">Lương V1</th>
         <th colspan="3" class="text-center">Các khoản phụ cấp thành tiền</th>
+        <th rowspan="2" class="text-center">Tổng phụ cấp</th>
         <th colspan="{{ $deductions->count() }}" class="text-center">Các khoản trích nộp thành tiền</th>
+        <th rowspan="2" class="text-center">Tổng trích nộp</th>
         <th rowspan="2" class="text-center">Làm thêm giờ</th>
         <th rowspan="2" class="text-center">Tiền thưởng</th>
         <th rowspan="2" class="text-center">Thực lĩnh (Trước thuể)</th>
@@ -72,7 +74,18 @@
                     @endphp
                     <td class="text-end">{{ number_format($rate * $payroll->unit_price_v1) }}</td>
                 @endforeach
+                @php
+                    $totalAllowance = $allowances->groupBy('type')->sum(function($group) use ($employee, $payroll) {
+                        $rate = $employee->allowances->where('type', $group->first()->type)->sum('rate');
+                        return $rate * ($payroll->unit_price_v1 ?? 0);
+                    });
 
+                    $totalDeduction = $deductions->sum(function($deduction) use ($employee, $v1Salary) {
+                        $rate = $employee->deductions->where('id', $deduction->id)->sum('rate');
+                        return $rate * $v1Salary;
+                    });
+                @endphp
+                <td class="text-end">{{ number_format($totalAllowance) }}</td>
                 @foreach($deductions as $deduction)
                     @php
                         $rate = $employee->deductions->where('id', $deduction->id)->sum('rate');
@@ -80,7 +93,7 @@
                     @endphp
                     <td class="text-end">{{ number_format($amount) }}</td>
                 @endforeach
-
+                <td class="text-end">{{ number_format($totalDeduction) }}</td>
                 <td class="text-end">{{ number_format($overtime) }}</td>
                 <td class="text-end">{{ number_format($bonus) }}</td>
                 <td class="text-end">{{ number_format($net) }}</td>

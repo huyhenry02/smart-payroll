@@ -98,7 +98,7 @@
                         @case('accounting.showPayment')
                             Bảng thanh toán lương
                             @break
-                        @case('accounting.showJournal')
+                        @case('journal.showJournal')
                             Hạch toán
                             @break
                     @endswitch
@@ -123,6 +123,8 @@
                             <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff"> Quản lý chấm công </a>
                         @elseif ( Str::startsWith($routeName, 'accounting'))
                             <a href="{{ route('accounting.showIndex') }}" style="color: #fff"> Tính lương và thanh toán </a>
+                        @elseif ( Str::startsWith($routeName, 'journal'))
+                            <a href="{{ route('journal.showJournal') }}" style="color: #fff"> Hạch toán </a>
                         @endif
                     </li>
                     <li class="separator">
@@ -175,7 +177,7 @@
                                 @break
                             @case('accounting.showIndex')
                             @case('accounting.showPayment')
-                            @case('accounting.showJournal')
+
                                 <a href="#" style="color: #fff">Lương </a>
                                 @break
                             @case('accounting.showEmployeeBonus')
@@ -183,6 +185,9 @@
                                 @break
                             @case('accounting.showIndexTax')
                                 <a href="#" style="color: #fff">Thuế </a>
+                                @break
+                            @case('journal.showJournal')
+                                <a href="#" style="color: #fff">Bảng hạch toán </a>
                                 @break
                         @endswitch
                     </li>

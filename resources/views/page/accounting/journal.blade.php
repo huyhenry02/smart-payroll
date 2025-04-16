@@ -95,7 +95,7 @@
                         headerText.textContent = `Hạch toán bảng lương ${month}/${year}`;
                         monthInput.value = `${year}-${month}`;
 
-                        fetch(`/accounting/journal/load?month=${monthInput.value}`)
+                        fetch(`/journal/load?month=${monthInput.value}`)
                             .then(res => res.json())
                             .then(data => {
                                 document.getElementById('accountingTable').innerHTML = data.html;
@@ -129,7 +129,7 @@
             });
 
 
-            fetch('{{ route('accounting.saveJournal') }}', {
+            fetch('{{ route('journal.saveJournal') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

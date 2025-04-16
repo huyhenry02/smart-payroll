@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AllowanceDeductionController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -116,12 +117,17 @@ Route::prefix('accounting')
         Route::get('/unit-price', [AccountingController::class, 'getUnitPrice'])->name('getUnitPrice');
         Route::get('/payment', [AccountingController::class, 'showPayment'])->name('showPayment');
         Route::get('/payment/load', [AccountingController::class, 'loadPayment'])->name('loadPayment');
-        Route::get('/journal', [AccountingController::class, 'showJournal'])->name('showJournal');
-        Route::get('/journal/load', [AccountingController::class, 'loadJournal'])->name('loadJournal');
 
         Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
-        Route::post('/accounting/journal/save', [AccountingController::class, 'saveJournal'])->name('saveJournal');
+    });
 
+Route::prefix('journal')
+    ->middleware('auth')
+    ->name('journal.')
+    ->group(function () {
+        Route::get('/', [ReportController::class, 'showJournal'])->name('showJournal');
+        Route::get('/load', [ReportController::class, 'loadJournal'])->name('loadJournal');
 
+        Route::post('/accounting/journal/save', [ReportController::class, 'saveJournal'])->name('saveJournal');
     });
