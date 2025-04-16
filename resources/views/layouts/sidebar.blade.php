@@ -44,6 +44,11 @@ $routesAccounting = [
     'accounting.showPayment',
 ];
 $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request()->routeIs($route));
+
+$routesJournal = [
+    'journal.showJournal',
+];
+$isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->routeIs($route));
 ?>
 <div class="sidebar">
     <div class="sidebar-logo">
@@ -232,6 +237,36 @@ $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item {{ $isActiveAllowanceDeduction ? 'active' : '' }}">
+                    <a
+                        data-bs-toggle="collapse"
+                        href="#deduction_allowance"
+                        class="collapsed"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-wallet"></i>
+                        <p>Trích nộp và phụ cấp</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ $isActiveAllowanceDeduction ? 'show' : '' }}" id="deduction_allowance">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ request()->routeIs([
+                                        'allowance_deduction.showIndexDeduction',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('allowance_deduction.showIndexDeduction') }}">
+                                    <span class="sub-item">Bảng tổng hợp trích nộp</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs([
+                                        'allowance_deduction.showIndexAllowance',
+                                        ]) ? 'active' : '' }}">
+                                <a href="{{ route('allowance_deduction.showIndexAllowance') }}">
+                                    <span class="sub-item">Bảng tổng hợp phụ cấp</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item {{ $isActiveAccounting ? 'active' : '' }}">
                     <a
                         data-bs-toggle="collapse"
@@ -273,41 +308,27 @@ $isActiveAccounting = collect($routesAccounting)->contains(fn($route) => request
                                     <span class="sub-item">Bảng thanh toán lương</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->routeIs([
-                                        'accounting.showJournal',
-                                        ]) ? 'active' : '' }}">
-                                <a href="{{ route('accounting.showJournal') }}">
-                                    <span class="sub-item">Hạch toán</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {{ $isActiveAllowanceDeduction ? 'active' : '' }}">
+                <li class="nav-item {{ $isActiveJournal ? 'active' : '' }}">
                     <a
                         data-bs-toggle="collapse"
-                        href="#deduction_allowance"
+                        href="#report"
                         class="collapsed"
                         aria-expanded="false"
                     >
                         <i class="fas fa-wallet"></i>
-                        <p>Trích nộp và phụ cấp</p>
+                        <p>Hạch toán</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse {{ $isActiveAllowanceDeduction ? 'show' : '' }}" id="deduction_allowance">
+                    <div class="collapse {{ $isActiveJournal ? 'show' : '' }}" id="report">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->routeIs([
-                                        'allowance_deduction.showIndexDeduction',
+                                        'journal.showJournal',
                                         ]) ? 'active' : '' }}">
-                                <a href="{{ route('allowance_deduction.showIndexDeduction') }}">
-                                    <span class="sub-item">Bảng tổng hợp trích nộp</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs([
-                                        'allowance_deduction.showIndexAllowance',
-                                        ]) ? 'active' : '' }}">
-                                <a href="{{ route('allowance_deduction.showIndexAllowance') }}">
-                                    <span class="sub-item">Bảng tổng hợp phụ cấp</span>
+                                <a href="{{ route('journal.showJournal') }}">
+                                    <span class="sub-item">Bảng hạch toán</span>
                                 </a>
                             </li>
                         </ul>

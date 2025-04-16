@@ -50,11 +50,11 @@
                 <td class="text-center">{{ $workingDays }}/{{ $workingDaysRequired }}</td>
                 <td class="text-end">{{ number_format($v1Salary) }}</td>
                 <td class="text-end">{{ number_format($overtime) }}</td>
-
-                @foreach(['position', 'hazard', 'responsibility'] as $type)
-                    <td class="text-end">
-                        {{ number_format(number_format($employee->allowances->where('type', $type)->sum('rate'), 2) * $v1Salary) }}
-                    </td>
+                @foreach( $allowances->groupBy('type') as $type => $group)
+                    @php
+                        $rate = $employee->allowances->where('type', $type)->sum('rate');
+                    @endphp
+                    <td class="text-end">{{ number_format($rate * $payroll->unit_price_v1) }}</td>
                 @endforeach
                 <td class="text-end">{{ number_format($bonus) }}</td>
                 @php
