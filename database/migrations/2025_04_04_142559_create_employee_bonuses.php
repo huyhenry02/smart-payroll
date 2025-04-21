@@ -17,6 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('bonus_id')->comment('ID khoản thưởng');
             $table->date('month')->comment('Tháng thưởng');
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('bonus_id')->references('id')->on('bonuses')->onDelete('cascade');
         });
     }
 
