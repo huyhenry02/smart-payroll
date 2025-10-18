@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('password')->comment('Mật khẩu');
             $table->string('email', 100)->nullable()->comment('Email');
-            $table->enum('role', ['director', 'accountant', 'chief_accountant', 'hr_manager', 'employee'])->comment('Vai trò người dùng');
+            $table->enum('role', ['director', 'accountant', 'chief_accountant', 'hr_manager', 'employee'])->comment('Loại người dùng');
+            $table->unsignedBigInteger('role_id')->nullable()->comment('Vai trò người dùng');
+            $table->boolean('is_active')->default(true)->comment('Trạng thái kích hoạt');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

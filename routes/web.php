@@ -69,8 +69,16 @@ Route::prefix('system')
     ->name('system.')
     ->group(function () {
         Route::get('/user', [SystemController::class, 'showIndexUser'])->name('showIndexUser');
+        Route::get('/user/{id}', [SystemController::class, 'getUser'])->name('getUser');
+        Route::get('/role', [SystemController::class, 'showIndexRole'])->name('showIndexRole');
+        Route::get('/role-create', [SystemController::class, 'showCreateRole'])->name('showCreateRole');
+        Route::get('/role-update/{role}', [SystemController::class, 'showUpdateRole'])->name('showUpdateRole');
 
         Route::post('/user', [SystemController::class, 'postUser'])->name('postUser');
+        Route::post('/user/{user}', [SystemController::class, 'putUser'])->name('putUser');
+        Route::post('/role-create', [SystemController::class, 'postCreateRole'])->name('postCreateRole');
+        Route::post('/role-update/{role}', [SystemController::class, 'putCreateRole'])->name('putCreateRole');
+        Route::get('/role-delete/{role}', [SystemController::class, 'deleteRole'])->name('deleteRole');
     });
 Route::prefix('allowance_deduction')
     ->middleware('auth')
@@ -101,7 +109,6 @@ Route::prefix('attendance')
         Route::get('/overtime/delete/{attendanceDetail}', [AttendanceController::class, 'deleteOvertime'])->name('deleteOvertime');
 
     });
-
 Route::prefix('accounting')
     ->middleware('auth')
     ->name('accounting.')
@@ -121,7 +128,6 @@ Route::prefix('accounting')
         Route::post('/post', [AccountingController::class, 'postPayrollTable'])->name('postPayrollTable');
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
     });
-
 Route::prefix('journal')
     ->middleware('auth')
     ->name('journal.')
