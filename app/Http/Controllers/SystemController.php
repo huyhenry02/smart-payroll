@@ -78,10 +78,11 @@ class SystemController extends Controller
                 unset($input['confirm_password']);
             }
             $user->save();
-
-            $employee = $user->employee;
-            $employee->full_name = $input['full_name'];
-            $employee->save();
+            if (!empty($input['full_name'])){
+                $employee = $user->employee;
+                $employee->full_name = $input['full_name'];
+                $employee->save();
+            }
             DB::commit();
             return redirect()->route('system.showIndexUser')->with('success', 'Cập nhật người dùng thành công');
         } catch (Exception $exception) {

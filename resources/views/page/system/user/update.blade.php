@@ -3,7 +3,6 @@
     use App\Models\User;
     $roles = Role::all();
 @endphp
-
 <div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
@@ -14,21 +13,20 @@
 
             <form id="formUpdateUser" action="{{ route('system.putUser', 0) }}" method="POST">
                 @csrf
-                @method('PUT')
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="full_name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="full_name" id="full_name" required>
+                        <input type="text" class="form-control" name="full_name" id="update_full_name" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="email" id="email" required>
+                        <input type="email" class="form-control" name="email" id="update_email" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="role_type" class="form-label">Loại người dùng <span class="text-danger">*</span></label>
-                        <select class="form-control" id="role_type" name="role" required>
+                        <select class="form-control" id="update_role_type" name="role" required>
                             <option value="">Chọn loại</option>
                             @foreach(User::ROLES as $key => $label)
                                 <option value="{{ $key }}">{{ $label }}</option>
@@ -38,7 +36,7 @@
 
                     <div class="mb-3">
                         <label for="role_id" class="form-label">Vai trò hệ thống <span class="text-danger">*</span></label>
-                        <select class="form-control" id="role_id" name="role_id" required>
+                        <select class="form-control" id="update_role_id" name="role_id" required>
                             <option value="">Chọn vai trò</option>
                             @foreach($roles as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -47,7 +45,7 @@
                     </div>
 
                     <div class="mb-3 form-check form-switch">
-                        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1">
+                        <input type="checkbox" class="form-check-input" id="update_is_active" name="is_active" value="1">
                         <label class="form-check-label fw-semibold" for="is_active">
                             Trạng thái hoạt động
                         </label>
@@ -87,12 +85,12 @@
         const modal = document.getElementById('updateUserModal');
         modal.addEventListener('shown.bs.modal', function () {
             if (!cachedData) return;
-
-            document.getElementById('full_name').value = cachedData.full_name ?? '';
-            document.getElementById('email').value = cachedData.email ?? '';
-            document.getElementById('role_type').value = cachedData.role ?? '';
-            document.getElementById('role_id').value = cachedData.role_id ?? '';
-            document.getElementById('is_active').checked = !!cachedData.is_active;
+            console.log('cachedData', cachedData);
+            document.getElementById('update_full_name').value = cachedData.full_name ?? '';
+            document.getElementById('update_email').value = cachedData.email ?? '';
+            document.getElementById('update_role_type').value = cachedData.role ?? '';
+            document.getElementById('update_role_id').value = cachedData.role_id ?? '';
+            document.getElementById('update_is_active').checked = !!cachedData.is_active;
         });
     });
 </script>
