@@ -1,6 +1,9 @@
 <?php
 $routesSystem = [
     'system.showIndexUser',
+    'system.showIndexRole',
+    'system.showUpdateRole',
+    'system.showCreateRole',
 ];
 $isActiveSystem = collect($routesSystem)->contains(fn($route) => request()->routeIs($route));
 
@@ -99,6 +102,14 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                             >
                                 <a href="{{ route('system.showIndexUser') }}">
                                     <span class="sub-item">Danh sách người dùng</span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->routeIs([
+                                        'system.showIndexRole', 'system.showCreateRole', 'system.showUpdateRole'
+                                        ]) ? 'active' : '' }}"
+                            >
+                                <a href="{{ route('system.showIndexRole') }}">
+                                    <span class="sub-item">Danh sách nhóm quyền</span>
                                 </a>
                             </li>
                         </ul>

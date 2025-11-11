@@ -45,6 +45,7 @@
                                     <th>Họ và tên</th>
                                     <th>Email</th>
                                     <th>Loại người dùng</th>
+                                    <th>Vai trò</th>
                                     <th class="text-center" width="12%">Thao tác</th>
                                 </tr>
                                 </thead>
@@ -56,14 +57,23 @@
                                         <td>{{ $user->employee?->full_name ?? 'N/A'  }}</td>
                                         <td>{{ $user->email ?? 'N/A'  }}</td>
                                         <td>{{ $user->role ? User::ROLES[$user->role] : 'N/A'  }}</td>
+                                        <td>{{ $user->roleInfo ? $user->roleInfo->name : 'N/A'  }}</td>
                                         <td class="text-center">
-                                            <a href=""
-                                               class="btn btn-sm btn-secondary">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button class="btn btn-sm btn-danger"
+                                            <button
+                                               class="btn btn-sm btn-secondary"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#updateUserModal"
+                                               data-id="{{ $user->id }}"
                                             >
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button
+                                               class="btn btn-sm btn-warning"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#changePasswordModal"
+                                               data-id="{{ $user->id }}"
+                                            >
+                                                <i class="fas fa-key"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -80,4 +90,6 @@
         </div>
     </div>
     @include('page.system.user.create')
+    @include('page.system.user.update')
+    @include('page.system.user.changePassword')
 @endsection

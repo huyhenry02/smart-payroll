@@ -68,6 +68,15 @@
                         @case('system.showIndexUser')
                             Danh sách người dùng
                             @break
+                        @case('system.showIndexRole')
+                            Danh sách nhóm quyền
+                            @break
+                        @case('system.showCreateRole')
+                            Thêm mới nhóm quyền
+                            @break
+                        @case('system.showUpdateRole')
+                            Chỉnh sửa nhóm quyền
+                            @break
                         @case('allowance_deduction.showIndexDeduction')
                             Bảng tổng hợp trích nộp
                             @break
@@ -156,6 +165,11 @@
                                 @break
                             @case('system.showIndexUser')
                                 <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Người dùng</a>
+                                @break
+                            @case('system.showIndexRole')
+                            @case('system.showCreateRole')
+                            @case('system.showUpdateRole')
+                                <a href="{{ route('system.showIndexRole') }}" style="color: #fff">Nhóm quyền</a>
                                 @break
                             @case('allowance_deduction.showIndexDeduction')
                                 <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp</a>

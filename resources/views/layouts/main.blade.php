@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="UTF-8"/>
     <title>Quản lý hệ thống</title>
     <meta
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no"

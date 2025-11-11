@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             EmployeeAllowanceSeeder::class,
             AttendanceDetailSeeder::class,
             BonusSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }
