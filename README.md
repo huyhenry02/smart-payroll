@@ -1,66 +1,152 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🧭 HỆ THỐNG QUẢN LÝ NHÂN SỰ & TIỀN LƯƠNG (HRM PAYROLL SYSTEM)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📘 GIỚI THIỆU CHUNG
 
-## About Laravel
+**Hệ thống Quản lý Nhân sự & Tiền lương** được xây dựng bằng **Laravel 12**,  
+phục vụ công tác quản lý tổng thể thông tin nhân sự, chấm công, tính lương, phụ cấp, trích nộp, thưởng – phạt, và các nghiệp vụ hành chính nội bộ.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Dự án được thiết kế theo kiến trúc **Module hóa (Modular Architecture)**, bao gồm các module chức năng chính:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🧩 1. MODULE HỆ THỐNG (SYSTEM)
+- Quản lý người dùng (User)
+- Quản lý nhóm quyền (Role) và phân quyền chi tiết (Permission)
+- Cấp quyền thao tác theo từng route của hệ thống
+- Chức năng:
+    - Thêm / Sửa / Xóa / Khóa tài khoản người dùng
+    - Gán nhóm quyền cho tài khoản
+    - Phân quyền chi tiết theo module – hành động
+- Tích hợp kiểm tra quyền:
+    - Ẩn / hiện các nút trong giao diện theo quyền
+    - Middleware bảo vệ route
+- Đổi mật khẩu với xác thực mạnh:
+    - Tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt
+    - Có xác nhận trùng khớp và toggle ẩn/hiện mật khẩu
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🏢 2. MODULE DANH MỤC CHUNG (GENERAL CATALOG)
+Quản lý toàn bộ danh mục nền tảng của hệ thống:
+- Phòng ban (`Department`)
+- Chức vụ (`Position`)
+- Nhân viên (`Employee`)
+- Ca làm việc (`WorkingShift`)
+- Khoản khấu trừ (`Deduction`)
+- Phụ cấp (`Allowance`)
+- Khoản thưởng (`Bonus`)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Chức năng:
+- Thêm, sửa, xóa danh mục trực tiếp từ giao diện bảng
+- Hỗ trợ tìm kiếm nhân viên, cập nhật thông tin nhanh
+- Hiển thị dữ liệu động theo quyền được cấp
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+### 🕒 3. MODULE CHẤM CÔNG (ATTENDANCE)
+- Quản lý chi tiết bảng chấm công theo tháng và nhân viên
+- Theo dõi ngày đi làm, nghỉ phép, làm thêm (Overtime)
+- Ghi nhận & xác nhận ca làm thêm, khóa công tháng
+- Tự động tổng hợp công phục vụ tính lương
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Ký hiệu trong bảng công:
+- ✅ Đi làm
+- ❌ Nghỉ
+- 🅽 Chủ nhật
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 💰 4. MODULE KẾ TOÁN - TIỀN LƯƠNG (ACCOUNTING)
+- Tính toán lương thực lĩnh cho từng nhân viên theo công thức:
+    - **Lương cơ bản (hệ số × ngày công)**
+    - **Phụ cấp (hệ số × hệ số chuẩn)**
+    - **Trích nộp (tỷ lệ × lương cơ bản)**
+    - **Tiền thưởng & Làm thêm**
+- Cho phép xem, in và xuất file PDF:
+    - Bảng lương
+    - Thuế TNCN
+    - Bảng thanh toán
+- Báo cáo theo tháng, quý, năm
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 📊 5. MODULE BÁO CÁO (REPORT & JOURNAL)
+- Báo cáo nhật ký kế toán, lương, thưởng, phụ cấp
+- Thống kê bằng biểu đồ Chart.js:
+    - Hợp đồng / đơn hàng / nhân sự theo tháng – quý – năm
+- Xuất báo cáo PDF / Excel chuẩn A4
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 👥 6. PHÂN QUYỀN HỆ THỐNG
+Cấu trúc quyền gồm 3 tầng:
+1. **Role** – nhóm quyền (VD: Giám đốc, Kế toán, Nhân sự)
+2. **Permission** – hành động cụ thể (VD: `general_catalog.postDepartment`)
+3. **User** – được gán 1 role duy nhất, kế thừa toàn bộ quyền
 
-## Security Vulnerabilities
+Tính năng:
+- Gán quyền theo từng module (system, accounting, attendance, ...)
+- Hỗ trợ middleware kiểm tra quyền truy cập backend
+- Ẩn / hiện nút và menu ở frontend dựa vào quyền
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## ⚙️ YÊU CẦU MÔI TRƯỜNG
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Thành phần | Phiên bản khuyến nghị |
+|-------------|------------------------|
+| **PHP** | >= 8.2 |
+| **Laravel** | 12.x |
+| **Composer** | >= 2.7 |
+| **MySQL** | >= 8.0 |
+| **Node.js** | >= 18.x |
+| **NPM** | >= 9.x |
+| **Extension PHP cần có** | `pdo`, `mbstring`, `bcmath`, `openssl`, `tokenizer`, `curl`, `intl`, `fileinfo` |
+
+---
+
+## HƯỚNG DẪN CÀI ĐẶT & CHẠY DỰ ÁN
+
+### 🔹 Bước 1: Clone project
+```bash
+git clone https://github.com/huyhenry02/smart-payroll.git
+cd smart-payroll
+git checkout develop
+```
+### 🔹 Bước 2: Cài thư viện PHP
+```bash
+composer install
+```
+### 🔹 Bước 3: Tạo file cấu hình .env
+```bash
+cp .env.example .env
+```
+### ✏️ Cập nhật thông số ENV kết nối DB:
+```yaml
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=smart_payroll
+DB_USERNAME=root
+DB_PASSWORD=
+```
+### 🔹 Bước 4: Tạo bảng trong phần mềm quản trị csdl (MySQL Workbench, phpMyAdmin, Adminer, ...)
+Tạo database với tên trùng với `DB_DATABASE` trong file `.env`, ví dụ:
+```sql
+CREATE DATABASE smart_payroll CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+### 🔹 Bước 5: Tạo key và migrate database
+```bash
+php artisan key:generate
+php artisan migrate:fresh --seed
+```
+### 🔹 Bước 6: Chạy server Laravel
+```bash
+php artisan serve
+```
+🌐 Truy cập ứng dụng tại:
+👉 http://127.0.0.1:8000
+### 🔹 Bước 7: Đăng nhập hệ thống
+Tài khoản admin mặc định:
+- Email: director1@tech.com
+- Mật khẩu: 1
