@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\Auth;
 
 class PermissionHelper
 {
-    public static function can(string $permissionCode): bool
+    public static function can(string $permission): bool
     {
         $user = Auth::user();
-        if (!$user) {
+        if (!$user || !$user->is_active) {
             return false;
         }
         if ($user->role === 'director') {
             return true;
         }
-        if (!$user->roleInfo || !$user->roleInfo->permissions) {
+        $role = $user->roleInfo;
+        if (!$role || !$role->permissions) {
             return false;
         }
-        $userPermissions = $user->roleInfo->permissions->pluck('code')->toArray();
-        return in_array($permissionCode, $userPermissions, true);
+        return $role->permissions->pluck('code')->contains($permission);
     }
 }
