@@ -58,13 +58,6 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
         <!-- Logo Header -->
         <div class="logo-header">
             <a href="#" class="logo">
-                <img
-                    src="/assets/img/logo.svg"
-                    alt="navbar brand"
-                    class="navbar-brand"
-                    height="22"
-                    style=" margin-left: 10px;"
-                />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
