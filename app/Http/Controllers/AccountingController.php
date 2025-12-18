@@ -145,24 +145,18 @@ class AccountingController extends Controller
                 $workingDaysRequired = collect($period)->filter(function ($item) {
                    return !in_array($item->dayOfWeek, [CarbonInterface::SATURDAY, CarbonInterface::SUNDAY], true);
                 })->count();
-
                 $attendance = Attendance::where('employee_id', $employee->id)
                     ->where('month', $month)
                     ->where('year', $year)
                     ->first();
-
                 $actualWorkingDays = $attendance ? $attendance->working_days : 0;
-
                 $salaryV1 = (int)($employee->salary_factor * $unitPriceV1 / $workingDaysRequired * $actualWorkingDays);
-
                 $totalAllowance = $employee->allowances->sum(function ($allowance) use ($unitPriceV1) {
                     return $allowance->rate * $unitPriceV1;
                 });
-
                 $totalDeduction = $employee->deductions->sum(function ($deduction) use ($salaryV1) {
                     return $deduction->rate * $salaryV1;
                 });
-
                 $overtimeDetails = AttendanceDetail::where('employee_id', $employee->id)
                     ->whereYear('work_date', $year)
                     ->whereMonth('work_date', $month)
@@ -170,17 +164,13 @@ class AccountingController extends Controller
                     ->with('workingShift')
                     ->get();
                 $workingShiftAmount = $overtimeDetails->sum(fn($detail) => $detail->workingShift?->hourly_rate ?? 0);
-
                 $bonusIds = EmployeeBonus::where('employee_id', $employee->id)
                     ->whereMonth('month', $month)
                     ->whereYear('month', $year)
                     ->pluck('bonus_id');
                 $totalBonus = Bonus::whereIn('id', $bonusIds)->sum('amount');
-
                 $netBeforeTax = $salaryV1 + (int)$totalAllowance + (int)$workingShiftAmount + (int)$totalBonus - (int)$totalDeduction;
-
                 $arrayTax = $this->calculateTax($employee, $netBeforeTax);
-
                 Payroll::updateOrCreate(
                     [
                         'employee_id' => $employee->id,

@@ -28,7 +28,7 @@
     <!-- Navbar Header -->
     <nav
         class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-        style="background-color: #a01f23"
+        style="background-color: #2379b3"
     >
         <div class="container-fluid">
             @php
