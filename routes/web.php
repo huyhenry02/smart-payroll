@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AllowanceDeductionController;
+use App\Http\Controllers\AttendanceAiController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\FaceEnrollmentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
@@ -137,3 +139,17 @@ Route::prefix('journal')
 
         Route::post('/accounting/journal/save', [ReportController::class, 'saveJournal'])->name('saveJournal');
     });
+
+Route::prefix('ai')->group(function () {
+    Route::get('/employees/{employee}/enroll-face', [FaceEnrollmentController::class, 'show'])
+        ->name('ai.face.enroll.show');
+
+    Route::post('/employees/{employee}/enroll-face', [FaceEnrollmentController::class, 'store'])
+        ->name('ai.face.enroll.store');
+
+    Route::post('/attendance/check-in', [AttendanceAiController::class, 'checkIn'])
+        ->name('ai.attendance.checkin');
+
+    Route::post('/attendance/check-out', [AttendanceAiController::class, 'checkOut'])
+        ->name('ai.attendance.checkout');
+});

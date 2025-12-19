@@ -35,7 +35,9 @@ class Employee extends Model
         'bank_name',
         'education_level',
         'specialization',
-        'number_of_dependent'
+        'number_of_dependent',
+        'face_enroll_status',
+        'face_enrolled_at',
     ];
     public const STATUS_WORKING = 'working';
     public const STATUS_RESIGNED = 'resigned';

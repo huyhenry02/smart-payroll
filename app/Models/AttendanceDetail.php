@@ -14,7 +14,10 @@ class AttendanceDetail extends Model
         'work_date',
         'is_overtime',
         'working_shift_id',
-        'attendance_id'
+        'attendance_id',
+        'check_in',
+        'check_out',
+        'is_full_day',
     ];
 
     public function employee(): BelongsTo

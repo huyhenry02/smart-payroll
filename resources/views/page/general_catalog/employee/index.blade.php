@@ -101,6 +101,10 @@
                                                class="btn btn-sm btn-secondary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
+                                            <a href="{{ route('ai.face.enroll.show', $employee->id) }}"
+                                               class="btn btn-sm btn-warning">
+                                                <i class="fas fa-camera"></i>
+                                            </a>
                                             <button
                                                 class="btn btn-sm btn-info btn-view-employee"
                                                 data-bs-toggle="modal"
