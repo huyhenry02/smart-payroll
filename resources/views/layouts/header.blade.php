@@ -105,6 +105,9 @@
                         @case('journal.showJournal')
                             Hạch toán
                             @break
+                        @case('ai.face.enroll.show')
+                            Đăng ký khuôn mặt
+                            @break
                     @endswitch
                 </h3>
                 <ul class="breadcrumbs">
@@ -118,17 +121,24 @@
                     </li>
                     <li class="nav-item" style="color: #fff">
                         @if ( Str::startsWith($routeName, 'general_catalog'))
-                            <a href="{{ route('general_catalog.showIndexEmployee') }}" style="color: #fff">Danh mục chung</a>
+                            <a href="{{ route('general_catalog.showIndexEmployee') }}" style="color: #fff">Danh mục
+                                chung</a>
                         @elseif ( Str::startsWith($routeName, 'system'))
                             <a href="{{ route('system.showIndexUser') }}" style="color: #fff">Quản trị hệ thống</a>
                         @elseif ( Str::startsWith($routeName, 'allowance_deduction'))
-                            <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp và phụ cấp</a>
+                            <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích
+                                nộp và phụ cấp</a>
                         @elseif ( Str::startsWith($routeName, 'attendance'))
-                            <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff"> Quản lý chấm công </a>
+                            <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff"> Quản lý chấm
+                                công </a>
                         @elseif ( Str::startsWith($routeName, 'accounting'))
-                            <a href="{{ route('accounting.showIndex') }}" style="color: #fff"> Tính lương và thanh toán </a>
+                            <a href="{{ route('accounting.showIndex') }}" style="color: #fff"> Tính lương và thanh
+                                toán </a>
                         @elseif ( Str::startsWith($routeName, 'journal'))
                             <a href="{{ route('journal.showJournal') }}" style="color: #fff"> Hạch toán </a>
+                        @elseif ( $routeName === 'ai.face.enroll.show')
+                            <a href="{{ route('general_catalog.showIndexEmployee') }}" style="color: #fff">Danh mục
+                                chung</a>
                         @endif
                     </li>
                     <li class="separator">
@@ -137,23 +147,30 @@
                     <li class="nav-item">
                         @switch( $routeName )
                             @case('general_catalog.showIndexDepartment')
-                                <a href="{{ route('general_catalog.showIndexDepartment') }}" style="color: #fff">Phòng ban</a>
+                                <a href="{{ route('general_catalog.showIndexDepartment') }}" style="color: #fff">Phòng
+                                    ban</a>
                                 @break
                             @case('general_catalog.showIndexPosition')
-                                <a href="{{ route('general_catalog.showIndexPosition') }}" style="color: #fff">Chức vụ</a>
+                                <a href="{{ route('general_catalog.showIndexPosition') }}" style="color: #fff">Chức
+                                    vụ</a>
                                 @break
                             @case('general_catalog.showIndexEmployee')
                             @case('general_catalog.showUpdateEmployee')
-                                <a href="{{ route('general_catalog.showIndexEmployee') }}" style="color: #fff">Nhân viên</a>
+                            @case('ai.face.enroll.show')
+                                <a href="{{ route('general_catalog.showIndexEmployee') }}" style="color: #fff">Nhân
+                                    viên</a>
                                 @break
                             @case('general_catalog.showIndexWorkingShift')
-                                <a href="{{ route('general_catalog.showIndexWorkingShift') }}" style="color: #fff">Ca làm thêm</a>
+                                <a href="{{ route('general_catalog.showIndexWorkingShift') }}" style="color: #fff">Ca
+                                    làm thêm</a>
                                 @break
                             @case('general_catalog.showIndexDeduction')
-                                <a href="{{ route('general_catalog.showIndexDeduction') }}" style="color: #fff">Trích nộp theo lương</a>
+                                <a href="{{ route('general_catalog.showIndexDeduction') }}" style="color: #fff">Trích
+                                    nộp theo lương</a>
                                 @break
                             @case('general_catalog.showIndexAllowance')
-                                <a href="{{ route('general_catalog.showIndexAllowance') }}" style="color: #fff">Phụ cấp và trợ cấp</a>
+                                <a href="{{ route('general_catalog.showIndexAllowance') }}" style="color: #fff">Phụ cấp
+                                    và trợ cấp</a>
                                 @break
                             @case('general_catalog.showIndexBonus')
                                 <a href="{{ route('general_catalog.showIndexBonus') }}" style="color: #fff">Thưởng</a>
@@ -167,13 +184,16 @@
                                 <a href="{{ route('system.showIndexRole') }}" style="color: #fff">Nhóm quyền</a>
                                 @break
                             @case('allowance_deduction.showIndexDeduction')
-                                <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích nộp</a>
+                                <a href="{{ route('allowance_deduction.showIndexDeduction') }}" style="color: #fff">Trích
+                                    nộp</a>
                                 @break
                             @case('allowance_deduction.showIndexAllowance')
-                                <a href="{{ route('allowance_deduction.showIndexAllowance') }}" style="color: #fff">Phụ cấp</a>
+                                <a href="{{ route('allowance_deduction.showIndexAllowance') }}" style="color: #fff">Phụ
+                                    cấp</a>
                                 @break
                             @case('attendance.showDetailAttendance')
-                                <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff">Chi tiết</a>
+                                <a href="{{ route('attendance.showDetailAttendance') }}" style="color: #fff">Chi
+                                    tiết</a>
                                 @break
                             @case('attendance.showSummary')
                                 <a href="#" style="color: #fff">Tổng hợp</a>

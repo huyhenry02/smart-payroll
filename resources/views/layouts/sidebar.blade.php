@@ -15,6 +15,7 @@ $routesGeneralCatalog = [
     'general_catalog.showIndexDeduction',
     'general_catalog.showIndexAllowance',
     'general_catalog.showIndexBonus',
+    'ai.face.enroll.show',
 ];
 $isActiveGeneralCatalog = collect($routesGeneralCatalog)->contains(fn($route) => request()->routeIs($route));
 
@@ -122,7 +123,8 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                     <div class="collapse {{ $isActiveGeneralCatalog ? 'show' : '' }}" id="general_catalog">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->routeIs([
-                                        'general_catalog.showIndexEmployee',
+                                        'general_catalog.showIndexEmployee','ai.face.enroll.show',
+                                        'general_catalog.showUpdateEmployee'
                                         ]) ? 'active' : '' }}"
                             >
                                 <a href="{{ route('general_catalog.showIndexEmployee') }}">
@@ -315,29 +317,31 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {{ $isActiveJournal ? 'active' : '' }}">
-                    <a
-                        data-bs-toggle="collapse"
-                        href="#report"
-                        class="collapsed"
-                        aria-expanded="false"
-                    >
-                        <i class="fas fa-wallet"></i>
-                        <p>Hạch toán</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ $isActiveJournal ? 'show' : '' }}" id="report">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs([
+                @if(0)
+                    <li class="nav-item {{ $isActiveJournal ? 'active' : '' }}">
+                        <a
+                            data-bs-toggle="collapse"
+                            href="#report"
+                            class="collapsed"
+                            aria-expanded="false"
+                        >
+                            <i class="fas fa-wallet"></i>
+                            <p>Hạch toán</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ $isActiveJournal ? 'show' : '' }}" id="report">
+                            <ul class="nav nav-collapse">
+                                <li class="{{ request()->routeIs([
                                         'journal.showJournal',
                                         ]) ? 'active' : '' }}">
-                                <a href="{{ route('journal.showJournal') }}">
-                                    <span class="sub-item">Bảng hạch toán</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                                    <a href="{{ route('journal.showJournal') }}">
+                                        <span class="sub-item">Bảng hạch toán</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

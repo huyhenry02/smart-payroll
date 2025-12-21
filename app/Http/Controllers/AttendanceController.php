@@ -78,6 +78,8 @@ class AttendanceController extends Controller
     public function showPersonal(string $month): View|Factory|Application
     {
         $user = auth()->user();
+        $employeeId = $user->employee->id;
+
         $date = Carbon::createFromFormat('Y-m', $month);
         $daysInMonth = $date->daysInMonth;
 
@@ -87,7 +89,7 @@ class AttendanceController extends Controller
             return $d->isWeekend();
         })->count();
 
-        $attendanceData = AttendanceDetail::where('employee_id', $user->employee->id)
+        $attendanceData = AttendanceDetail::where('employee_id', $employeeId)
             ->whereMonth('work_date', $date->month)
             ->whereYear('work_date', $date->year)
             ->where('is_overtime', false)
@@ -96,8 +98,33 @@ class AttendanceController extends Controller
         $workingDays = $attendanceData->count();
         $leaveDays = $dayWork - $workingDays;
 
+        $today = Carbon::today()->toDateString();
+
+        $todayDetail = AttendanceDetail::query()
+            ->where('employee_id', $employeeId)
+            ->whereDate('work_date', $today)
+            ->where('is_overtime', false)
+            ->first();
+
+        $todayState = 'need_checkin';
+
+        if ($todayDetail) {
+            $checkIn = Carbon::parse($todayDetail->check_in);
+            $checkOut = Carbon::parse($todayDetail->check_out);
+
+            $todayState = $checkOut->diffInMinutes($checkIn) >= 1
+                ? 'done'
+                : 'need_checkout';
+        }
+
         return view('page.attendance.personal', compact(
-            'month', 'attendanceData', 'workingDays', 'leaveDays', 'dayWork'
+            'month',
+            'attendanceData',
+            'workingDays',
+            'leaveDays',
+            'dayWork',
+            'todayState',
+            'todayDetail'
         ));
     }
 
@@ -229,7 +256,7 @@ class AttendanceController extends Controller
             $attendanceDetail->save();
             DB::commit();
             return back()->with('success', 'Tạo ca làm thêm thành công!');
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Tạo ca làm thêm thất bại!');
         }
@@ -244,17 +271,18 @@ class AttendanceController extends Controller
             $attendanceDetail->save();
             DB::commit();
             return back()->with('success', 'Cập nhật làm thêm thành công!');
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Cập nhật làm thêm thất bại!');
         }
     }
+
     public function deleteOvertime(AttendanceDetail $attendanceDetail): RedirectResponse
     {
         try {
             $attendanceDetail->delete();
             return back()->with('success', 'Đã xoá ca làm thêm!');
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Xoá ca làm thêm thất bại!');
         }

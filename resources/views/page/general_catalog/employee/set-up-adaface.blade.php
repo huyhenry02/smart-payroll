@@ -1,9 +1,7 @@
 @extends('layouts.main')
 @section('content')
-
     <form id="enrollForm" method="POST" action="{{ route('ai.face.enroll.store', $employee->id) }}">
         @csrf
-
         <div class="card mt-3">
             <div class="card-header">
                 <h5 class="mb-0">Đăng ký khuôn mặt (AI) - Chụp từ camera</h5>
