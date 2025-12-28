@@ -81,8 +81,8 @@
 <table class="header-table">
     <tr>
         <td class="center">
-            <div class="bold">NGÂN HÀNG AGRIBANK VIỆT NAM</div>
-            <div class="bold"> Chi nhánh:</div>
+            <div class="bold">CÔNG TY TNHH GIẢI PHÁP CÔNG NGHỆ THÔNG TIN</div>
+            <div class="bold">Chi nhánh: Hà nội</div>
         </td>
         <td>
             <div class="bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>

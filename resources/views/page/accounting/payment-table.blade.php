@@ -6,7 +6,7 @@
         <th class="text-center" rowspan="2">STT</th>
         <th class="text-center" rowspan="2" width="12%">Họ và tên</th>
         <th class="text-center" rowspan="2">Ngày công thực tế</th>
-        <th class="text-center" rowspan="2">Lương V1</th>
+        <th class="text-center" rowspan="2">Lương thực lĩnh trước thuế</th>
         <th class="text-center" rowspan="2">Lương làm
             thêm giờ
         </th>
@@ -38,8 +38,7 @@
                 $payroll = $employee->payrolls->first();
                 $attendance = $employee->attendance->first();
                 $workingDays = $attendance->working_days ?? 0;
-                $v1 = $employee->salary_factor;
-                $v1Salary = $payroll->salary_v1 ?? 0;
+                $v1Salary = $employee->salary_gross ?? 0;
                 $bonus = $payroll->total_bonus ?? 0;
                 $overtime = $payroll->working_shift_amount ?? 0;
                 $net = $payroll->net_salary_before_tax ?? 0;
@@ -54,7 +53,7 @@
                     @php
                         $rate = $employee->allowances->where('type', $type)->sum('rate');
                     @endphp
-                    <td class="text-end">{{ number_format($rate * $payroll->unit_price_v1) }}</td>
+                    <td class="text-end">{{ number_format($rate * $v1Salary) }}</td>
                 @endforeach
                 <td class="text-end">{{ number_format($bonus) }}</td>
                 @php

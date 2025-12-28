@@ -38,7 +38,7 @@
                 data-contract-type="{{ $employee->contract_type ?? '' }}"
                 data-status="{{ $employee->employment_status ? Employee::STATUS_LIST[$employee->employment_status] : '' }}"
                 data-base-salary="{{ $employee->base_salary ?? '' }}"
-                data-factor="{{ $employee->salary_factor ?? '' }}"
+                data-salary_gross="{{ $employee->salary_gross ?? '' }}"
                 data-seniority="{{ $employee->seniority ?? '' }}"
                 data-tax-code="{{ $employee->tax_code ?? '' }}"
                 data-bank-account="{{ $employee->bank_account ?? '' }}"

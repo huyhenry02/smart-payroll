@@ -139,9 +139,9 @@ class AccountingController extends Controller
             $month = $monthDate->month;
             $year = $monthDate->year;
             $employees = Employee::with(['allowances', 'deductions'])->get();
-            $unitPriceV1 = $request->input('unit_price_v1');
             foreach ($employees as $employee) {
                 $period = CarbonPeriod::create("{$year}-{$month}-01", "{$year}-{$month}-" . $monthDate->daysInMonth);
+                $gross = $employee->salary_gross ?? 0;
                 $workingDaysRequired = collect($period)->filter(function ($item) {
                    return !in_array($item->dayOfWeek, [CarbonInterface::SATURDAY, CarbonInterface::SUNDAY], true);
                 })->count();
@@ -150,9 +150,9 @@ class AccountingController extends Controller
                     ->where('year', $year)
                     ->first();
                 $actualWorkingDays = $attendance ? $attendance->working_days : 0;
-                $salaryV1 = (int)($employee->salary_factor * $unitPriceV1 / $workingDaysRequired * $actualWorkingDays);
-                $totalAllowance = $employee->allowances->sum(function ($allowance) use ($unitPriceV1) {
-                    return $allowance->rate * $unitPriceV1;
+                $salaryV1 = (int)($employee->salary_gross / $workingDaysRequired * $actualWorkingDays);
+                $totalAllowance = $employee->allowances->sum(function ($allowance) use ($gross) {
+                    return $allowance->rate * $gross;
                 });
                 $totalDeduction = $employee->deductions->sum(function ($deduction) use ($salaryV1) {
                     return $deduction->rate * $salaryV1;
@@ -170,7 +170,7 @@ class AccountingController extends Controller
                     ->pluck('bonus_id');
                 $totalBonus = Bonus::whereIn('id', $bonusIds)->sum('amount');
                 $netBeforeTax = $salaryV1 + (int)$totalAllowance + (int)$workingShiftAmount + (int)$totalBonus - (int)$totalDeduction;
-                $arrayTax = $this->calculateTax($employee, $netBeforeTax);
+                $arrayTax = $this->calculateTax($netBeforeTax);
                 Payroll::updateOrCreate(
                     [
                         'employee_id' => $employee->id,
@@ -183,10 +183,11 @@ class AccountingController extends Controller
                         'total_deduction' => (int)$totalDeduction,
                         'working_shift_amount' => (int)$workingShiftAmount,
                         'total_bonus' => (int)$totalBonus,
-                        'net_salary_before_tax' => $netBeforeTax,
+                        'net_salary_before_tax' =>  $netBeforeTax,
                         'net_salary_after_tax' => (int)$arrayTax['netAfterTax'],
                         'tax_amount' => (int)$arrayTax['taxCalculation'],
-                        'unit_price_v1' => $unitPriceV1
+                        'tax_rate' => (int)$arrayTax['taxRate'],
+                        'salary_gross' => $gross
                     ]
                 );
             }
@@ -260,18 +261,13 @@ class AccountingController extends Controller
             },
         ])->get();
 
-        $unitPriceV1 = Payroll::where('month', $monthInt)
-            ->where('year', $year)
-            ->whereNotNull('unit_price_v1')
-            ->value('unit_price_v1') ?? 0;
-
         return [
             'employees' => $employees,
             'allowances' => $allowances,
             'deductions' => $deductions,
             'workingDaysRequired' => $workingDaysRequired,
             'month' => $month,
-            'unitPriceV1' => $unitPriceV1
+            'salary_gross' => 0
         ];
     }
 
@@ -287,43 +283,39 @@ class AccountingController extends Controller
         return compact('employees', 'bonuses', 'employeeBonuses', 'month');
     }
 
-    private function calculateTax($employee, $netBeforeTax): array
+    private function calculateTax(int $netBeforeTax): array
     {
-        if ($netBeforeTax - Payroll::TAX_SELF * $employee->number_of_dependent - Payroll::TAX_DEPENDENT > 0) {
-            if ($employee->number_of_dependent > 0 ){
-                $income = $netBeforeTax - Payroll::TAX_SELF * $employee->number_of_dependent - Payroll::TAX_DEPENDENT;
-            } else {
-                $income = $netBeforeTax - Payroll::TAX_DEPENDENT;
+        $incomeMillion = $netBeforeTax / 1000000;
+        $taxBrackets = [
+            [ 'limit' => 10,  'rate' => 0.05 ],
+            [ 'limit' => 30,  'rate' => 0.10 ],
+            [ 'limit' => 60,  'rate' => 0.20 ],
+            [ 'limit' => 100, 'rate' => 0.30 ],
+            [ 'limit' => INF, 'rate' => 0.35 ],
+        ];
+        $remainingIncome = $incomeMillion;
+        $lastLimit = 0;
+        $totalTax = 0;
+        foreach ($taxBrackets as $bracket) {
+            if ($remainingIncome <= 0) {
+                break;
             }
-            $taxBrackets = Payroll::getTaxBrackets();
-            $taxCalculation = 0;
-            $previousLimit = 0;
-            foreach ($taxBrackets as $bracket) {
-                if ($income > $bracket['limit']) {
-                    $taxable = $bracket['limit'] - $previousLimit;
-                } else {
-                    $taxable = $income - $previousLimit;
-                }
-
-                if ($taxable > 0) {
-                    $taxCalculation += $taxable * $bracket['rate'];
-                }
-
-                if ($income <= $bracket['limit']) {
-                    break;
-                }
-
-                $previousLimit = $bracket['limit'];
-            }
-            $netAfterTax = $netBeforeTax - (int)$taxCalculation;
-        } else {
-            $taxCalculation = 0;
-            $netAfterTax = $netBeforeTax;
+            $taxableIncome = min(
+                $remainingIncome,
+                $bracket['limit'] - $lastLimit
+            );
+            $taxAmount = $taxableIncome * $bracket['rate'] * 1_000_000;
+            $totalTax += $taxAmount;
+            $remainingIncome -= $taxableIncome;
+            $lastLimit = $bracket['limit'];
         }
+        $netAfterTax = $netBeforeTax - round($totalTax);
         return [
-            'taxCalculation' => $taxCalculation,
+            'taxRate' => $bracket['rate'] * 100 ?? 0,
+            'taxCalculation' => round($totalTax),
             'netAfterTax' => $netAfterTax,
         ];
     }
+
 
 }
