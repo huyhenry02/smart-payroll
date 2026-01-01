@@ -22,7 +22,7 @@ Route::prefix('auth')
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 Route::prefix('general_catalog')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('general_catalog.')
     ->group(function () {
         // Department
@@ -67,7 +67,7 @@ Route::prefix('general_catalog')
         Route::post('/bonus', [GeneralCatalogController::class, 'postBonus'])->name('postBonus');
     });
 Route::prefix('system')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('system.')
     ->group(function () {
         Route::get('/user', [SystemController::class, 'showIndexUser'])->name('showIndexUser');
@@ -83,7 +83,7 @@ Route::prefix('system')
         Route::get('/role-delete/{role}', [SystemController::class, 'deleteRole'])->name('deleteRole');
     });
 Route::prefix('allowance_deduction')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('allowance_deduction.')
     ->group(function () {
         Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
@@ -95,7 +95,7 @@ Route::prefix('allowance_deduction')
         Route::get('/deduction/preview', [AllowanceDeductionController::class, 'previewDeductionPdf'])->name('previewDeductionPdf');
     });
 Route::prefix('attendance')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('attendance.')
     ->group(function () {
         Route::get('/detail', [AttendanceController::class, 'showDetailAttendance'])->name('showDetailAttendance');
@@ -112,7 +112,7 @@ Route::prefix('attendance')
 
     });
 Route::prefix('accounting')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('accounting.')
     ->group(function () {
         Route::get('/', [AccountingController::class, 'showIndex'])->name('showIndex');
@@ -131,7 +131,7 @@ Route::prefix('accounting')
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
     });
 Route::prefix('journal')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('journal.')
     ->group(function () {
         Route::get('/', [ReportController::class, 'showJournal'])->name('showJournal');
@@ -143,13 +143,13 @@ Route::prefix('journal')
 Route::prefix('ai')->group(function () {
     Route::get('/employees/{employee}/enroll-face', [FaceEnrollmentController::class, 'show'])
         ->name('ai.face.enroll.show');
-
     Route::post('/employees/{employee}/enroll-face', [FaceEnrollmentController::class, 'store'])
         ->name('ai.face.enroll.store');
-
     Route::post('/attendance/check-in', [AttendanceAiController::class, 'checkIn'])
         ->name('ai.attendance.checkin');
-
     Route::post('/attendance/check-out', [AttendanceAiController::class, 'checkOut'])
         ->name('ai.attendance.checkout');
 });
+Route::get('/403', function () {
+    return response()->view('errors.403', [], 403);
+})->name('errors.403');

@@ -6,27 +6,25 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserSeeder extends Seeder
+class PermissionRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $path = database_path('seeders/data/users.csv');
+        $path = database_path('seeders/data/permission_role.csv');
         $csvData = array_map('str_getcsv', file($path));
-        $users = [];
+        $permission_roles = [];
         foreach ($csvData as $row) {
-            $users[] = [
+            $permission_roles[] = [
                 'id' => $row[0],
-                'email' => $row[1],
-                'role' => $row[2],
-                'role_id' => $row[3],
-                'password' => bcrypt(1),
+                'permission_id' => $row[1],
+                'role_id' => $row[2],
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
         }
-        DB::table('users')->insert($users);
+        DB::table('permission_role')->insert($permission_roles);
     }
 }

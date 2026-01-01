@@ -278,9 +278,6 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Quản trị hệ thống</a>
-                                <a class="dropdown-item" href="#">Trang cá nhân</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('auth.logout') }}">Đăng xuất</a>
                             </li>
                         </div>
