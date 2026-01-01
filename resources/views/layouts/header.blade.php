@@ -87,9 +87,6 @@
                         @case('attendance.showOvertime')
                             Danh sách ca làm thêm
                             @break
-                        @case('attendance.showPersonal')
-                            Bảng công cá nhân
-                            @break
                         @case('accounting.showEmployeeBonus')
                             Thương nhân viên
                             @break
@@ -201,12 +198,8 @@
                             @case('attendance.showOvertime')
                                 <a href="#" style="color: #fff">Làm thêm giờ</a>
                                 @break
-                            @case('attendance.showPersonal')
-                                <a href="#" style="color: #fff">Cá nhân</a>
-                                @break
                             @case('accounting.showIndex')
                             @case('accounting.showPayment')
-
                                 <a href="#" style="color: #fff">Lương </a>
                                 @break
                             @case('accounting.showEmployeeBonus')
@@ -272,14 +265,14 @@
                                     </div>
                                     <div class="u-text">
                                         <h4>{{ auth()->user()?->employee->full_name ?? '' }}</h4>
-                                        <p class="text-muted">{{ auth()->user()?->role ? User::ROLES[auth()->user()?->role] : '' }}</p>
+                                        <p class="text-muted">{{ auth()->user()?->roleInfo->name ?? '' }}</p>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Quản trị hệ thống</a>
-                                <a class="dropdown-item" href="#">Trang cá nhân</a>
+                                <a class="dropdown-item" href="{{ route('general_catalog.showIndexEmployee') }}">Quản trị hệ thống</a>
+                                <a class="dropdown-item" href="{{ route('account.showInformation') }}">Trang cá nhân</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('auth.logout') }}">Đăng xuất</a>
                             </li>

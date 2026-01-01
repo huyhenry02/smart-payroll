@@ -11,10 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function ($middleware) {
+    ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'permission' => CheckPermission::class,
-        ]);
+        ])
+        ->redirectGuestsTo(fn () => route('auth.showLogin'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

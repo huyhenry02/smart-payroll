@@ -21,7 +21,7 @@ class AuthController extends Controller
         try {
             $credentials = $request->only('email', 'password');
             if (auth()->attempt($credentials)) {
-                return redirect()->route('system.showIndexUser')->with('success', 'Đăng nhập thành công');
+                return redirect()->route('account.showInformation')->with('success', 'Đăng nhập thành công');
             }
             return redirect()->back()->with('error', 'Email hoặc mật khẩu không đúng');
         } catch (Exception $e) {

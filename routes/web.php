@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AllowanceDeductionController;
 use App\Http\Controllers\AttendanceAiController;
@@ -20,6 +21,14 @@ Route::prefix('auth')
         Route::get('/login', [AuthController::class, 'showLogin'])->name('showLogin');
         Route::post('/login', [AuthController::class, 'postLogin'])->name('postLogin');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    });
+Route::prefix('account')
+    ->name('account.')
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::get('/information', [AccountController::class, 'showInformation'])->name('showInformation');
+        Route::get('/accounting/personal', [AccountController::class, 'showPersonalAccounting'])->name('showPersonalAccounting');
+        Route::get('/attendance/personal/{month}', [AccountController::class, 'showPersonalAttendance'])->name('showPersonalAttendance');
     });
 Route::prefix('general_catalog')
     ->middleware(['auth', 'permission'])
@@ -102,7 +111,6 @@ Route::prefix('attendance')
         Route::get('/detail-attendance/load', [AttendanceController::class, 'loadDetailTable'])->name('detail-attendance.load');
         Route::get('/summary/{month}', [AttendanceController::class, 'showSummary'])->name('showSummary');
         Route::get('/overtime/{month}', [AttendanceController::class, 'showOvertime'])->name('showOvertime');
-        Route::get('/personal/{month}', [AttendanceController::class, 'showPersonal'])->name('showPersonal');
 
         Route::post('/detail-attendance/aupdate', [AttendanceController::class, 'updateDetail'])->name('detail-attendance.update');
         Route::post('/post-close', [AttendanceController::class, 'postCloseAttendance'])->name('postCloseAttendance');

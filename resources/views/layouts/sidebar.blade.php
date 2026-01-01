@@ -35,7 +35,6 @@ $routesAttendance = [
     'attendance.showDetailAttendance',
     'attendance.showSummary',
     'attendance.showOvertime',
-    'attendance.showPersonal',
     'attendance.detail-attendance.load',
 ];
 $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request()->routeIs($route));
@@ -231,13 +230,6 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                                         ]) ? 'active' : '' }}">
                                 <a href="{{ route('attendance.showDetailAttendance') }}">
                                     <span class="sub-item">Bảng công chi tiết</span>
-                                </a>
-                            </li>
-                            <li class="{{ request()->routeIs([
-                                        'attendance.showPersonal',
-                                        ]) ? 'active' : '' }}">
-                                <a href="{{ route('attendance.showPersonal', ['month' => $month]) }}">
-                                    <span class="sub-item">Bảng công cá nhân</span>
                                 </a>
                             </li>
                         </ul>

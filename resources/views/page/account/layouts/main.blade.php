@@ -43,12 +43,12 @@
 </head>
 <body>
 <div class="wrapper">
-    @include('layouts.sidebar')
+    @include('page.account.layouts.sidebar')
     <div class="main-panel">
-        @include('layouts.header')
+        @include('page.account.layouts.header')
         <div class="container">
             <div class="page-inner">
-                @yield('content')
+                @yield('contentAccount')
             </div>
         </div>
     </div>
