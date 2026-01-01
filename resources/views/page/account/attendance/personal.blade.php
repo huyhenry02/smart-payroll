@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 @extends('page.account.layouts.main')
-@section('content')
+@section('contentAccount')
     <div class="page-inner">
         <div class="row">
             <div class="col-12">
@@ -212,7 +212,7 @@
                         const date = selectedDates[0];
                         const month = (date.getMonth() + 1).toString().padStart(2, '0');
                         const year = date.getFullYear();
-                        window.location.href = `/attendance/personal/${year}-${month}`;
+                        window.location.href = `/account/attendance/personal/${year}-${month}`;
                     }
                 }
             });
@@ -300,7 +300,7 @@
 
             async function openForAction(type) {
                 actionType = type;
-                cameraModalTitle.textContent = type === 'checkin' ? 'Check in (AI)' : 'Check out (AI)';
+                cameraModalTitle.textContent = type === 'checkin' ? 'Check in' : 'Check out';
                 btnSnapAndSend.disabled = false;
                 btnSnapAndSend.innerHTML = `<i class="fas fa-camera"></i> Chụp & Gửi`;
 

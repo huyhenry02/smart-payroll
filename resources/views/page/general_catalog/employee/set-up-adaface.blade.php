@@ -4,7 +4,7 @@
         @csrf
         <div class="card mt-3">
             <div class="card-header">
-                <h5 class="mb-0">Đăng ký khuôn mặt (AI) - Chụp từ camera</h5>
+                <h5 class="mb-0">Đăng ký khuôn mặt - Chụp từ camera</h5>
                 <small class="text-muted">Chụp đủ 10 ảnh (thẳng, nghiêng trái/phải) để tăng độ chính xác. Không tải ảnh lên.</small>
             </div>
 
@@ -50,7 +50,7 @@
                             <div class="row g-2" id="faceThumbs"></div>
                         </div>
                         <small class="text-muted d-block mt-2">
-                            * Hệ thống sẽ gửi 10 ảnh này sang AI service để tạo embedding và lưu Qdrant.
+                            * Hệ thống sẽ gửi 10 ảnh này sang AI service để lưu dữ liệu người dùng.
                         </small>
                     </div>
                 </div>

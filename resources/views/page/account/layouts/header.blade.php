@@ -42,7 +42,7 @@
                         @case('account.showPersonalAccounting')
                             Bảng lương cá nhân
                             @break
-                        @case('account.showSummaryAccounting')
+                        @case('account.showPersonalAttendance')
                             Bảng công cá nhân
                             @break
                     @endswitch

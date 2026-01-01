@@ -300,7 +300,7 @@
 
             async function openForAction(type) {
                 actionType = type;
-                cameraModalTitle.textContent = type === 'checkin' ? 'Check in (AI)' : 'Check out (AI)';
+                cameraModalTitle.textContent = type === 'checkin' ? 'Check in' : 'Check out';
                 btnSnapAndSend.disabled = false;
                 btnSnapAndSend.innerHTML = `<i class="fas fa-camera"></i> Chụp & Gửi`;
 
