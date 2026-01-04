@@ -46,7 +46,6 @@
 
                     <div class="card-body">
                         <div class="row">
-                            {{-- Calendar --}}
                             <div class="col-md-9">
                                 <div class="calendar-grid border rounded p-3 bg-white shadow-sm">
                                     <div class="row fw-bold text-center border-bottom pb-2 text-primary">
@@ -93,18 +92,31 @@
                                                 ">
                                                     @if($cell['valid'])
                                                         <div class="fw-bold">{{ $cell['day'] }}</div>
-
+                                                        @php
+                                                            $detail = $cell['valid'] && isset($attendanceMap[$cell['dateStr']])
+                                                                ? $attendanceMap[$cell['dateStr']]
+                                                                : null;
+                                                        @endphp
                                                         @if($cell['isWeekend'])
                                                             <div class="small text-muted mt-3">N</div>
-                                                        @elseif($cell['hasWork'])
-                                                            <div class="text-success mt-3">
-                                                                <i class="fas fa-check-circle fa-lg"></i>
-                                                            </div>
+                                                        @elseif($detail)
+                                                            @if($detail->is_full_day)
+                                                                <div class="text-success mt-3 attendance-cell"
+                                                                     data-detail='@json($detail)'>
+                                                                    <i class="fas fa-check-circle fa-lg"></i>
+                                                                </div>
+                                                            @else
+                                                                <div class="text-warning mt-3 attendance-cell"
+                                                                     data-detail='@json($detail)'>
+                                                                    <i class="fas fa-exclamation-triangle fa-lg"></i>
+                                                                </div>
+                                                            @endif
                                                         @else
                                                             <div class="text-danger mt-3">
                                                                 <i class="fas fa-times-circle fa-lg"></i>
                                                             </div>
                                                         @endif
+
                                                     @endif
                                                 </div>
                                             @endforeach
@@ -112,8 +124,6 @@
                                     @endforeach
                                 </div>
                             </div>
-
-                            {{-- Summary --}}
                             <div class="col-md-3">
                                 <div class="card border-primary shadow-sm">
                                     <div class="card-header bg-primary text-white">
@@ -156,6 +166,37 @@
                     <button type="button" class="btn btn-primary" id="btnSnapAndSend">
                         <i class="fas fa-camera"></i> Chụp & Gửi
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="attendanceDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết chấm công</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p><strong>📅 Ngày đi làm:</strong> <span id="ad-date"></span></p>
+                    <p><strong>⏰ Check in:</strong> <span id="ad-checkin"></span></p>
+                    <p><strong>⏰ Check out:</strong> <span id="ad-checkout"></span></p>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="ad-full-day" disabled>
+                        <label class="form-check-label">Có đi làm đủ ngày</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="ad-late" disabled>
+                        <label class="form-check-label">Đi muộn</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="ad-early" disabled>
+                        <label class="form-check-label">Về sớm</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -362,4 +403,32 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modalEl = document.getElementById('attendanceDetailModal');
+            const modal = new bootstrap.Modal(modalEl);
+
+            document.querySelectorAll('.attendance-cell').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const d = JSON.parse(cell.dataset.detail);
+
+                    document.getElementById('ad-date').innerText =
+                        new Date(d.work_date).toLocaleDateString('vi-VN');
+
+                    document.getElementById('ad-checkin').innerText =
+                        d.check_in ? d.check_in.replace('T', ' ') : '-';
+
+                    document.getElementById('ad-checkout').innerText =
+                        d.check_out ? d.check_out.replace('T', ' ') : '-';
+
+                    document.getElementById('ad-full-day').checked = !!d.is_full_day;
+                    document.getElementById('ad-late').checked = !!d.is_late;
+                    document.getElementById('ad-early').checked = !!d.is_early;
+
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
 @endsection

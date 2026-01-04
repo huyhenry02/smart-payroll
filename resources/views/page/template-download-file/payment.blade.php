@@ -237,7 +237,7 @@
         <td></td>
         <td></td>
         <td style="text-align: center;">
-            Nam Định, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
+            Hà nội, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
         </td>
     </tr>
     <tr>

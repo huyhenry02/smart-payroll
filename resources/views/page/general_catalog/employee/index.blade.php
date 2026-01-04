@@ -79,7 +79,7 @@
                                     <th width="10%">Ngày sinh</th>
                                     <th>Phòng ban</th>
                                     <th>Chức vụ</th>
-                                    <th class="text-center" width="12%">Thao tác</th>
+                                    <th class="text-center" width="15%">Thao tác</th>
                                 </tr>
                                 </thead>
                                 <tbody>

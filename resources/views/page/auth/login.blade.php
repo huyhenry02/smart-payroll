@@ -44,7 +44,7 @@
             font-size: 22px;
             font-weight: 600;
             margin-bottom: 25px;
-            color: #4b1c1c;
+            color: #2287b2;
         }
 
         label {
@@ -66,13 +66,13 @@
 
         input:focus {
             outline: none;
-            border-color: #b22222;
+            border-color: #2287b2;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background-color: #b22222;
+            background-color: #2287b2;
             color: white;
             border: none;
             border-radius: 6px;
@@ -83,7 +83,7 @@
         }
 
         button:hover {
-            background-color: #991a1a;
+            background-color: #1a2599;
         }
 
         .forgot-password {
@@ -105,9 +105,6 @@
 <body>
 
 <div class="login-wrapper">
-    <div class="agribank-logo">
-        <img src="/assets/img/logo.svg" alt="Agribank Logo">
-    </div>
     <h3>Đăng nhập hệ thống nội bộ</h3>
 
     <form action="{{ route('auth.postLogin') }}" method="post">

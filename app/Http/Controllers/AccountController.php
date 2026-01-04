@@ -59,10 +59,13 @@ class AccountController extends Controller
                 ? 'done'
                 : 'need_checkout';
         }
-
+        $attendanceMap = $attendanceData->keyBy(function ($item) {
+            return Carbon::parse($item->work_date)->format('Y-m-d');
+        });
         return view('page.account.attendance.personal', compact(
             'month',
             'attendanceData',
+            'attendanceMap',
             'workingDays',
             'leaveDays',
             'dayWork',
@@ -73,6 +76,11 @@ class AccountController extends Controller
 
     public function showPersonalAccounting()
     {
-        return view('page.account.accounting.personal');
+        $employee = auth()->user()->employee;
+        $payrolls = $employee->payrolls;
+        return view('page.account.accounting.personal',[
+            'payrolls' => $payrolls,
+            'employee' => $employee,
+        ]);
     }
 }

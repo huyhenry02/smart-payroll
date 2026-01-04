@@ -9,10 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Payroll extends Model
 {
     protected $table = 'payrolls';
-    public const TAX_SELF = 11000000;
-    public const TAX_DEPENDENT = 4400000;
     protected $fillable = [
         'employee_id',
+        'created_by',
         'month',
         'year',
         'salary_v1',
@@ -32,16 +31,8 @@ class Payroll extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public static function getTaxBrackets(): array
+    public function createdBy(): BelongsTo
     {
-        return [
-            ['limit' => 5000000,  'rate' => 0.05],
-            ['limit' => 10000000, 'rate' => 0.10],
-            ['limit' => 18000000, 'rate' => 0.15],
-            ['limit' => 32000000, 'rate' => 0.20],
-            ['limit' => 52000000, 'rate' => 0.25],
-            ['limit' => 80000000, 'rate' => 0.30],
-            ['limit' => PHP_INT_MAX, 'rate' => 0.35],
-        ];
+        return $this->belongsTo(Employee::class, 'created_by');
     }
 }

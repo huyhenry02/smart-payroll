@@ -178,6 +178,7 @@ class AccountingController extends Controller
                         'year' => $year,
                     ],
                     [
+                        'created_by' => auth()->user()->employee->id ?? '',
                         'salary_v1' => $salaryV1,
                         'total_allowance' => (int)$totalAllowance,
                         'total_deduction' => (int)$totalDeduction,

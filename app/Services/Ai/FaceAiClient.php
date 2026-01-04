@@ -62,6 +62,9 @@ class FaceAiClient
         $res = $this->http()->post('/face/recognize', $payload);
 
         if (!$res->successful()) {
+            if ($res->status() === 409) {
+                throw new RuntimeException('Khuôn mặt đã tồn tại trong hệ thống');
+            }
             throw new RuntimeException('AI recognize failed: ' . $res->status() . ' ' . $res->body());
         }
 

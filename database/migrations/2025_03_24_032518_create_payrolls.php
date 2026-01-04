@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
+            $table->unsignedBigInteger('created_by')->comment('ID người tạo');
             $table->integer('month')->comment('Tháng');
             $table->integer('year')->comment('Năm');
             $table->integer('salary_v1')->comment('Lương cơ bản');
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
