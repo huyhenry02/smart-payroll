@@ -12,9 +12,14 @@ class AttendanceDetail extends Model
     protected $fillable = [
         'employee_id',
         'work_date',
+        'is_late',
+        'is_early',
         'is_overtime',
         'working_shift_id',
-        'attendance_id'
+        'attendance_id',
+        'check_in',
+        'check_out',
+        'is_full_day',
     ];
 
     public function employee(): BelongsTo

@@ -79,7 +79,7 @@
                                     <th width="10%">Ngày sinh</th>
                                     <th>Phòng ban</th>
                                     <th>Chức vụ</th>
-                                    <th class="text-center" width="12%">Thao tác</th>
+                                    <th class="text-center" width="15%">Thao tác</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -100,6 +100,10 @@
                                             <a href="{{ route('general_catalog.showUpdateEmployee', $user->id) }}"
                                                class="btn btn-sm btn-secondary">
                                                 <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ route('ai.face.enroll.show', $employee->id) }}"
+                                               class="btn btn-sm btn-warning">
+                                                <i class="fas fa-camera"></i>
                                             </a>
                                             <button
                                                 class="btn btn-sm btn-info btn-view-employee"
@@ -122,7 +126,7 @@
                                                 data-contract-type="{{ $employee->contract_type ?? '' }}"
                                                 data-status="{{ $employee->employment_status ? Employee::STATUS_LIST[$employee->employment_status] : '' }}"
                                                 data-base-salary="{{ $employee->base_salary ?? '' }}"
-                                                data-factor="{{ $employee->salary_factor ?? '' }}"
+                                                data-salary_gross="{{ $employee->salary_gross ?? '' }}"
                                                 data-seniority="{{ $employee->seniority ?? '' }}"
                                                 data-tax-code="{{ $employee->tax_code ?? '' }}"
                                                 data-bank-account="{{ $employee->bank_account ?? '' }}"
@@ -174,7 +178,7 @@
             $('#modal-contract-type').text(btn.data('contract-type'));
             $('#modal-status').text(btn.data('status'));
             $('#modal-base-salary').text(btn.data('base-salary'));
-            $('#modal-factor').text(btn.data('factor'));
+            $('#modal-salary_gross').text(btn.data('salary_gross'));
             $('#modal-seniority').text(btn.data('seniority'));
             $('#modal-tax-code').text(btn.data('tax-code'));
             $('#modal-bank-account').text(btn.data('bank-account'));

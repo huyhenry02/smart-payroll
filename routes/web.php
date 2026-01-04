@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AllowanceDeductionController;
+use App\Http\Controllers\AttendanceAiController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\FaceEnrollmentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SystemController;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +22,16 @@ Route::prefix('auth')
         Route::post('/login', [AuthController::class, 'postLogin'])->name('postLogin');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
+Route::prefix('account')
+    ->name('account.')
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::get('/information', [AccountController::class, 'showInformation'])->name('showInformation');
+        Route::get('/accounting/personal', [AccountController::class, 'showPersonalAccounting'])->name('showPersonalAccounting');
+        Route::get('/attendance/personal/{month}', [AccountController::class, 'showPersonalAttendance'])->name('showPersonalAttendance');
+    });
 Route::prefix('general_catalog')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('general_catalog.')
     ->group(function () {
         // Department
@@ -65,7 +76,7 @@ Route::prefix('general_catalog')
         Route::post('/bonus', [GeneralCatalogController::class, 'postBonus'])->name('postBonus');
     });
 Route::prefix('system')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('system.')
     ->group(function () {
         Route::get('/user', [SystemController::class, 'showIndexUser'])->name('showIndexUser');
@@ -81,7 +92,7 @@ Route::prefix('system')
         Route::get('/role-delete/{role}', [SystemController::class, 'deleteRole'])->name('deleteRole');
     });
 Route::prefix('allowance_deduction')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('allowance_deduction.')
     ->group(function () {
         Route::get('/allowance', [AllowanceDeductionController::class, 'showIndexAllowance'])->name('showIndexAllowance');
@@ -93,14 +104,13 @@ Route::prefix('allowance_deduction')
         Route::get('/deduction/preview', [AllowanceDeductionController::class, 'previewDeductionPdf'])->name('previewDeductionPdf');
     });
 Route::prefix('attendance')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('attendance.')
     ->group(function () {
         Route::get('/detail', [AttendanceController::class, 'showDetailAttendance'])->name('showDetailAttendance');
         Route::get('/detail-attendance/load', [AttendanceController::class, 'loadDetailTable'])->name('detail-attendance.load');
         Route::get('/summary/{month}', [AttendanceController::class, 'showSummary'])->name('showSummary');
         Route::get('/overtime/{month}', [AttendanceController::class, 'showOvertime'])->name('showOvertime');
-        Route::get('/personal/{month}', [AttendanceController::class, 'showPersonal'])->name('showPersonal');
 
         Route::post('/detail-attendance/aupdate', [AttendanceController::class, 'updateDetail'])->name('detail-attendance.update');
         Route::post('/post-close', [AttendanceController::class, 'postCloseAttendance'])->name('postCloseAttendance');
@@ -110,7 +120,7 @@ Route::prefix('attendance')
 
     });
 Route::prefix('accounting')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('accounting.')
     ->group(function () {
         Route::get('/', [AccountingController::class, 'showIndex'])->name('showIndex');
@@ -129,7 +139,7 @@ Route::prefix('accounting')
         Route::post('/bonus/update', [AccountingController::class, 'updateEmployeeBonus'])->name('updateEmployeeBonus');
     });
 Route::prefix('journal')
-    ->middleware('auth')
+    ->middleware(['auth', 'permission'])
     ->name('journal.')
     ->group(function () {
         Route::get('/', [ReportController::class, 'showJournal'])->name('showJournal');
@@ -137,3 +147,17 @@ Route::prefix('journal')
 
         Route::post('/accounting/journal/save', [ReportController::class, 'saveJournal'])->name('saveJournal');
     });
+
+Route::prefix('ai')->group(function () {
+    Route::get('/employees/{employee}/enroll-face', [FaceEnrollmentController::class, 'show'])
+        ->name('ai.face.enroll.show');
+    Route::post('/employees/{employee}/enroll-face', [FaceEnrollmentController::class, 'store'])
+        ->name('ai.face.enroll.store');
+    Route::post('/attendance/check-in', [AttendanceAiController::class, 'checkIn'])
+        ->name('ai.attendance.checkin');
+    Route::post('/attendance/check-out', [AttendanceAiController::class, 'checkOut'])
+        ->name('ai.attendance.checkout');
+});
+Route::get('/403', function () {
+    return response()->view('errors.403', [], 403);
+})->name('errors.403');

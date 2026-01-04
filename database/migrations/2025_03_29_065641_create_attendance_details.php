@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id()->comment('Khóa chính');
             $table->unsignedBigInteger('employee_id')->comment('ID nhân viên');
             $table->date('work_date')->comment('Ngày làm việc');
+            $table->dateTime('check_in')->comment('Chấm công đến');
+            $table->dateTime('check_out')->comment('Chấm công về');
+            $table->boolean('is_full_day')->comment('Có làm đủ ngày công không');
             $table->boolean('is_overtime')->default(false)->comment('Có làm thêm giờ không');
+            $table->boolean('is_late')->default(false)->comment('Có đi muộn không');
+            $table->boolean('is_early')->default(false)->comment('Có về sớm không');
             $table->unsignedBigInteger('working_shift_id')->nullable()->comment('ID ca làm thêm (nếu có)');
             $table->unsignedBigInteger('attendance_id')->nullable()->comment('ID bảng công đã chốt');
             $table->timestamps();

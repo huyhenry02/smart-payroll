@@ -15,6 +15,7 @@ $routesGeneralCatalog = [
     'general_catalog.showIndexDeduction',
     'general_catalog.showIndexAllowance',
     'general_catalog.showIndexBonus',
+    'ai.face.enroll.show',
 ];
 $isActiveGeneralCatalog = collect($routesGeneralCatalog)->contains(fn($route) => request()->routeIs($route));
 
@@ -34,7 +35,6 @@ $routesAttendance = [
     'attendance.showDetailAttendance',
     'attendance.showSummary',
     'attendance.showOvertime',
-    'attendance.showPersonal',
     'attendance.detail-attendance.load',
 ];
 $isActiveAttendance = collect($routesAttendance)->contains(fn($route) => request()->routeIs($route));
@@ -58,13 +58,6 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
         <!-- Logo Header -->
         <div class="logo-header">
             <a href="#" class="logo">
-                <img
-                    src="/assets/img/logo.svg"
-                    alt="navbar brand"
-                    class="navbar-brand"
-                    height="22"
-                    style=" margin-left: 10px;"
-                />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -129,7 +122,8 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                     <div class="collapse {{ $isActiveGeneralCatalog ? 'show' : '' }}" id="general_catalog">
                         <ul class="nav nav-collapse">
                             <li class="{{ request()->routeIs([
-                                        'general_catalog.showIndexEmployee',
+                                        'general_catalog.showIndexEmployee','ai.face.enroll.show',
+                                        'general_catalog.showUpdateEmployee'
                                         ]) ? 'active' : '' }}"
                             >
                                 <a href="{{ route('general_catalog.showIndexEmployee') }}">
@@ -238,13 +232,6 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                                     <span class="sub-item">Bảng công chi tiết</span>
                                 </a>
                             </li>
-                            <li class="{{ request()->routeIs([
-                                        'attendance.showPersonal',
-                                        ]) ? 'active' : '' }}">
-                                <a href="{{ route('attendance.showPersonal', ['month' => $month]) }}">
-                                    <span class="sub-item">Bảng công cá nhân</span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
@@ -322,29 +309,31 @@ $isActiveJournal = collect($routesJournal)->contains(fn($route) => request()->ro
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {{ $isActiveJournal ? 'active' : '' }}">
-                    <a
-                        data-bs-toggle="collapse"
-                        href="#report"
-                        class="collapsed"
-                        aria-expanded="false"
-                    >
-                        <i class="fas fa-wallet"></i>
-                        <p>Hạch toán</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ $isActiveJournal ? 'show' : '' }}" id="report">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ request()->routeIs([
+                @if(0)
+                    <li class="nav-item {{ $isActiveJournal ? 'active' : '' }}">
+                        <a
+                            data-bs-toggle="collapse"
+                            href="#report"
+                            class="collapsed"
+                            aria-expanded="false"
+                        >
+                            <i class="fas fa-wallet"></i>
+                            <p>Hạch toán</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ $isActiveJournal ? 'show' : '' }}" id="report">
+                            <ul class="nav nav-collapse">
+                                <li class="{{ request()->routeIs([
                                         'journal.showJournal',
                                         ]) ? 'active' : '' }}">
-                                <a href="{{ route('journal.showJournal') }}">
-                                    <span class="sub-item">Bảng hạch toán</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                                    <a href="{{ route('journal.showJournal') }}">
+                                        <span class="sub-item">Bảng hạch toán</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

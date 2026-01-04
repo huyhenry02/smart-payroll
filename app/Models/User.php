@@ -73,4 +73,21 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function permissionCodes(): array
+    {
+        return $this->roleInfo?->permissions()
+            ->pluck('code')
+            ->map(fn($x) => (string) $x)
+            ->all() ?? [];
+    }
+
+    public function hasPermission(string $routeName): bool
+    {
+        if ($routeName === '') {
+            return false;
+        }
+        $codes = $this->permissionCodes();
+        return in_array($routeName, $codes, true);
+    }
 }

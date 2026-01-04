@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('payrolls', function (Blueprint $table) {
-            $table->integer('unit_price_v1')->nullable()->comment('Đơn vị tính lương cơ bản');
+            $table->integer('salary_gross')->nullable()->comment('Lương cơ bản');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('payrolls', function (Blueprint $table) {
-            $table->dropColumn('unit_price_v1');
+            $table->dropColumn('salary_gross');
         });
     }
 };

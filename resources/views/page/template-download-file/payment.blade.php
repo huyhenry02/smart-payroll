@@ -1,5 +1,5 @@
 
-@php use Carbon\Carbon; @endphp
+@php use Carbon\Carbon; use App\Models\Allowance;@endphp
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -107,8 +107,8 @@
 <table class="header-table">
     <tr>
         <td class="center">
-            <div class="bold">NGÂN HÀNG AGRIBANK VIỆT NAM</div>
-            <div class="bold"> Chi nhánh:</div>
+            <div class="bold">CÔNG TY TNHH GIẢI PHÁP CÔNG NGHỆ THÔNG TIN</div>
+            <div class="bold">Chi nhánh: Hà nội</div>
         </td>
         <td class="right">
             <div class="bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
@@ -123,22 +123,26 @@
 <table class="table-data">
     <thead>
     <tr>
-        <th rowspan="2">STT</th>
-        <th rowspan="2">Họ và tên</th>
-        <th rowspan="2">Ngày công thực tế</th>
-        <th rowspan="2">Lương V1</th>
-        <th rowspan="2">Lương làm thêm giờ</th>
-        <th colspan="4">Phụ cấp, thưởng</th>
-        <th rowspan="2">Bảo hiểm (BHXH, BHYT, BHTN)</th>
-        <th rowspan="2">Thuế TNCN</th>
-        <th rowspan="2">Lương thực lĩnh (sau thuế)</th>
-        <th rowspan="2">Ký nhận</th>
+        <th class="text-center" rowspan="2">STT</th>
+        <th class="text-center" rowspan="2" width="12%">Họ và tên</th>
+        <th class="text-center" rowspan="2">Ngày công thực tế</th>
+        <th class="text-center" rowspan="2">Lương thực lĩnh trước thuế</th>
+        <th class="text-center" rowspan="2">Lương làm
+            thêm giờ
+        </th>
+        <th colspan="4" class="text-center">Phụ cấp thưởng</th>
+        <th class="text-center" rowspan="2">Bảo hiểm <br>
+            (BHXH, BHYT, BHTN)
+        </th>
+        <th rowspan="2" class="text-center">Thuế TNCN</th>
+        <th rowspan="2" class="text-center">Lương thực lĩnh (sau thuế)
+        </th>
     </tr>
     <tr>
-        <th>Phụ cấp chức vụ</th>
-        <th>Phụ cấp độc hại</th>
-        <th>Phụ cấp trách nhiệm</th>
-        <th>Thưởng</th>
+        @foreach(Allowance::TYPES_REALITY_TEXT as $key => $val)
+            <th class="text-center">{{ $val }}</th>
+        @endforeach
+        <th class="text-center">Thưởng</th>
     </tr>
     </thead>
     @php
@@ -163,8 +167,7 @@
                 $payroll = $employee->payrolls->first();
                 $attendance = $employee->attendance->first();
                 $workingDays = $attendance->working_days ?? 0;
-                $v1 = $employee->salary_factor;
-                $v1Salary = $payroll->salary_v1 ?? 0;
+                $v1Salary = $employee->salary_gross ?? 0;
                 $bonus = $payroll->total_bonus ?? 0;
                 $overtime = $payroll->working_shift_amount ?? 0;
                 $netAfterTax = $payroll->net_salary_after_tax ?? 0;
@@ -195,7 +198,7 @@
                     @php
                         $rate = $employee->allowances->where('type', $type)->sum('rate');
                     @endphp
-                    <td class="text-end">{{ number_format($rate * $payroll->unit_price_v1) }}</td>
+                    <td class="text-end">{{ number_format($rate * $v1Salary) }}</td>
                 @endforeach
 
                 <td class="text-end">{{ number_format($bonus) }}</td>
@@ -234,7 +237,7 @@
         <td></td>
         <td></td>
         <td style="text-align: center;">
-            Nam Định, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
+            Hà nội, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
         </td>
     </tr>
     <tr>

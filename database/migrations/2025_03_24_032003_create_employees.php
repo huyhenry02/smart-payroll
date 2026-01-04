@@ -27,8 +27,10 @@ return new class extends Migration {
             $table->unsignedBigInteger('position_id')->nullable()->comment('Chức vụ');
             $table->date('start_date')->nullable()->comment('Ngày vào làm');
             $table->enum('employment_status', ['working', 'resigned'])->default('working')->comment('Tình trạng làm việc');
+            $table->enum('face_enroll_status', ['active', 'inactive'])->default('inactive')->comment('Trạng thái đăng ký dữ liệu chấm công');
+            $table->dateTime('face_enrolled_at')->nullable()->comment('Thời gian cập nhật dữ liệu chấm công');
             $table->string('contract_type')->nullable()->comment('Loại hợp đồng');
-            $table->float('salary_factor')->nullable()->comment('Hệ số lương');
+            $table->integer('salary_gross')->nullable()->comment('Hệ số lương');
             $table->integer('seniority')->default(0)->comment('Thâm niên (năm)');
             $table->string('tax_code')->nullable()->comment('Mã số thuế cá nhân');
             $table->string('bank_account')->nullable()->comment('Số tài khoản ngân hàng');

@@ -17,6 +17,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class GeneralCatalogController extends Controller
 {
@@ -151,11 +153,12 @@ class GeneralCatalogController extends Controller
             DB::beginTransaction();
             $input = $request->input();
             $employee->fill($input);
+
             if ($request->hasFile('avatar')) {
                 $file = $request->file('avatar');
                 $fileName = 'avatar_' . $employee->id . '.' . $file->getClientOriginalExtension();
-                $filePath = $file->storePubliclyAs('avatar/', $fileName);
-                $avatar = asset('storage/' . $filePath);
+                $filePath = $file->storePubliclyAs('avatar', $fileName, 'public');
+                $avatar = Storage::url($filePath);
             }
             $employee->avatar = $avatar ?? $employee->avatar;
             $employee->save();

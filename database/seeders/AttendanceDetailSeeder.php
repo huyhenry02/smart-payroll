@@ -16,13 +16,18 @@ class AttendanceDetailSeeder extends Seeder
         $path = database_path('seeders/data/attendance_details.csv');
         $csvData = array_map('str_getcsv', file($path));
         $attendance_details = [];
-        foreach ($csvData as $row) {
-            $attendance_details[] = [
-                'employee_id' => $row[0],
-                'work_date' => $row[1],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+        for ($employeeId = 1; $employeeId <=15; $employeeId++) {
+            foreach ($csvData as $row) {
+                $attendance_details[] = [
+                    'employee_id' => $employeeId,
+                    'work_date' => $row[0],
+                    'check_in' => $row[1],
+                    'check_out' => $row[2],
+                    'is_full_day' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
         }
         DB::table('attendance_details')->insert($attendance_details);
     }

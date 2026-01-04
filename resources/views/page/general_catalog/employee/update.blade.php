@@ -1,5 +1,4 @@
 @extends('layouts.main')
-
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -69,6 +68,11 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-12 mb-2">
+                                <h6 class="fw-bold text-primary">Thông tin cá nhân</h6>
+                                <hr class="mt-1 mb-3">
+                            </div>
+
                             @php $e = $user->employee; @endphp
 
                             <div class="col-md-6 mb-3">
@@ -79,6 +83,7 @@
                                     <option value="other" {{ $e->gender === 'other' ? 'selected' : '' }}>Khác</option>
                                 </select>
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Ngày sinh</label>
                                 <input type="date" name="dob" class="form-control" value="{{ $e->dob }}">
@@ -88,6 +93,7 @@
                                 <label class="form-label">Số CMND/CCCD</label>
                                 <input type="text" name="identity_number" class="form-control" value="{{ $e->identity_number }}">
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Ngày cấp</label>
                                 <input type="date" name="identity_issued_date" class="form-control" value="{{ $e->identity_issued_date }}">
@@ -97,15 +103,33 @@
                                 <label class="form-label">Nơi cấp</label>
                                 <input type="text" name="identity_issued_place" class="form-control" value="{{ $e->identity_issued_place }}">
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Địa chỉ</label>
                                 <input type="text" name="address" class="form-control" value="{{ $e->address }}">
                             </div>
 
                             <div class="col-md-6 mb-3">
+                                <label class="form-label">Trình độ học vấn</label>
+                                <input type="text" name="education_level" class="form-control" value="{{ $e->education_level }}">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Chuyên ngành</label>
+                                <input type="text" name="specialization" class="form-control" value="{{ $e->specialization }}">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 mb-2">
+                                <h6 class="fw-bold text-primary">Thông tin hợp đồng</h6>
+                                <hr class="mt-1 mb-3">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Ngày vào làm</label>
                                 <input type="date" name="start_date" class="form-control" value="{{ $e->start_date }}">
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Tình trạng làm việc</label>
                                 <select name="employment_status" class="form-select">
@@ -120,9 +144,10 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Hệ số lương</label>
-                                <input type="number" step="0.01" name="salary_factor" class="form-control" value="{{ $e->salary_factor }}">
+                                <label class="form-label">Lương cơ bản</label>
+                                <input type="number" step="0.01" name="salary_gross" class="form-control" value="{{ $e->salary_gross }}">
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Thâm niên</label>
                                 <input type="number" name="seniority" class="form-control" value="{{ $e->seniority }}">
@@ -132,6 +157,7 @@
                                 <label class="form-label">Mã số thuế</label>
                                 <input type="text" name="tax_code" class="form-control" value="{{ $e->tax_code }}">
                             </div>
+
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Số tài khoản ngân hàng</label>
                                 <input type="text" name="bank_account" class="form-control" value="{{ $e->bank_account }}">
@@ -141,19 +167,8 @@
                                 <label class="form-label">Ngân hàng</label>
                                 <input type="text" name="bank_name" class="form-control" value="{{ $e->bank_name }}">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Trình độ học vấn</label>
-                                <input type="text" name="education_level" class="form-control" value="{{ $e->education_level }}">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Số người phụ thuộc</label>
-                                <input type="number" name="number_of_dependent" class="form-control" value="{{ $e->number_of_dependent }}">
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Chuyên ngành</label>
-                                <input type="text" name="specialization" class="form-control" value="{{ $e->specialization }}">
-                            </div>
                         </div>
+
                     </div>
                 </div>
 

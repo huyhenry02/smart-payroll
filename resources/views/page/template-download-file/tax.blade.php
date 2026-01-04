@@ -89,8 +89,8 @@
 <table class="header-table">
     <tr>
         <td class="center">
-            <div class="bold">AGRIBANK VIỆT NAM</div>
-            <div class="bold">Chi nhánh:</div>
+            <div class="bold">CÔNG TY TNHH GIẢI PHÁP CÔNG NGHỆ THÔNG TIN </div>
+            <div class="bold">Chi nhánh: Hà nội</div>
         </td>
         <td class="center">
             <div class="bold">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
@@ -102,23 +102,15 @@
 <table class="">
     <thead>
     <tr>
-        <th rowspan="3">STT</th>
-        <th rowspan="3" width="15%">Họ và tên</th>
-        <th rowspan="3">Mã số thuế</th>
-        <th rowspan="3">Thu nhập tháng</th>
-        <th colspan="3">Các khoản giảm trừ</th>
-        <th rowspan="3">Tổng cộng</th>
-        <th rowspan="3" width="10%">Thu nhập tính thuế</th>
-        <th rowspan="3">Số thuế phải nộp</th>
-        <th rowspan="3" width="10%">Tài khoản trích nộp thuế</th>
-    </tr>
-    <tr>
-        <th class="text-center" rowspan="2">Bản thân <br>(11.000.000/1 người)</th>
-        <th class="text-center" colspan="2">Người phụ thuộc</th>
-    </tr>
-    <tr>
-        <th class="text-center">Số lượng</th>
-        <th class="text-center">Số tiền <br> (4.400.000/ 1 người)</th>
+        <th>STT</th>
+        <th width="15%">Họ và tên</th>
+        <th>Mã số thuế</th>
+        <th>Ngân hàng</th>
+        <th width="10%">Tài khoản trích nộp thuế</th>
+        <th>Thu nhập tháng</th>
+        <th>Thuế suất(%)</th>
+        <th>Số thuế phải nộp(VND)</th>
+        <th>Lương sau thuế (VND)</th>
     </tr>
     </thead>
     <tbody>
@@ -135,14 +127,12 @@
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $employee->full_name }}</td>
                 <td>{{ $employee->tax_code }}</td>
-                <td class="text-end">{{ $payroll->net_salary_before_tax ? number_format($payroll->net_salary_before_tax) : 0 }}</td>
-                <td class="text-end">{{ Payroll::TAX_SELF ? number_format(Payroll::TAX_SELF) : 0 }}</td>
-                <td class="text-end">{{ $employee->number_of_dependent ?? 0 }}</td>
-                <td class="text-end">{{ $employee->number_of_dependent ? $employee->number_of_dependent * Payroll::TAX_DEPENDENT : 0 }}</td>
-                <td class="text-end">{{ Payroll::TAX_SELF + $employee->number_of_dependent * Payroll::TAX_DEPENDENT }}</td>
-                <td class="text-end">{{ $payroll->net_salary_before_tax - (Payroll::TAX_SELF + $employee->number_of_dependent * Payroll::TAX_DEPENDENT) }}</td>
-                <td class="text-end">{{ $payroll->tax_amount ? number_format($payroll->tax_amount) : 0}}</td>
+                <td>{{ $employee->bank_name ?? '' }}</td>
                 <td class="text-center">{{ $employee->bank_account }}</td>
+                <td class="text-end">{{ $payroll->net_salary_before_tax ? number_format($payroll->net_salary_before_tax) : 0 }}</td>
+                <td class="text-end">{{ $payroll->tax_rate ?? 0}}</td>
+                <td class="text-end">{{ $payroll->tax_amount ? number_format($payroll->tax_amount) : 0}}</td>
+                <td class="text-end">{{ $payroll->net_salary_after_tax ? number_format($payroll->net_salary_after_tax    ) : 0}}</td>
             </tr>
         @endforeach
     @else
@@ -159,7 +149,7 @@
         <td></td>
         <td></td>
         <td style="text-align: center;">
-            Nam Định, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
+            Hà nội, ngày {{ Carbon::now()->format('d') }} tháng {{ Carbon::now()->format('m') }} năm {{ Carbon::now()->format('Y') }}<br>
         </td>
     </tr>
     <tr>

@@ -28,14 +28,16 @@ class Employee extends Model
         'start_date',
         'employment_status',
         'contract_type',
-        'salary_factor',
+        'salary_gross',
         'seniority',
         'tax_code',
         'bank_account',
         'bank_name',
         'education_level',
         'specialization',
-        'number_of_dependent'
+        'number_of_dependent',
+        'face_enroll_status',
+        'face_enrolled_at',
     ];
     public const STATUS_WORKING = 'working';
     public const STATUS_RESIGNED = 'resigned';
