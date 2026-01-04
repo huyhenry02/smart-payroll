@@ -2,6 +2,7 @@
 
 namespace App\Services\Ai;
 
+use App\Exceptions\FaceAiException;
 use InvalidArgumentException;
 
 readonly class FaceRecognitionService
@@ -36,18 +37,23 @@ readonly class FaceRecognitionService
         if (count($dataUrls) < $required) {
             throw new InvalidArgumentException("Cần tối thiểu {$required} ảnh để đăng ký khuôn mặt.");
         }
-
-        $imagesBase64 = array_map(fn($x) => $this->normalizeBase64((string)$x), $dataUrls);
-
-        return $this->client->registerMulti(
-            employeeId: $employeeId,
-            employeeName: $employeeName,
-            imagesBase64: $imagesBase64,
-            metadata: [
-                'source' => 'laravel-web',
-                'type' => 'enroll',
-            ]
+        $imagesBase64 = array_map(
+            fn($x) => $this->normalizeBase64((string)$x),
+            $dataUrls
         );
+        try {
+            return $this->client->registerMulti(
+                employeeId: $employeeId,
+                employeeName: $employeeName,
+                imagesBase64: $imagesBase64,
+                metadata: [
+                    'source' => 'laravel-web',
+                    'type' => 'enroll',
+                ]
+            );
+        } catch (FaceAiException $e) {
+            throw $e;
+        }
     }
 
     public function recognizeFromDataUrl(string $dataUrl, ?float $threshold = null, ?int $topK = null): array
