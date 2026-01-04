@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttendanceDetail;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,11 @@ class AccountController extends Controller
 {
     public function showInformation()
     {
-        return view('page.account.information.index');
+        $employee = auth()->user()->employee;
+        return view('page.account.information.index',
+        [
+            'employee' => $employee,
+        ]);
     }
 
     public function showPersonalAttendance(string $month)
