@@ -198,6 +198,11 @@ class AttendanceController extends Controller
             DB::beginTransaction();
             $input = $request->all();
             $input['is_overtime'] = true;
+            $input['check_out'] = null;
+            $input['check_in'] = null;
+            $input['is_late'] = 0;
+            $input['is_early'] = 0;
+            $input['is_full_day'] = 0;
             $attendanceDetail = new AttendanceDetail();
             $attendanceDetail->fill($input);
             $attendanceDetail->save();

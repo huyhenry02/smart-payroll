@@ -48,7 +48,7 @@ class AttendanceAiController extends Controller
             ['employee_id' => $employeeId, 'work_date' => $workDate],
             [
                 'check_in'     => $now,
-                'check_out'    => $now,
+                'check_out'    => null,
                 'is_late'      => $isLate,
                 'is_early'     => false,
                 'is_full_day'  => false,
@@ -100,10 +100,6 @@ class AttendanceAiController extends Controller
         $detail->is_early = $isEarly;
 
         $detail->is_full_day = !$detail->is_late && !$detail->is_early;
-
-        if ($this->isWeekend($now)) {
-            $detail->is_overtime = true;
-        }
 
         $detail->save();
 
