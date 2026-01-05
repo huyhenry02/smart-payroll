@@ -24,33 +24,26 @@ class AttendanceAiController extends Controller
     public function checkIn(Request $request, FaceRecognitionService $faceService): JsonResponse
     {
         $request->validate(['snapshot' => ['required', 'string']]);
-
         $ai = $faceService->recognizeFromDataUrl($request->snapshot);
         if (!($ai['matched'] ?? false)) {
             return response()->json(['message' => 'Không nhận diện được', 'ai' => $ai], 422);
         }
-
         $employeeId = (int)($ai['employee_id'] ?? 0);
         $employee = Employee::find($employeeId);
         if (!$employee) {
             return response()->json(['message' => 'Không tìm thấy nhân viên'], 422);
         }
-
         $now = $this->nowVn();
         $workDate = $now->toDateString();
-
         $standardCheckIn = Carbon::createFromTime(8, 0, 0, 'Asia/Ho_Chi_Minh');
         $isLate = $now->gt($standardCheckIn);
         $isOvertime = $this->isWeekend($now);
-
         $detail = AttendanceDetail::where('employee_id', $employeeId)
             ->whereDate('work_date', $workDate)
             ->first();
-
         if ($detail && $detail->check_in) {
             return response()->json(['message' => 'Hôm nay đã check-in'], 200);
         }
-
         $detail = AttendanceDetail::updateOrCreate(
             ['employee_id' => $employeeId, 'work_date' => $workDate],
             [
@@ -62,7 +55,6 @@ class AttendanceAiController extends Controller
                 'is_overtime'  => $isOvertime,
             ]
         );
-
         return response()->json([
             'message' => 'Check-in thành công',
             'time' => [
@@ -74,7 +66,6 @@ class AttendanceAiController extends Controller
             'ai' => $ai
         ]);
     }
-
 
     public function checkOut(Request $request, FaceRecognitionService $faceService): JsonResponse
     {
@@ -120,14 +111,14 @@ class AttendanceAiController extends Controller
             'message' => 'Check-out thành công',
             'time' => [
                 'work_date' => $workDate,
-                'check_in' => $detail->check_in->toDateTimeString(),
-                'check_out' => $detail->check_out->toDateTimeString(),
+                'check_in' => Carbon::parse($detail->check_in, 'Asia/Ho_Chi_Minh')->toDateTimeString(),
+                'check_out' => Carbon::parse($detail->check_out, 'Asia/Ho_Chi_Minh')->toDateTimeString(),
             ],
             'flags' => [
-                'is_full_day' => $detail->is_full_day,
-                'is_late' => $detail->is_late,
-                'is_early' => $detail->is_early,
-                'is_overtime' => $detail->is_overtime,
+                'is_full_day' => (bool) $detail->is_full_day,
+                'is_late' => (bool) $detail->is_late,
+                'is_early' => (bool) $detail->is_early,
+                'is_overtime' => (bool) $detail->is_overtime,
             ],
             'ai' => $ai
         ]);
